@@ -1,6 +1,6 @@
 // api/auth/signup/route.js
 
-import { validateSignup } from "@/validations/authValidation";
+import { validateSignup } from "@/validations/auth.validation";
 import { createUser } from "@/services/user.service";
 
 export async function POST(req) {
