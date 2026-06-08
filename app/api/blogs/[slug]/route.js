@@ -1,14 +1,30 @@
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
-import { getBlogById, updateBlog, deleteBlog } from "@/services/blog.service";
+import { getBlogBySlug, updateBlog, deleteBlog } from "@/services/blog.service";
 
-export async function GET(request, { params }) {
+// export async function GET(request, { params }) {
+//   try {
+//     const { id } = await params;
+//     const blog = await getBlogById(id);
+//     if (!blog)
+//       return NextResponse.json({ error: "Blog not found" }, { status: 404 });
+//     return NextResponse.json({ blog });
+//   } catch (error) {
+//     return NextResponse.json({ error: error.message }, { status: 500 });
+//   }
+// }
+
+export async function GET(req, { params }) {
+  const { slug } = await params;
+
   try {
-    const { id } = await params;
-    const blog = await getBlogById(id);
-    if (!blog)
+    const blog = await getBlogBySlug(slug);
+
+    if (!blog) {
       return NextResponse.json({ error: "Blog not found" }, { status: 404 });
+    }
+
     return NextResponse.json({ blog });
   } catch (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });

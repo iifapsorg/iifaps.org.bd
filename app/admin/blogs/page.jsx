@@ -1,13 +1,11 @@
 import Link from "next/link";
 import { getAllBlogs } from "@/services/blog.service";
 import { formatShortDate } from "@/utils/formatDate";
-// import { useRouter } from "next/router";
+
+export const dynamic = "force-dynamic";
 
 export default async function AdminBlogsPage() {
-  // const router = useRouter();
-  //   if (router.isFallback) {
-  //   return <div>Loading...</div>
-  // }
+ 
   const { blogs } = await getAllBlogs({ limit: 50, status: "published" });
   const { blogs: drafts } = await getAllBlogs({ limit: 50, status: "draft" });
   const allBlogs = [...blogs, ...drafts].sort(

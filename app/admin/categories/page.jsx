@@ -1,14 +1,11 @@
 import Link from "next/link";
 import { getAllCategories } from "@/services/category.service";
-import { useCategories } from "@/hooks/useCategories";
 
 
 export const dynamic = "force-dynamic";
 
 export default async function AdminCategoriesPage() {
-  // const {categories, loading, error} = useCategories();
-  // console.log(categories);
-  
+
   const categories = await getAllCategories();
 
   const parentMap = {};

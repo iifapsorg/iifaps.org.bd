@@ -2,7 +2,12 @@ import connectDB from "@/lib/connectDB";
 import Blog from "@/models/Blog";
 import { slugify, uniqueSlug } from "@/lib/slugify";
 
-export async function getAllBlogs({ page = 1, limit = 10, status = "published", category } = {}) {
+export async function getAllBlogs({
+  page = 1,
+  limit = 10,
+  status = "published",
+  category,
+} = {}) {
   await connectDB();
   const query = { status };
   if (category) query.category = category;
@@ -22,22 +27,38 @@ export async function getAllBlogs({ page = 1, limit = 10, status = "published", 
   return { blogs, total, pages: Math.ceil(total / limit), page };
 }
 
+// export async function getBlogBySlug(slug) {
+//   await connectDB();
+//   const blog = await Blog.findOneAndUpdate(
+//     { slug, status: "published" },
+//     { $inc: { views: 1 } },
+//     { new: true },
+//   )
+//     .populate("author", "name avatar")
+//     .populate("category", "name slug parent")
+//     .lean();
+//   return blog;
+// }
+
 export async function getBlogBySlug(slug) {
   await connectDB();
-  const blog = await Blog.findOneAndUpdate(
-    { slug, status: "published" },
-    { $inc: { views: 1 } },
-    { new: true }
-  )
-    .populate("author", "name avatar")
-    .populate("category", "name slug parent")
+
+  return Blog.findOne({
+    slug,
+    isDeleted: false,
+    status: "published",
+  })
+    .populate("category")
+    .populate("author")
     .lean();
-  return blog;
 }
 
 export async function getBlogById(id) {
   await connectDB();
-  return Blog.findById(id).populate("author", "name").populate("category", "name slug").lean();
+  return Blog.findById(id)
+    .populate("author", "name")
+    .populate("category", "name slug")
+    .lean();
 }
 
 export async function createBlog(data) {
@@ -87,7 +108,11 @@ export async function searchBlogs(q, { page = 1, limit = 10 } = {}) {
 
 export async function getRelatedBlogs(blogId, categoryId, limit = 4) {
   await connectDB();
-  return Blog.find({ category: categoryId, status: "published", _id: { $ne: blogId } })
+  return Blog.find({
+    category: categoryId,
+    status: "published",
+    _id: { $ne: blogId },
+  })
     .populate("author", "name")
     .populate("category", "name slug")
     .limit(limit)
