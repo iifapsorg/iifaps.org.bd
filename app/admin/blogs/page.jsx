@@ -2,8 +2,7 @@ import Link from "next/link";
 import { getAllBlogs } from "@/services/blog.service";
 import { formatShortDate } from "@/utils/formatDate";
 
-// export const dynamic = "force-dynamic";
-export const revalidate = 60;
+export const revalidate = 3600;
 
 export default async function AdminBlogsPage() {
   const [publishedRes, draftRes] = await Promise.all([
