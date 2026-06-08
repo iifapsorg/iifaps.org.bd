@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation";
 export default function CategoryForm({ initialData = null }) {
   const router = useRouter();
   const isEdit = !!initialData;
-  // const router = useRouter();
 
   const [form, setForm] = useState({
     name: initialData?.name || "",

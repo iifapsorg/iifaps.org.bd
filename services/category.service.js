@@ -61,6 +61,15 @@ export async function getCategoryTree() {
   ]);
 }
 
+
+/* ---------------------------
+   GET BY SLUG
+----------------------------*/
+export async function getCategoryBySlug(slug) {
+  await connectDB();
+  return Category.findOne({ slug, isActive: true }).lean();
+}
+
 /* ---------------------------
    GET BY ID
 ----------------------------*/
@@ -151,3 +160,4 @@ export async function getSubcategories(parentId) {
     isDeleted: false,
   }).lean();
 }
+
