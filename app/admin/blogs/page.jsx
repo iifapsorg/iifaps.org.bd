@@ -5,17 +5,23 @@ import { formatShortDate } from "@/utils/formatDate";
 export const dynamic = "force-dynamic";
 
 export default async function AdminBlogsPage() {
- 
-  const { blogs } = await getAllBlogs({ limit: 50, status: "published" });
-  const { blogs: drafts } = await getAllBlogs({ limit: 50, status: "draft" });
-  const allBlogs = [...blogs, ...drafts].sort(
-    (a, b) => new Date(b.createdAt) - new Date(a.createdAt),
+  const [publishedRes, draftRes] = await Promise.all([
+    getAllBlogs({ limit: 50, status: "published" }),
+    getAllBlogs({ limit: 50, status: "draft" }),
+  ]);
+
+  const published = publishedRes.blogs;
+  const drafts = draftRes.blogs;
+
+  const allBlogs = [...published, ...drafts].sort(
+    (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
   );
 
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-2xl font-bold text-gray-900">Blogs</h1>
+
         <Link
           href="/admin/blogs/create"
           className="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors"
@@ -45,25 +51,34 @@ export default async function AdminBlogsPage() {
               </th>
             </tr>
           </thead>
+
           <tbody className="divide-y divide-gray-50">
             {allBlogs.map((blog) => (
               <tr key={blog._id} className="hover:bg-gray-50 transition-colors">
                 <td className="px-6 py-4 font-medium text-gray-900 max-w-xs truncate">
                   {blog.title}
                 </td>
+
                 <td className="px-6 py-4 text-gray-500">
                   {blog.category?.name || "—"}
                 </td>
+
                 <td className="px-6 py-4">
                   <span
-                    className={`inline-flex px-2 py-1 rounded-full text-xs font-medium ${blog.status === "published" ? "bg-green-50 text-green-700" : "bg-yellow-50 text-yellow-700"}`}
+                    className={`inline-flex px-2 py-1 rounded-full text-xs font-medium ${
+                      blog.status === "published"
+                        ? "bg-green-50 text-green-700"
+                        : "bg-yellow-50 text-yellow-700"
+                    }`}
                   >
                     {blog.status}
                   </span>
                 </td>
+
                 <td className="px-6 py-4 text-gray-400">
                   {formatShortDate(blog.createdAt)}
                 </td>
+
                 <td className="px-6 py-4">
                   <div className="flex gap-3">
                     <Link
@@ -72,6 +87,7 @@ export default async function AdminBlogsPage() {
                     >
                       Edit
                     </Link>
+
                     <Link
                       href={`/blog/${blog.slug}`}
                       target="_blank"
@@ -85,6 +101,7 @@ export default async function AdminBlogsPage() {
             ))}
           </tbody>
         </table>
+
         {!allBlogs.length && (
           <div className="text-center py-12 text-gray-400">
             No blogs yet.{" "}
