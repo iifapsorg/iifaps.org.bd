@@ -29,7 +29,8 @@ const blogSchema = new mongoose.Schema(
     },
     thumbnail: {
       type: String,
-      default: "",
+      required: true,
+      trim: true,
     },
     author: {
       type: mongoose.Schema.Types.ObjectId,

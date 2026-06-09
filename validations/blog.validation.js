@@ -3,7 +3,7 @@
 import { z } from "zod";
 
 /* ---------------------------
- * VALIDATE SIGN UP / CREATE USER
+ * BLOG VALIDATION
 ----------------------------*/
 export const blogSchemaZ = z.object({
   title: z.string().min(3),
