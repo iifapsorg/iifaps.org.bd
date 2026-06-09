@@ -1,3 +1,5 @@
+// components/categiry/subcategorymenu
+
 import Link from "next/link";
 
 export default function SubCategoryMenu({ parentSlug, subcategories = [], activeSlug }) {

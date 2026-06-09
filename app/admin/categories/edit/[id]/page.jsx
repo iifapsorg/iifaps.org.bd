@@ -1,3 +1,5 @@
+// /admin/categories/edit/[id]/page
+
 import { notFound } from "next/navigation";
 import { getCategoryById } from "@/services/category.service";
 import CategoryForm from "@/components/admin/CategoryForm";

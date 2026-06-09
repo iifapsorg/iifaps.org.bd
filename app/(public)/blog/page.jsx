@@ -1,3 +1,5 @@
+// /blog/page
+
 import { getAllBlogs } from "@/services/blog.service";
 import BlogList from "@/components/blog/BlogList";
 import Container from "@/components/shared/Container";
@@ -8,7 +10,7 @@ export const metadata = generateMetaData({ title: "Blog", description: "All blog
 export const revalidate = 60;
 
 export default async function BlogPage({ searchParams }) {
-  const page = parseInt(searchParams?.page || "1");
+  const { page } = await searchParams;
   const { blogs, pages, total } = await getAllBlogs({ page, limit: 9 });
 
   return (

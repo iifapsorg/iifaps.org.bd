@@ -1,13 +1,16 @@
+// utils/generateMetadata
+
 const siteConfig = {
   name: "My Blog",
-  url: process.env.NEXT_PUBLIC_SITE_URL || "https://myblog.com",
+  url: process.env.NEXT_PUBLIC_SITE_URL || "",
   description: "A blog about everything",
   twitterHandle: "@myblog",
 };
 
-/**
+
+/* ---------------------------
  * Generate Next.js metadata for a page
- */
+----------------------------*/
 export function generateMetaData({
   title,
   description,
@@ -40,9 +43,10 @@ export function generateMetaData({
   };
 }
 
-/**
+
+/* ---------------------------
  * Generate blog post metadata
- */
+----------------------------*/
 export function generateBlogMetaData(blog) {
   return generateMetaData({
     title: blog.metaTitle || blog.title,

@@ -1,3 +1,5 @@
+// /admin/blogs/edit/[id]/page
+
 import { notFound } from "next/navigation";
 import { getBlogById } from "@/services/blog.service";
 import BlogForm from "@/components/admin/BlogForm";

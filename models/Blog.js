@@ -51,10 +51,14 @@ const blogSchema = new mongoose.Schema(
       type: Number,
       default: 0,
     },
+    isDeleted: {
+      type: Boolean,
+      default: false,
+    },
     metaTitle: { type: String },
     metaDescription: { type: String },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 // Index for fast slug lookups and search

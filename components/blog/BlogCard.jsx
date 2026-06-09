@@ -1,3 +1,5 @@
+// components/blog/blogcard
+
 import Link from "next/link";
 import Image from "next/image";
 import { formatShortDate } from "@/utils/formatDate";

@@ -1,3 +1,5 @@
+// /admin/categories/create/page
+
 import CategoryForm from "@/components/admin/CategoryForm";
 
 export const metadata = { title: "Create Category | Admin" };

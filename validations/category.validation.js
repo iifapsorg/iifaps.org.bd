@@ -1,3 +1,8 @@
+// validations/category.validation
+
+/* ---------------------------
+ * CATEGORY VALIDATION
+----------------------------*/
 import { z } from "zod";
 
 export const categorySchemaZ = z.object({

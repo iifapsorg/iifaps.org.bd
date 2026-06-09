@@ -5,7 +5,7 @@ import Category from "@/models/Category";
 import { slugify, uniqueSlug } from "@/lib/slugify";
 
 /* ---------------------------
-   CYCLIC CHECK (IMPORTANT)
+   CYCLIC CHECK OF CATEGORY
 ----------------------------*/
 async function detectCycle(parentId, childId) {
   if (!parentId) return false;
@@ -24,7 +24,7 @@ async function detectCycle(parentId, childId) {
 }
 
 /* ---------------------------
-   GET ALL
+   GET ALL CATEGORIES
 ----------------------------*/
 export async function getAllCategories() {
   await connectDB();
@@ -38,7 +38,7 @@ export async function getAllCategories() {
 }
 
 /* ---------------------------
-   TREE (SCALABLE)
+   TREE OF CATEGORY
 ----------------------------*/
 export async function getCategoryTree() {
   await connectDB();
@@ -63,7 +63,7 @@ export async function getCategoryTree() {
 
 
 /* ---------------------------
-   GET BY SLUG
+   GET CATEGORY BY SLUG
 ----------------------------*/
 export async function getCategoryBySlug(slug) {
   await connectDB();
@@ -71,7 +71,7 @@ export async function getCategoryBySlug(slug) {
 }
 
 /* ---------------------------
-   GET BY ID
+   GET CATEGORY BY ID
 ----------------------------*/
 export async function getCategoryById(id) {
   await connectDB();
@@ -83,7 +83,7 @@ export async function getCategoryById(id) {
 }
 
 /* ---------------------------
-   CREATE
+   CREATE CATEGORY
 ----------------------------*/
 export async function createCategory(data, user) {
   await connectDB();
@@ -101,7 +101,7 @@ export async function createCategory(data, user) {
 }
 
 /* ---------------------------
-   UPDATE
+   UPDATE CATEGORY
 ----------------------------*/
 export async function updateCategory(id, data, user) {
   await connectDB();
@@ -136,7 +136,7 @@ export async function updateCategory(id, data, user) {
 }
 
 /* ---------------------------
-   SOFT DELETE (SAFE)
+   DELETE CATEGORY (SOFT)
 ----------------------------*/
 export async function deleteCategory(id, user) {
   await connectDB();
@@ -149,7 +149,7 @@ export async function deleteCategory(id, user) {
 }
 
 /* ---------------------------
-   SUBCATEGORIES
+   GET SUBCATEGORIES
 ----------------------------*/
 export async function getSubcategories(parentId) {
   await connectDB();

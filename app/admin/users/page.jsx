@@ -1,3 +1,5 @@
+// /admin/users/page
+
 import { getAllUsers } from "@/services/user.service";
 import { formatShortDate } from "@/utils/formatDate";
 

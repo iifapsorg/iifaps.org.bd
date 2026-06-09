@@ -1,17 +1,24 @@
+// services/blog.service
+
 import connectDB from "@/lib/connectDB";
 import Blog from "@/models/Blog";
 import { slugify, uniqueSlug } from "@/lib/slugify";
 
-/* ---------------- GET ALL BLOGS ---------------- */
+/* ---------------------------
+   GET ALL BLOGS
+----------------------------*/
 export async function getAllBlogs({
   page = 1,
   limit = 10,
-  status = "published",
+  status,
   category,
 } = {}) {
   await connectDB();
 
-  const query = { status };
+  const query = {
+    status: status || { $in: ["published", "draft"] },
+  };
+
   if (category) query.category = category;
 
   const skip = (page - 1) * limit;
@@ -34,33 +41,48 @@ export async function getAllBlogs({
   return { blogs, total, pages: Math.ceil(total / limit), page };
 }
 
-/* ---------------- GET BLOG BY SLUG ---------------- */
-export async function getBlogBySlug(slug) {
+/* ---------------------------
+   GET BLOG BY SLUG
+----------------------------*/
+export async function getBlogBySlug(slug, { admin = false } = {}) {
   await connectDB();
 
-  return Blog.findOne({
+  const query = {
     slug,
     isDeleted: false,
-    status: "published",
-  })
-    .select("title slug content excerpt thumbnail createdAt category author views tags")
+  };
+
+  // only admin can see draft blog
+  if (!admin) {
+    query.status = "published";
+  }
+
+  return Blog.findOne(query)
+    .select(
+      "title slug content excerpt thumbnail createdAt category author views tags status",
+    )
     .populate("category")
     .populate("author")
     .lean();
 }
 
-/* ---------------- GET BLOG BY ID ---------------- */
-export async function getBlogById(id) {
+/* ---------------------------
+   GET  BLOG BY ID
+----------------------------*/ export async function getBlogById(id) {
   await connectDB();
 
   return Blog.findById(id)
-    .select("title slug content excerpt thumbnail status createdAt category author tags")
+    .select(
+      "title slug content excerpt thumbnail status createdAt category author tags",
+    )
     .populate("author", "name")
     .populate("category", "name slug")
     .lean();
 }
 
-/* ---------------- CREATE BLOG ---------------- */
+/* ---------------------------
+  CREATE BLOG
+----------------------------*/
 export async function createBlog(data) {
   await connectDB();
 
@@ -72,7 +94,9 @@ export async function createBlog(data) {
   return blog;
 }
 
-/* ---------------- UPDATE BLOG ---------------- */
+/* ---------------------------
+  UPDATE BLOG
+----------------------------*/
 export async function updateBlog(id, data) {
   await connectDB();
 
@@ -92,13 +116,26 @@ export async function updateBlog(id, data) {
   });
 }
 
-/* ---------------- DELETE BLOG ---------------- */
+/* ---------------------------
+  DELETE BLOG (HARD)
+----------------------------*/
+// export async function deleteBlog(id) {
+//   await connectDB();
+//   return Blog.findByIdAndDelete(id);
+// }
+
+/* ---------------------------
+   DELETE BLOG (SOFT)
+----------------------------*/
 export async function deleteBlog(id) {
   await connectDB();
-  return Blog.findByIdAndDelete(id);
+
+  return Blog.findByIdAndUpdate(id, { isDeleted: true }, { new: true });
 }
 
-/* ---------------- SEARCH BLOGS ---------------- */
+/* ---------------------------
+   SEARCH BLOG
+----------------------------*/
 export async function searchBlogs(q, { page = 1, limit = 10 } = {}) {
   await connectDB();
 
@@ -129,7 +166,9 @@ export async function searchBlogs(q, { page = 1, limit = 10 } = {}) {
   return { blogs, total, pages: Math.ceil(total / limit), page };
 }
 
-/* ---------------- RELATED BLOGS ---------------- */
+/* ---------------------------
+   RELATED BLOGS
+----------------------------*/
 export async function getRelatedBlogs(blogId, categoryId, limit = 4) {
   await connectDB();
 

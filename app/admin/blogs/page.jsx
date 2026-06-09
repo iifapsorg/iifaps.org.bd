@@ -1,3 +1,5 @@
+// /admin/blogs/page
+
 import Link from "next/link";
 import { getAllBlogs } from "@/services/blog.service";
 import { formatShortDate } from "@/utils/formatDate";
@@ -89,11 +91,11 @@ export default async function AdminBlogsPage() {
                     </Link>
 
                     <Link
-                      href={`/blog/${blog.slug}`}
+                      href={`/admin/blogs/${blog.slug}`}
                       target="_blank"
                       className="text-gray-400 hover:text-gray-600"
                     >
-                      View
+                      View the blog
                     </Link>
                   </div>
                 </td>

@@ -1,3 +1,5 @@
+// components/blog/bloglist
+
 import BlogCard from "./BlogCard";
 
 export default function BlogList({ blogs = [] }) {

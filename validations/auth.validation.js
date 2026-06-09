@@ -1,5 +1,8 @@
-// validations/authValidation
+// validations/auth.validation
 
+/* ---------------------------
+ * VALIDATE SIGN UP / CREATE USER
+----------------------------*/
 export function validateSignup({ name, email, password }) {
   if (!name || !email || !password) {
     return "Name, email and password are required";
@@ -20,6 +23,9 @@ export function validateSignup({ name, email, password }) {
   return null;
 }
 
+/* ---------------------------
+ * VALIDATE SIGN IN
+----------------------------*/
 export function validateSignin({ email, password }) {
   if (!email || !password) {
     return "Email and password are required";

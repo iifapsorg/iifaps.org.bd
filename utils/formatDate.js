@@ -1,9 +1,11 @@
-/**
- * Format a date to a readable string
- * @param {Date|string} date
- * @param {object} options - Intl.DateTimeFormat options
- * @returns {string}
- */
+// utils/formatdate
+
+/* ---------------------------
+  *Format a date to a readable string
+  *param {Date|string} date
+  *param {object} options - Intl.DateTimeFormat options
+  *returns {string}
+----------------------------*/
 export function formatDate(date, options = {}) {
   const defaultOptions = {
     year: "numeric",
@@ -14,9 +16,10 @@ export function formatDate(date, options = {}) {
   return new Date(date).toLocaleDateString("en-US", defaultOptions);
 }
 
-/**
- * Format date as "Jan 5, 2024"
- */
+
+/* ---------------------------
+  *Format date as "Jan 5, 2024"
+----------------------------*/
 export function formatShortDate(date) {
   return new Date(date).toLocaleDateString("en-US", {
     year: "numeric",
@@ -25,9 +28,10 @@ export function formatShortDate(date) {
   });
 }
 
-/**
- * Relative time (e.g., "2 hours ago")
- */
+
+/* ---------------------------
+  *Relative time (e.g., "2 hours ago")
+----------------------------*/
 export function timeAgo(date) {
   const seconds = Math.floor((new Date() - new Date(date)) / 1000);
   const intervals = [

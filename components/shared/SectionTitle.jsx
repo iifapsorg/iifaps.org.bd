@@ -1,3 +1,5 @@
+// components/shared/sectiontitle
+
 export default function SectionTitle({ title, subtitle, center = false }) {
   return (
     <div className={`mb-8 ${center ? "text-center" : ""}`}>

@@ -1,3 +1,5 @@
+// /admin/page
+
 import React from 'react'
 
 const page = () => {

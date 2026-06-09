@@ -1,3 +1,5 @@
+// api/blogs/[slug]/route
+
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
@@ -5,18 +7,9 @@ import { getBlogBySlug, updateBlog, deleteBlog } from "@/services/blog.service";
 import { revalidatePath } from "next/cache";
 
 
-// export async function GET(request, { params }) {
-//   try {
-//     const { id } = await params;
-//     const blog = await getBlogById(id);
-//     if (!blog)
-//       return NextResponse.json({ error: "Blog not found" }, { status: 404 });
-//     return NextResponse.json({ blog });
-//   } catch (error) {
-//     return NextResponse.json({ error: error.message }, { status: 500 });
-//   }
-// }
-
+/* ---------------------------
+   GET SINGLE BLOG
+----------------------------*/
 export async function GET(req, { params }) {
   const { slug } = await params;
 
@@ -33,6 +26,9 @@ export async function GET(req, { params }) {
   }
 }
 
+/* ---------------------------
+  UPDATE BLOG
+----------------------------*/
 export async function PUT(request, { params }) {
   try {
     const session = await getServerSession(authOptions);
@@ -57,6 +53,9 @@ export async function PUT(request, { params }) {
   }
 }
 
+/* ---------------------------
+  DELETE (SOFT) BLOG
+----------------------------*/
 export async function DELETE(request, { params }) {
   try {
     const session = await getServerSession(authOptions);

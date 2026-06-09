@@ -1,4 +1,4 @@
-// signup/page
+// /admin/signup/page
 
 "use client";
 

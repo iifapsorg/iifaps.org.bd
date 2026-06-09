@@ -1,5 +1,10 @@
+// validations/blog.validation
+
 import { z } from "zod";
 
+/* ---------------------------
+ * VALIDATE SIGN UP / CREATE USER
+----------------------------*/
 export const blogSchemaZ = z.object({
   title: z.string().min(3),
   content: z.string().min(10),

@@ -1,3 +1,5 @@
+// components/categiry/categorymenu
+
 import Link from "next/link";
 
 export default function CategoryMenu({ categories = [], activeSlug }) {

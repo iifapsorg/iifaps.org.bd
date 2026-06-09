@@ -1,3 +1,5 @@
+// /admin/categories/page
+
 import Link from "next/link";
 import { getAllCategories } from "@/services/category.service";
 

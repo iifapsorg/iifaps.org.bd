@@ -1,3 +1,5 @@
+// /category/[category]/[subcategory]/page
+
 import { notFound } from "next/navigation";
 import { getCategoryBySlug } from "@/services/category.service";
 import { getAllBlogs } from "@/services/blog.service";
