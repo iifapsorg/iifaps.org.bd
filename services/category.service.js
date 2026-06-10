@@ -44,7 +44,13 @@ export async function getCategoryTree() {
   await connectDB();
 
   return Category.aggregate([
-    { $match: { isActive: true, isDeleted: false, parent: null } },
+    {
+      $match: {
+        isActive: true,
+        isDeleted: false,
+        parent: null,
+      },
+    },
     {
       $graphLookup: {
         from: "categories",
@@ -58,9 +64,23 @@ export async function getCategoryTree() {
         },
       },
     },
+    {
+      $set: {
+        children: {
+          $sortArray: {
+            input: "$children",
+            sortBy: { name: 1 },
+          },
+        },
+      },
+    },
+    {
+      $sort: {
+        name: 1, 
+      },
+    },
   ]);
 }
-
 
 /* ---------------------------
    GET CATEGORY BY SLUG

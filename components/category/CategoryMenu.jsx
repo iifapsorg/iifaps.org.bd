@@ -4,6 +4,8 @@ import Link from "next/link";
 
 export default function CategoryMenu({ categories = [], activeSlug }) {
   const parents = categories.filter((c) => !c.parent);
+  console.log(parents);
+  
 
   return (
     <nav className="flex flex-wrap gap-3">
