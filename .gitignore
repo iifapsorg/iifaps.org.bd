@@ -42,3 +42,6 @@ next-env.d.ts
 
 # myself 
 mafruha.txt
+
+# Sentry Config File
+.env.sentry-build-plugin
