@@ -8,6 +8,7 @@ import { Menu, X, Search } from "lucide-react";
 import Container from "@/components/shared/Container";
 import { navs } from "@/components/layout/navbar/Navbar.config";
 import SearchBlog from "@/components/blog/SearchBlog";
+import ThemeToggle from "@/components/shared/ThemeToggle";
 import Image from "next/image";
 import logo from "@/public/IIFAPS-logo.jpg";
 
@@ -105,16 +106,18 @@ export default function Navbar() {
             ))}
           </ul>
 
-          {/* ========== search and mobile toggole menu ======== */}
+          {/* ========== Theme, search and mobile toggole menu ======== */}
           <div className="flex gap-x-5">
+            <ThemeToggle />
+
             {/* ====== search here ======*/}
             <button
               type="button"
               onClick={() => setIsSearchOpen(true)}
               aria-label="Open Search"
-              className="rounded-md p-2 text-gray-300 transition hover:text-white hover:bg-gray-800 cursor-pointer"
+              className="flex h-10 w-10 items-center justify-center rounded-md border transition hover:bg-gray-800 cursor-pointer"
             >
-              <Search size={22} />
+              <Search size={18} />
             </button>
 
             {/* ======= Mobile Toggle ======== */}
@@ -124,9 +127,9 @@ export default function Navbar() {
               aria-expanded={isOpen}
               aria-controls="mobile-menu"
               aria-label={isOpen ? "Close menu" : "Open menu"}
-              className="cursor-pointer rounded-md p-2 text-gray-300 transition-colors hover:text-white hover:bg-gray-800 focus:outline-none  md:hidden"
+              className="md:hidden flex h-10 w-10 items-center justify-center border hover:bg-gray-800 transition cursor-pointer rounded-md"
             >
-              {isOpen ? <X size={24} /> : <Menu size={24} />}
+              {isOpen ? <X size={18} /> : <Menu size={18} />}
             </button>
           </div>
         </div>

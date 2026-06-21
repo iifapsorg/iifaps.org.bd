@@ -50,9 +50,9 @@ export default function SearchBlog({ isOpen, onClose }) {
       {/* Close */}
       <button
         onClick={onClose}
-        className="absolute right-6 top-2 rounded-xl bg-gray-800 p-3 text-gray-300 hover:bg-red-500 hover:text-white cursor-pointer"
+        className="absolute right-6 top-2 flex h-10 w-10 items-center justify-center border hover:bg-gray-800 transition cursor-pointer rounded-md"
       >
-        <X size={22} />
+        <X size={18} />
       </button>
 
       <Container>
