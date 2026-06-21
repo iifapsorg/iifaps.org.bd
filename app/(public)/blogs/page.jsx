@@ -25,7 +25,7 @@ export default async function BlogPage({ searchParams }) {
             {Array.from({ length: pages }, (_, i) => i + 1).map((p) => (
               <a
                 key={p}
-                href={`/blog?page=${p}`}
+                href={`/blogs?page=${p}`}
                 className={`px-4 py-2 rounded-lg text-sm font-medium border transition-colors ${
                   p === page ? "bg-blue-600 text-white border-blue-600" : "border-gray-300 text-gray-600 hover:border-blue-400"
                 }`}
