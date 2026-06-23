@@ -22,17 +22,36 @@ export async function POST(req) {
 
     const { email } = await req.json();
 
+    // Validation
+    const error = validateSubscribe({ email });
+
+    if (error) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: error,
+        },
+        { status: 400 },
+      );
+    }
+
     const subscriber = await createSubscriber(email);
 
-    await sendVerificationEmail(email, subscriber.verifyToken);
+    await sendVerificationEmail(subscriber.email, subscriber.verifyToken);
 
-    return NextResponse.json({
-      success: true,
-      message: "Verification email sent. Please check your inbox.",
-    });
+    return NextResponse.json(
+      {
+        success: true,
+        message: "Verification email sent. Please check your inbox.",
+      },
+      { status: 201 },
+    );
   } catch (error) {
     return NextResponse.json(
-      { success: false, message: error.message },
+      {
+        success: false,
+        message: error.message,
+      },
       { status: 400 },
     );
   }

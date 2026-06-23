@@ -1,36 +1,4 @@
-// // services/subscribe.service
-
-// import Subscriber from "@/models/Subscriber";
-
-// /* ---------------------------
-//    CREATE SUBSCRIBER 
-// ----------------------------*/
-// export async function createSubscriber(email) {
-//   const exists = await Subscriber.findOne({ email });
-
-//   if (exists) {
-//     throw new Error("Email already subscribed");
-//   }
-
-//   return await Subscriber.create({ email });
-// }
-
-// /* ---------------------------
-//    GET SUBSCRIBER 
-// ----------------------------*/
-// export async function getSubscribers() {
-//   return await Subscriber.find().sort({
-//     createdAt: -1,
-//   });
-// }
-
-// /* ---------------------------
-//    GET SUBSCRIBER COUNT 
-// ----------------------------*/
-// export async function getSubscriberCount() {
-//   return await Subscriber.countDocuments();
-// }
-
+// services/subscribe.service
 
 import Subscriber from "@/models/Subscriber";
 import crypto from "crypto";

@@ -1,4 +1,4 @@
-// api/verifyEmail/route
+// api/verify/route
 
 import { NextResponse } from "next/server";
 import connectDB from "@/lib/connectDB";
@@ -12,23 +12,19 @@ export async function GET(req) {
     const token = searchParams.get("token");
 
     if (!token) {
-      return NextResponse.json(
-        { message: "Token missing" },
-        { status: 400 }
+      return NextResponse.redirect(
+        `${process.env.NEXT_PUBLIC_SITE_URL}/subscription/failed?reason=missing-token`
       );
     }
 
     await verifySubscriber(token);
 
-    return NextResponse.json({
-      success: true,
-      message: "Email verified successfully",
-    });
+    return NextResponse.redirect(
+      `${process.env.NEXT_PUBLIC_SITE_URL}/subscription/verified`
+    );
   } catch (error) {
-    return NextResponse.json(
-      { success: false,
-        message: error.message },
-      { status: 400 }
+    return NextResponse.redirect(
+      `${process.env.NEXT_PUBLIC_SITE_URL}/subscription/failed`
     );
   }
 }
