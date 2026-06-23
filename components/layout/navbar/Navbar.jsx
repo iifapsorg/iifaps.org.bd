@@ -10,7 +10,7 @@ import { navs } from "@/components/layout/navbar/Navbar.config";
 import SearchBlog from "@/components/blog/SearchBlog";
 import ThemeToggle from "@/components/shared/ThemeToggle";
 import Image from "next/image";
-import logo from "@/public/IIFAPS-logo.jpg";
+import logo from "@/public/images/IIFAPS-logo.jpg";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
