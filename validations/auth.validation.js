@@ -1,5 +1,7 @@
 // validations/auth.validation
 
+const EMAIL_REGEX = /^\S+@\S+\.\S+$/;
+
 /* ---------------------------
  * VALIDATE SIGN UP / CREATE USER
 ----------------------------*/
@@ -12,7 +14,7 @@ export function validateSignup({ name, email, password }) {
     return "Name cannot exceed 100 characters";
   }
 
-  if (!/^\S+@\S+\.\S+$/.test(email)) {
+  if (!EMAIL_REGEX.test(email)) {
     return "Please provide a valid email";
   }
 
@@ -31,9 +33,11 @@ export function validateSignin({ email, password }) {
     return "Email and password are required";
   }
 
-  if (!/^\S+@\S+\.\S+$/.test(email)) {
+  if (!EMAIL_REGEX.test(email)) {
     return "Please provide a valid email";
   }
 
   return null;
 }
+
+

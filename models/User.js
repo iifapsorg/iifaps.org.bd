@@ -3,6 +3,8 @@
 import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
 
+const EMAIL_REGEX = /^\S+@\S+\.\S+$/;
+
 const userSchema = new mongoose.Schema(
   {
     name: {
@@ -18,7 +20,7 @@ const userSchema = new mongoose.Schema(
       unique: true,
       lowercase: true,
       trim: true,
-      match: [/^\S+@\S+\.\S+$/, "Please provide a valid email"],
+      match: [EMAIL_REGEX, "Please provide a valid email"],
     },
 
     password: {
