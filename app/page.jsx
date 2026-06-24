@@ -6,8 +6,6 @@ const Home = async () => {
   return (
     <div className="">
       <HeroSection></HeroSection>
-      
-     
     </div>
   );
 };

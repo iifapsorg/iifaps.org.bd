@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu, X, Search } from "lucide-react";
+import NavbarItem from "./NavbarItem";
 
 import Container from "@/components/shared/Container";
 import { navs } from "@/components/layout/navbar/Navbar.config";
@@ -11,28 +12,28 @@ import SearchBlog from "@/components/blog/SearchBlog";
 import ThemeToggle from "@/components/shared/ThemeToggle";
 import Image from "next/image";
 import logo from "@/public/images/IIFAPS-logo.jpg";
+import Text from "@/components/shared/Text";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+
   const pathname = usePathname();
   const menuRef = useRef(null);
 
-  // ======== Active route helper =======
+  // ======== Active route helper ========
   const isActive = (path) => {
-    if (path === "/") {
-      return pathname === "/";
-    }
+    if (path === "/") return pathname === "/";
 
     return pathname === path || pathname.startsWith(`${path}/`);
   };
 
-  // ======= Close mobile menu on route change =======
+  // ======== Close menu on route change ========
   useEffect(() => {
     setIsOpen(false);
   }, [pathname]);
 
-  // ======= Close mobile menu on outside click ========
+  // ======== Close menu on outside click ========
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (menuRef.current && !menuRef.current.contains(event.target)) {
@@ -49,7 +50,7 @@ export default function Navbar() {
     };
   }, [isOpen]);
 
-  // ==== Prevent body scroll ===========
+  // ======== Prevent body scroll ========
   useEffect(() => {
     document.body.classList.toggle("overflow-hidden", isOpen);
 
@@ -58,112 +59,101 @@ export default function Navbar() {
     };
   }, [isOpen]);
 
-  // ====== desktop nav items class ======
-  const desktopLinkClass = (path) =>
-    `px-3 py-1.5 rounded block font-medium transition-colors duration-300 ${
-      isActive(path)
-        ? "text-indigo-400 outline outline-foreground"
-        : "text-gray-300 hover:text-indigo-400 hover:outline hover:outline-foreground"
-    }`;
-
-  // ====== mobile nav items class =====
-  const mobileLinkClass = (path) =>
-    `block px-3 py-2.5 rounded-md font-medium transition-colors duration-200 ${
-      isActive(path)
-        ? "text-indigo-400 bg-indigo-400/10"
-        : "text-gray-300 hover:text-indigo-400 hover:bg-gray-800"
-    }`;
-
-  // ========== main UI ============
   return (
-    <nav
-      ref={menuRef}
-      className="sticky top-0 z-50 bg-gray-950 text-gray-200 shadow-lg"
-      aria-label="Main Navigation"
-    >
-      <Container>
-        <div className="flex h-16 items-center justify-between">
-          {/* ======= Logo ======= */}
-          <Link
-            href="/"
-            className="text-xl font-semibold tracking-wide text-white transition-colors duration-300 hover:text-indigo-400"
-          >
-            <Image src={logo} alt="logo here" width={40} height={40} />
-          </Link>
+    <>
+      {/* ======== Navbar ======== */}
+      <nav
+        ref={menuRef}
+        className="sticky top-0 z-50 bg-background shadow-lg"
+        aria-label="Main Navigation"
+      >
+        <Container>
+          <div className="flex items-center justify-between w-full py-2">
+            {/* ======== Logo & Name ======== */}
+            <div className="flex items-center gap-2 md:gap-3 flex-1 min-w-0">
+              <Link href="/" className="shrink-0">
+                <Image
+                  src={logo}
+                  alt="IIFAPS Logo"
+                  width={40}
+                  height={40}
+                  priority
+                />
+              </Link>
 
-          {/* ========== Desktop Menu ======== */}
-          <ul className="hidden md:flex items-center gap-8 ">
+              <Text
+                variant="normalText"
+                className="md:w-70 leading-tight text-[10px] sm:text-xs md:text-sm lg:text-base text-foreground"
+              >
+                INTERNATIONAL INSTITUTE FOR ADVANCED POLITICAL STUDIES
+              </Text>
+            </div>
+
+            {/* ======== Actions ======== */}
+            <div className="flex items-center gap-2 md:gap-3 ml-3 shrink-0">
+              <ThemeToggle />
+
+              {/* Search */}
+              <button
+                type="button"
+                onClick={() => setIsSearchOpen(true)}
+                aria-label="Open Search"
+                className="flex h-10 w-10 items-center justify-center rounded-md border transition hover:bg-gray-800 hover:text-white cursor-pointer"
+              >
+                <Search size={18} />
+              </button>
+
+              {/* Menu Toggle */}
+              <button
+                type="button"
+                onClick={() => setIsOpen((prev) => !prev)}
+                aria-expanded={isOpen}
+                aria-controls="mobile-menu"
+                aria-label={isOpen ? "Close menu" : "Open menu"}
+                className="flex h-10 w-10 items-center justify-center rounded-md border transition hover:bg-gray-800 hover:text-white cursor-pointer"
+              >
+                {isOpen ? <X size={18} /> : <Menu size={18} />}
+              </button>
+            </div>
+          </div>
+        </Container>
+
+        {/* ======== Dropdown Menu ======== */}
+        <div
+          id="mobile-menu"
+          className={`absolute top-full left-0 w-full z-[999]
+          max-h-[calc(100vh-80px)]
+          overflow-y-auto
+         bg-gray-900
+          shadow-2xl
+          transition-all duration-300 ease-in-out
+          ${
+            isOpen
+              ? "translate-y-0 opacity-100 visible"
+              : "-translate-y-2 opacity-0 invisible"
+          }`}
+        >
+          <ul className="flex flex-col gap-1 border-t border-gray-800 px-4 py-4">
             {navs.map((nav) => (
-              <li key={nav.id}>
-                <Link
-                  href={nav.path}
-                  className={desktopLinkClass(nav.path)}
-                  aria-current={isActive(nav.path) ? "page" : undefined}
-                >
-                  {nav.name}
-                </Link>
-              </li>
+              <NavbarItem key={nav.id} item={nav} isActive={isActive} />
             ))}
           </ul>
-
-          {/* ========== Theme, search and mobile toggole menu ======== */}
-          <div className="flex gap-x-5">
-            <ThemeToggle />
-
-            {/* ====== search here ======*/}
-            <button
-              type="button"
-              onClick={() => setIsSearchOpen(true)}
-              aria-label="Open Search"
-              className="flex h-10 w-10 items-center justify-center rounded-md border transition hover:bg-gray-800 cursor-pointer"
-            >
-              <Search size={18} />
-            </button>
-
-            {/* ======= Mobile Toggle ======== */}
-            <button
-              type="button"
-              onClick={() => setIsOpen((prev) => !prev)}
-              aria-expanded={isOpen}
-              aria-controls="mobile-menu"
-              aria-label={isOpen ? "Close menu" : "Open menu"}
-              className="md:hidden flex h-10 w-10 items-center justify-center border hover:bg-gray-800 transition cursor-pointer rounded-md"
-            >
-              {isOpen ? <X size={18} /> : <Menu size={18} />}
-            </button>
-          </div>
         </div>
-      </Container>
+      </nav>
+
+      {/* ======== Backdrop ======== */}
+      {isOpen && (
+        <div
+          className="fixed inset-0 z-40 bg-black/40 backdrop-blur-sm"
+          onClick={() => setIsOpen(false)}
+        />
+      )}
 
       {/* ======== Search Panel ======== */}
       <SearchBlog
         isOpen={isSearchOpen}
         onClose={() => setIsSearchOpen(false)}
       />
-
-      {/* ========= Mobile Menu ======== */}
-      <div
-        id="mobile-menu"
-        className={`overflow-hidden transition-all duration-300 ease-in-out md:hidden ${
-          isOpen
-            ? "max-h-96 opacity-100"
-            : "pointer-events-none max-h-0 opacity-0"
-        }`}
-      >
-        <ul className="flex flex-col gap-1 border-t border-gray-800 bg-gray-900 px-4 py-4">
-          {navs.map((nav) => (
-            <li key={nav.id}>
-              <Link
-                href={nav.path}
-                className={mobileLinkClass(nav.path)}
-                aria-current={isActive(nav.path) ? "page" : undefined}
-              >
-                {nav.name}
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </div>
-    </nav>
+    </>
   );
 }
