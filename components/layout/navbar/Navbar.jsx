@@ -121,10 +121,10 @@ export default function Navbar() {
         {/* ======== Dropdown Menu ======== */}
         <div
           id="mobile-menu"
-          className={`absolute top-full left-0 w-full z-[999]
-          max-h-[calc(100vh-80px)]
+          className={`absolute top-full left-0 w-full z-999
+          max-h-[calc(100vh-100px)]
           overflow-y-auto
-         bg-gray-900
+         bg-background/60
           shadow-2xl
           transition-all duration-300 ease-in-out
           ${

@@ -16,7 +16,7 @@ export default function NavbarItem({ item, isActive }) {
           <button
             type="button"
             onClick={() => setOpen(!open)}
-            className="flex items-center justify-between w-full px-3 py-2.5 rounded-md text-gray-300 hover:text-indigo-400 hover:bg-gray-800 transition-colors"
+            className="flex items-center justify-between w-full px-3 py-2.5 rounded-md hover:bg-gray-600 transition-colors"
           >
             <span>{item.name}</span>
 
@@ -36,8 +36,8 @@ export default function NavbarItem({ item, isActive }) {
           href={item.path}
           className={`flex items-center px-3 py-2.5 rounded-md ${
             isActive(item.path)
-              ? "text-indigo-400 bg-indigo-400/10"
-              : "text-gray-300 hover:text-indigo-400 hover:bg-gray-800"
+              ? "text-foreground/90 font-bold bg-gray-600"
+              : "text-foreground/70 hover:text-foreground/90 hover:bg-gray-600"
           }`}
         >
           {item.name}

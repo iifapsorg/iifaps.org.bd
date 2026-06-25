@@ -8,7 +8,6 @@ export const navs = [
   {
     id: 2,
     name: "About IIFAPS",
-    path: "",
     children: [
       {
         id: 21,
@@ -28,7 +27,6 @@ export const navs = [
       {
         id: 24,
         name: "IIFAPS Team",
-        path: "",
         children: [
           {
             id: 241,
