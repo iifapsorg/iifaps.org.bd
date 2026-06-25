@@ -122,7 +122,7 @@ export default function Navbar() {
         <div
           id="mobile-menu"
           className={`absolute top-full left-0 w-full z-999
-          max-h-[calc(100vh-100px)]
+          max-h-[calc(100vh-120px)]
           overflow-y-auto
          bg-background/60
           shadow-2xl
