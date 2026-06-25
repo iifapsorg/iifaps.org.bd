@@ -1,16 +1,17 @@
 "use client";
 
-import {  useState } from "react";
+import { useState } from "react";
 import { Search, X } from "lucide-react";
 import Container from "@/components/shared/Container";
 import SearchResult from "./SearchResult";
+import Button from "@/components/shared/Button";
 
 export default function SearchBlog({ isOpen, onClose }) {
   const [query, setQuery] = useState("");
   const [loading, setLoading] = useState(false);
   const [results, setResults] = useState([]);
 
-// ====== handle search function ====
+  // ====== handle search function ====
   const handleSearch = async (e) => {
     e.preventDefault();
 
@@ -20,7 +21,7 @@ export default function SearchBlog({ isOpen, onClose }) {
       setLoading(true);
 
       const res = await fetch(
-        `/api/blogs/search?q=${encodeURIComponent(query)}`
+        `/api/blogs/search?q=${encodeURIComponent(query)}`,
       );
 
       const data = await res.json();
@@ -41,7 +42,7 @@ export default function SearchBlog({ isOpen, onClose }) {
   // ======== main ui =========
   return (
     <div
-      className={`fixed left-0 top-0 z-60 w-full bg-gray-950/95 backdrop-blur-md transition-all duration-300 ${
+      className={`fixed left-0 top-0 z-60 w-full bg-background/60 backdrop-blur-md transition-all duration-300 ${
         isOpen
           ? "translate-y-0 opacity-100"
           : "-translate-y-full opacity-0 pointer-events-none"
@@ -50,7 +51,7 @@ export default function SearchBlog({ isOpen, onClose }) {
       {/* Close */}
       <button
         onClick={onClose}
-        className="absolute right-6 top-2 flex h-10 w-10 items-center justify-center border hover:bg-gray-800 transition cursor-pointer rounded-md"
+        className="absolute right-6 top-2 flex h-10 w-10 items-center justify-center border hover:bg-gray-600 hover:text-white transition cursor-pointer rounded-md"
       >
         <X size={18} />
       </button>
@@ -67,30 +68,19 @@ export default function SearchBlog({ isOpen, onClose }) {
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder="Search blogs..."
-                className="h-14 w-full rounded-xl border border-gray-700 bg-gray-900 pl-12 pr-4 text-white outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/30"
+                className="h-12 w-full rounded-sm border border-gray-700 bg-transparent pl-12 pr-4 text-foreground outline-none focus:border-indigo-500 focus:outline-1 focus:outline-indigo-500/30"
               />
             </div>
-
-            <button
-              type="submit"
-              className="h-14 rounded-xl bg-indigo-600 px-6 font-medium text-white hover:bg-indigo-500 cursor-pointer"
-            >
+            <Button type="submit" className="h-12">
               Search
-            </button>
+            </Button>
           </form>
 
           {/* Loading */}
-          {loading && (
-            <p className="mt-6 text-gray-400">Searching...</p>
-          )}
+          {loading && <p className="mt-6 text-gray-400">Searching...</p>}
 
           {/* Results Component */}
-          {!loading && (
-            <SearchResult
-              results={results}
-              onClose={onClose}
-            />
-          )}
+          {!loading && <SearchResult results={results} onClose={onClose} />}
 
           {/* No results */}
           {!loading && query && results.length === 0 && (
