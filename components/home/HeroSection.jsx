@@ -1,18 +1,20 @@
 import Image from "next/image";
 import Text from "@/components/shared/Text";
 import Subscribe from "@/components/home/Subscribe";
+import heroImg from "@/public/images/hero-bg.webp"
 
 
 export default function HeroSection() {
   return (
     <section className="relative">
       <Image
-        src="/images/hero-bg.jpg"
+        src={heroImg}
         alt="Hero Background"
         width={1792}
         height={1024}
         priority
         className="w-full"
+        quality={70}
       />
 
       {/* Overlay */}
