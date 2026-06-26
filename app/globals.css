@@ -1,5 +1,9 @@
+/* Google Fonts */
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Lora:wght@400..700&family=Croissant+One&display=swap");
+
 @import "tailwindcss";
 @import "tw-animate-css";
+
 
 @custom-variant dark (&:is(.dark *));
 
@@ -68,9 +72,9 @@
   --color-input: var(--input);
 
   /* Fonts */
-  --font-sans: var(--font-sans);
-  --font-mono: var(--font-geist-mono);
-  --font-heading: var(--font-sans);
+  --font-primary: "Lora", serif;
+  --font-secondary: "Inter", sans-serif;
+  --font-heading: "Croissant One", serif;
 
   /* Radius */
   --radius-sm: calc(var(--radius) * 0.6);
@@ -88,7 +92,7 @@
   }
 
   html {
-    @apply font-sans;
+    @apply font-primary;
   }
 
   body {

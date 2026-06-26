@@ -1,37 +1,41 @@
-import Image from "next/image";
+"use client";
+
+import Button from "@/components/shared/Button";
 import Text from "@/components/shared/Text";
-import Subscribe from "@/components/home/Subscribe";
-import heroImg from "@/public/images/hero-bg.webp"
+import Link from "next/link";
 
-
-export default function HeroSection() {
+const HeroSection = () => {
   return (
-    <section className="relative">
-      <Image
-        src={heroImg}
-        alt="Hero Background"
-        width={1792}
-        height={1024}
-        priority
-        className="w-full"
-        quality={70}
-      />
+    <section className="relative overflow-hidden bg-background">
+      {/* Background Blur */}
+      <div className="absolute -top-32 -left-24 h-72 w-72 rounded-full bg-sky-400/20 blur-3xl dark:bg-sky-500/10" />
+      <div className="absolute -bottom-32 -right-24 h-80 w-80 rounded-full bg-indigo-400/20 blur-3xl dark:bg-indigo-500/10" />
 
-      {/* Overlay */}
-      <div className="absolute inset-0 bg-black/50" />
-
-      {/* Content */}
-      <div className="absolute inset-0 flex items-center justify-center">
-        <div className="max-w-3xl text-center px-4">
-          <Text variant="heroHeading" className="">
-            Transform Ideas Into Reality
+      <div className="container relative mx-auto px-4 py-20 md:py-28">
+        <div className="mx-auto max-w-4xl text-center">
+          <Text variant="heroHeading">
+            Explore Our{" "}
+            <span className="bg-linear-to-r from-sky-500 via-indigo-500 to-purple-500 bg-clip-text text-transparent">
+              Categories
+            </span>
           </Text>
 
-          {/*  ===== btn group ===== */}
-          {/* <Button variant="primary">Primary</Button> */}
-          <Subscribe></Subscribe>
+          <Text variant="title">
+            Discover a wide range of thoughtfully organized categories to help
+            you find exactly what you need—quickly, easily, and beautifully.
+          </Text>
+
+          <div className="mt-10">
+            <Link href="/categories">
+              <Button variant="primary" className="inline-flex">
+                Browse Categories
+              </Button>
+            </Link>
+          </div>
         </div>
       </div>
     </section>
   );
-}
+};
+
+export default HeroSection;
