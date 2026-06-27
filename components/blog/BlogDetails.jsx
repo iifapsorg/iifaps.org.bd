@@ -2,11 +2,11 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import Text from "@/components/shared/Text";
 import { formatDate } from "@/utils/formatDate";
 import { readingTime } from "@/utils/readingTime";
 
 export default function BlogDetails({ blog }) {
-    console.log("BLOG DATA:", blog);
   const { text: readTime } = readingTime(blog?.content);
 
   return (
@@ -21,12 +21,17 @@ export default function BlogDetails({ blog }) {
             {blog.category?.name}
           </Link>
         )}
-        <h1 className="mt-2 text-4xl font-extrabold text-gray-900 leading-tight">
-          {blog?.title}
-        </h1>
-        <div className="mt-4 flex items-center gap-4 text-sm text-gray-500">
+        {/* ====== title / blog heading ===== */}
+        <Text variant="title" className="font-extrabold">
+          {blog.title}
+        </Text>
+
+        {/* ===== author, date, time, views ======== */}
+        <div className="mt-4 flex items-center gap-4 text-sm text-muted-foreground">
           {blog?.author && (
-            <span className="font-medium text-gray-700">{blog.author.name}</span>
+            <span className="font-bold">
+              {blog.author.name}
+            </span>
           )}
           <span>{formatDate(blog?.createdAt)}</span>
           <span>{readTime}</span>
@@ -37,13 +42,18 @@ export default function BlogDetails({ blog }) {
       {/* Thumbnail */}
       {blog?.thumbnail && (
         <div className="relative w-full h-80 mb-8 rounded-xl overflow-hidden">
-          <Image src={blog?.thumbnail} alt={blog.title} fill className="object-cover" />
+          <Image
+            src={blog?.thumbnail}
+            alt={blog.title}
+            fill
+            className="object-cover"
+          />
         </div>
       )}
 
       {/* Content */}
       <div
-        className="prose prose-lg max-w-none text-gray-700"
+        className="prose prose-lg max-w-none text-foreground/80 text-xl text-justify"
         dangerouslySetInnerHTML={{ __html: blog?.content }}
       />
 

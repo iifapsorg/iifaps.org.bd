@@ -1,44 +1,69 @@
 // components/blog/blogcard
 
-import Link from "next/link";
 import Image from "next/image";
+import Link from "next/link";
+
+import Text from "@/components/shared/Text";
+import Button from "@/components/shared/Button";
+
 import { formatShortDate } from "@/utils/formatDate";
 import { readingTime } from "@/utils/readingTime";
+import { CalendarDays } from "lucide-react";
 
 export default function BlogCard({ blog }) {
-  const { text: readTime } = readingTime(blog.content || blog.excerpt || "");
+  console.log(blog);
+  const readTime = readingTime(blog.title);
 
   return (
-    <article className="group bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-md transition-shadow duration-300">
-      {blog.thumbnail && (
-        <Link href={`/blog/${blog.slug}`} className="block overflow-hidden h-48 relative">
-          <Image
-            src={blog.thumbnail}
-            alt={blog.title}
-            fill
-            className="object-cover group-hover:scale-105 transition-transform duration-500"
-          />
-        </Link>
-      )}
-      <div className="p-5">
-        {blog.category && (
-          <Link
-            href={`/category/${blog.category.slug}`}
-            className="text-xs font-semibold text-blue-600 uppercase tracking-wide hover:text-blue-800"
-          >
-            {blog.category.name}
-          </Link>
-        )}
-        <h3 className="mt-2 text-lg font-bold text-gray-900 group-hover:text-blue-600 transition-colors line-clamp-2">
-          <Link href={`/blog/${blog.slug}`}>{blog.title}</Link>
-        </h3>
-        {blog.excerpt && (
-          <p className="mt-2 text-sm text-gray-500 line-clamp-2">{blog.excerpt}</p>
-        )}
-        <div className="mt-4 flex items-center justify-between text-xs text-gray-400">
-          <span>{formatShortDate(blog.createdAt)}</span>
-          <span>{readTime}</span>
+    <article className="pb-10 group overflow-hidden rounded-2xl border border-border bg-background shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
+      {/* Thumbnail */}
+      <Link
+        href={`/blogs/${blog.slug}`}
+        className="relative block aspect-video overflow-hidden"
+      >
+        <Image
+          src={blog?.thumbnail}
+          alt={blog?.title}
+          fill
+          className="object-cover transition-transform duration-500 group-hover:scale-105"
+        />
+      </Link>
+
+      {/* ====  date and read time ===== */}
+      <div className="space-y-4 p-5">
+        {/* Date */}
+        <div className="flex items-center justify-between gap-2 text-xs text-muted-foreground">
+          <p className="flex gap-x-2 text-lg items-center justify-center">
+            <CalendarDays /> {formatShortDate(blog.createdAt)}
+          </p>
+          <Text>{readTime.text}</Text>
         </div>
+
+        {/* Title */}
+        <Link href={`/blogs/${blog.slug}`}>
+          <Text
+            variant="title"
+            className="mb-3 line-clamp-2 transition-colors group-hover:text-primary"
+          >
+            {blog.title}
+          </Text>
+        </Link>
+
+        {/* Summary */}
+        <Text className="line-clamp-3 text-muted-foreground">
+          {blog.summary || blog.excerpt}
+        </Text>
+
+        {/* Author + Views */}
+        <div className="flex items-center justify-between text-sm text-muted-foreground">
+          <span>By {blog.author?.name || "Admin"}</span>
+          <span>{blog.views || 0} Views</span>
+        </div>
+
+        {/* Button */}
+        <Link href={`/blogs/${blog.slug}`}>
+          <Button className="block mx-auto mt-10">See More</Button>
+        </Link>
       </div>
     </article>
   );

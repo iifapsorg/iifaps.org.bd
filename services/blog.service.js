@@ -23,7 +23,7 @@ export async function getAllBlogs({
 
   const skip = (page - 1) * limit;
 
-  const selectFields = "title slug status createdAt category author";
+  const selectFields = "thumbnail title excerpt slug  status createdAt category author";
 
   const [blogs, total] = await Promise.all([
     Blog.find(query)

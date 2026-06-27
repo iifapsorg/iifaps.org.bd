@@ -15,10 +15,10 @@ const Text = ({ children, variant = "normalText", className = "" }) => {
       "mx-auto mt-6 max-w-2xl text-xl md:text-2xl lg:text-3xl font-primary font-semibold leading-8 text-foreground/80",
 
     title:
-      "mx-auto mt-6 max-w-2xl text-base md:text-lg lg:text-xl font-primary font-medium leading-8 text-foreground",
+      "mt-6 max-w-2xl text-xl md:text-2xl font-primary font-semibold leading-8 text-foreground",
 
     normalText:
-      "text-sm md:text-base font-primary leading-relaxed text-foreground/70",
+      "text-lg md:text-base font-primary leading-relaxed text-foreground/70",
 
     mediumText:
       "text-xs md:text-sm font-primary font-medium leading-relaxed text-foreground/80",

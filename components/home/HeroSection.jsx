@@ -20,7 +20,7 @@ const HeroSection = () => {
             </span>
           </Text>
 
-          <Text variant="title">
+          <Text variant="title" className="mx-auto">
             Discover a wide range of thoughtfully organized categories to help
             you find exactly what you need—quickly, easily, and beautifully.
           </Text>
