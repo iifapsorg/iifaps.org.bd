@@ -11,7 +11,6 @@ import { readingTime } from "@/utils/readingTime";
 import { CalendarDays } from "lucide-react";
 
 export default function BlogCard({ blog }) {
-  console.log(blog);
   const readTime = readingTime(blog.title);
 
   return (

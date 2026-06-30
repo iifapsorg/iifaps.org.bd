@@ -3,6 +3,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { BlogEditor } from "@/components/admin/editor";
 
 export default function BlogForm({ initialData = null }) {
   const router = useRouter();
@@ -199,15 +200,16 @@ export default function BlogForm({ initialData = null }) {
       </div>
 
       <div>
-        <label className={labelClass}>Content *</label>
-        <textarea
-          name="content"
+        <BlogEditor
+          label="Content"
           value={form.content}
-          onChange={handleChange}
+          onChange={(content) =>
+            setForm((prev) => ({
+              ...prev,
+              content,
+            }))
+          }
           required
-          rows={12}
-          className={inputClass}
-          placeholder="Write your blog content here..."
         />
       </div>
 

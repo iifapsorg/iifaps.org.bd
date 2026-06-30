@@ -2,6 +2,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Lora:wght@400..700&family=Croissant+One&display=swap");
 
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
 @import "tw-animate-css";
 
 
@@ -98,4 +99,26 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+
+/* ========= editor classes ====== */
+.prose blockquote {
+  margin: 2rem 0;
+  padding: 1.5rem;
+
+  background: linear-gradient(
+    135deg,
+    #f8fbff,
+    #eef5ff
+  );
+
+  border-left: 6px solid #2563eb;
+
+  border-radius: 14px;
+
+  box-shadow:
+    0 8px 20px rgba(0,0,0,.05);
+
+  font-style: italic;
 }

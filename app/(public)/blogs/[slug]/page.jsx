@@ -20,8 +20,7 @@ export const revalidate = 300;
 export default async function BlogDetailPage({ params }) {
   const { slug } = await params;
   const blog = await getBlogBySlug(slug);
-  console.log("BLOG DATA:", blog);
-  console.log("BLOG SLUG:", slug);
+
   if (!blog) notFound();
 
   const related = await getRelatedBlogs(blog?._id, blog?.category._id);
