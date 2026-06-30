@@ -3,7 +3,17 @@
 import StarterKit from "@tiptap/starter-kit";
 import Placeholder from "@tiptap/extension-placeholder";
 import TextAlign from "@tiptap/extension-text-align";
-console.log(StarterKit);
+import Link from "@tiptap/extension-link";
+
+const CustomLink = Link.extend({
+  inclusive() {
+    return false;
+  },
+}).configure({
+  openOnClick: false,
+  autolink: true,
+  defaultProtocol: "https",
+});
 
 export const editorExtensions = [
   StarterKit,
@@ -15,4 +25,7 @@ export const editorExtensions = [
   TextAlign.configure({
     types: ["heading", "paragraph"],
   }),
+
+  // ======== custom link =====
+  CustomLink,
 ];

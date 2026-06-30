@@ -1,16 +1,16 @@
 "use client";
 
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { EditorContent, useEditor } from "@tiptap/react";
-
 import { editorExtensions } from "./extensions";
 import MenuBar from "./MenuBar";
+import LinkPopup from "./LinkPopup";
 
 const TiptapEditor = ({
   value = "",
   onChange,
   editable = true,
-  className = "",
+  className = ""
 }) => {
   const editor = useEditor({
     extensions: editorExtensions,
@@ -32,6 +32,8 @@ const TiptapEditor = ({
     },
   });
 
+  const [linkOpen, setLinkOpen] = useState(false);
+
   // Sync external value (Edit Blog page support)
   useEffect(() => {
     if (!editor) return;
@@ -46,6 +48,7 @@ const TiptapEditor = ({
   return (
     <div
       className={`
+        prose max-w-none
         overflow-hidden
         rounded-xl
         border
@@ -55,9 +58,29 @@ const TiptapEditor = ({
         ${className}
       `}
     >
-      <MenuBar editor={editor} />
+      <MenuBar editor={editor} onOpenLinkPopup={() => setLinkOpen(true)} />
 
       <EditorContent editor={editor} />
+
+      <LinkPopup
+        open={linkOpen}
+        onClose={() => setLinkOpen(false)}
+
+        onSubmit={(url) => {
+          if (!url) {
+            editor.chain().focus().unsetLink().run();
+            setLinkOpen(false);
+            return;
+          }
+
+          editor
+            .chain()
+            .focus()
+            .extendMarkRange("link")
+            .setLink({ href: url })
+            .run();
+        }}
+      />
     </div>
   );
 };

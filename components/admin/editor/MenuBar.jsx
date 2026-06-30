@@ -17,6 +17,7 @@ import {
   Strikethrough,
   Underline,
   Undo2,
+  Link2,
 } from "lucide-react";
 
 const headingButtons = [
@@ -73,7 +74,7 @@ const ToolbarButton = ({
 
 const Divider = () => <div className="mx-1 h-6 w-px bg-gray-300" />;
 
-const MenuBar = ({ editor }) => {
+const MenuBar = ({ editor, onOpenLinkPopup }) => {
   if (!editor) return null;
 
   return (
@@ -125,9 +126,7 @@ const MenuBar = ({ editor }) => {
           icon={icon}
           label={label}
           isActive={editor.isActive("heading", { level })}
-          onClick={() =>
-            editor.chain().focus().toggleHeading({ level }).run()
-          }
+          onClick={() => editor.chain().focus().toggleHeading({ level }).run()}
         />
       ))}
 
@@ -179,6 +178,16 @@ const MenuBar = ({ editor }) => {
         label="Align Right"
         isActive={editor.isActive({ textAlign: "right" })}
         onClick={() => editor.chain().focus().setTextAlign("right").run()}
+      />
+
+      <Divider />
+
+      {/* link  */}
+      <ToolbarButton
+        icon={Link2}
+        label="Insert Link"
+        isActive={editor.isActive("link")}
+        onClick={onOpenLinkPopup}
       />
     </div>
   );

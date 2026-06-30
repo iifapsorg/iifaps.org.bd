@@ -122,3 +122,16 @@
 
   font-style: italic;
 }
+
+.prose a {
+  color: #2563eb;
+  text-decoration: underline;
+  cursor: pointer;
+  font-style: italic;
+
+}
+
+.prose a:hover {
+  color: #1d4ed8;
+}
+/* ========= editor classes ====== */
