@@ -78,7 +78,8 @@ const MenuBar = ({ editor, onOpenLinkPopup }) => {
   if (!editor) return null;
 
   return (
-    <div className="flex flex-wrap items-center gap-2 rounded-t-xl border border-b-0 bg-gray-50 p-3">
+    <div className="sticky top-0 z-30 flex flex-wrap items-center gap-2 rounded-t-xl border border-b-0  bg-gray-50 p-3 shadow-sm">
+
       {/* Undo / Redo */}
       <ToolbarButton
         icon={Undo2}

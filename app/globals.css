@@ -135,3 +135,30 @@
   color: #1d4ed8;
 }
 /* ========= editor classes ====== */
+
+
+
+/* Track */
+.os-scrollbar-track {
+  background: #f3f4f6;
+}
+
+/* Handle */
+.os-scrollbar-handle {
+  background: #9ca3af !important;
+  border-radius: 0px !important;
+}
+
+/* Hover */
+.os-scrollbar-handle:hover {
+  background: #6b7280 !important;
+}
+
+/* Width */
+.os-scrollbar-vertical {
+  width: 12px !important;
+}
+
+.os-scrollbar-horizontal {
+  height: 8px !important;
+}
