@@ -61,7 +61,7 @@ export default function BlogCard({ blog }) {
 
         {/* Button */}
         <Link href={`/blogs/${blog.slug}`}>
-          <Button className="block mx-auto mt-10">See More</Button>
+          <Button className="block mx-auto mt-10">Read More</Button>
         </Link>
       </div>
     </article>

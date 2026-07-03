@@ -3,7 +3,7 @@
 import { notFound } from "next/navigation";
 import { getCategoryBySlug } from "@/services/category.service";
 import { getAllBlogs } from "@/services/blog.service";
-import BlogList from "@/components/blog/BlogList";
+import BlogList from "@/components/blog/BlogCommonLayout";
 import Container from "@/components/shared/Container";
 import SectionTitle from "@/components/shared/SectionTitle";
 

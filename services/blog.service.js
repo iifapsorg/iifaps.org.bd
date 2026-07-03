@@ -7,38 +7,55 @@ import { slugify, uniqueSlug } from "@/lib/slugify";
 /* ---------------------------
    GET ALL BLOGS
 ----------------------------*/
-export async function getAllBlogs({
+export async function getBlogs({
   page = 1,
   limit = 10,
-  status,
+  status = "published",
   category,
+  excludeId,
+  sortBy = "createdAt",
+  order = -1,
+  select = "thumbnail title excerpt slug views status createdAt category author",
+  populate = true,
 } = {}) {
   await connectDB();
 
   const query = {
-    status: status || { $in: ["published", "draft"] },
+    isDeleted: false,
+    status,
   };
 
   if (category) query.category = category;
 
+  if (excludeId) {
+    query._id = { $ne: excludeId };
+  }
+
   const skip = (page - 1) * limit;
 
-  const selectFields = "thumbnail title excerpt slug  status createdAt category author";
+  let blogsQuery = Blog.find(query)
+    .select(select)
+    .sort({ [sortBy]: order })
+    .skip(skip)
+    .limit(limit);
+
+  if (populate) {
+    blogsQuery = blogsQuery
+      .populate("author", "name avatar")
+      .populate("category", "name slug");
+  }
 
   const [blogs, total] = await Promise.all([
-    Blog.find(query)
-      .select(selectFields)
-      .populate("author", "name avatar")
-      .populate("category", "name slug")
-      .sort({ createdAt: -1 })
-      .skip(skip)
-      .limit(limit)
-      .lean(),
-
+    blogsQuery.lean(),
     Blog.countDocuments(query),
   ]);
 
-  return { blogs, total, pages: Math.ceil(total / limit), page };
+  return {
+    blogs,
+    total,
+    pages: Math.ceil(total / limit),
+    page,
+  };
 }
 
 /* ---------------------------

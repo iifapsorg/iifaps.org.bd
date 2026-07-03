@@ -8,8 +8,8 @@ const Text = ({ children, variant = "normalText", className = "" }) => {
     heroHeading:
       "text-4xl md:text-6xl lg:text-8xl font-heading font-extrabold text-foreground",
 
-    heading:
-      "mx-auto mt-6 max-w-2xl text-3xl md:text-4xl lg:text-5xl font-heading font-bold leading-tight tracking-tight text-foreground",
+    sectionHeading:
+      "mt-6 max-w-2xl text-3xl md:text-4xl lg:text-5xl font-heading font-bold leading-tight tracking-tight text-foreground",
 
     subHeading:
       "mx-auto mt-6 max-w-2xl text-xl md:text-2xl lg:text-3xl font-primary font-semibold leading-8 text-foreground/80",

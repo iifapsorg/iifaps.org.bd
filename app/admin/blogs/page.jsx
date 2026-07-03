@@ -1,15 +1,15 @@
 // /admin/blogs/page
 
 import Link from "next/link";
-import { getAllBlogs } from "@/services/blog.service";
+import { getBlogs } from "@/services/blog.service";
 import { formatShortDate } from "@/utils/formatDate";
 
 export const dynamic = 'force-dynamic';
 
 export default async function AdminBlogsPage() {
   const [publishedRes, draftRes] = await Promise.all([
-    getAllBlogs({ limit: 50, status: "published" }),
-    getAllBlogs({ limit: 50, status: "draft" }),
+    getBlogs({ limit: 50, status: "published" }),
+    getBlogs({ limit: 50, status: "draft" }),
   ]);
 
   const published = publishedRes.blogs;
