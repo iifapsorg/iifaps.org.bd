@@ -6,7 +6,7 @@ import { authOptions } from "@/lib/auth";
 import { revalidatePath } from "next/cache";
 
 import {
-  getAllBlogs,
+  getBlogs,
   createBlog,
 } from "@/services/blog.service";
 
@@ -23,7 +23,7 @@ export async function GET(request) {
     const limit = Number(searchParams.get("limit")) || 10;
     const category = searchParams.get("category") || "";
 
-    const result = await getAllBlogs({
+    const result = await getBlogs({
       page,
       limit,
       category,

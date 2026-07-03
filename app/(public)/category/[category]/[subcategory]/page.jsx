@@ -2,7 +2,7 @@
 
 import { notFound } from "next/navigation";
 import { getCategoryBySlug } from "@/services/category.service";
-import { getAllBlogs } from "@/services/blog.service";
+import { getBlogs } from "@/services/blog.service";
 import BlogList from "@/components/blog/BlogCommonLayout";
 import Container from "@/components/shared/Container";
 import SectionTitle from "@/components/shared/SectionTitle";
@@ -15,7 +15,7 @@ export default async function SubCategoryPage({ params }) {
 
   if (!parent || !subcategory) notFound();
 
-  const { blogs } = await getAllBlogs({ category: subcategory._id });
+  const { blogs } = await getBlogs({ category: subcategory._id });
 
   return (
     <main>

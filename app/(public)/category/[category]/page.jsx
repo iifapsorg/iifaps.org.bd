@@ -2,7 +2,7 @@
 
 import { notFound } from "next/navigation";
 import { getCategoryBySlug, getSubcategories } from "@/services/category.service";
-import { getAllBlogs } from "@/services/blog.service";
+import { getBlogs } from "@/services/blog.service";
 import BlogList from "@/components/blog/BlogCommonLayout";
 import SubCategoryMenu from "@/components/category/SubCategoryMenu";
 import Container from "@/components/shared/Container";
@@ -25,7 +25,7 @@ export default async function CategoryPage({ params }) {
 
   const [subcategories, { blogs }] = await Promise.all([
     getSubcategories(getCategory._id),
-    getAllBlogs({ getCategory: getCategory._id }),
+    getBlogs({ getCategory: getCategory._id }),
   ]);
 
   return (
