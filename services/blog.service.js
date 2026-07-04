@@ -9,10 +9,11 @@ import { slugify, uniqueSlug } from "@/lib/slugify";
 ----------------------------*/
 export async function getBlogs({
   page = 1,
-  limit = 10,
+  limit = 9,
   status = "published",
   category,
   excludeId,
+  featured,
   sortBy = "createdAt",
   order = -1,
   select = "thumbnail title excerpt slug views status createdAt category author",
@@ -29,6 +30,11 @@ export async function getBlogs({
 
   if (excludeId) {
     query._id = { $ne: excludeId };
+  }
+
+  // Filter featured articles
+  if (featured !== undefined) {
+    query.featured = featured;
   }
 
   const skip = (page - 1) * limit;

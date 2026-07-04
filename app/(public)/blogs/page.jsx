@@ -13,26 +13,53 @@ export const metadata = generateMetaData({
 export const revalidate = 60;
 
 export default async function BlogPage({ searchParams }) {
-  const { page, type } = await searchParams;
+  const { type, page } = await searchParams;
+
   const currentPage = Number(page) || 1;
   const ARTICLE_LIMIT = 6;
 
-  const {
-    blogs: allArticles,
-    pages,
-    total,
-  } = await getBlogs({
+  // ====== filters by page, limit =====
+  const filters = {
     page: currentPage,
     limit: ARTICLE_LIMIT,
-    sortBy: type === "latest" ? "createdAt" : "views",
-  });
+  };
+
+  // ======= type condition =======
+  const currentType = type || "latest";
+  switch (currentType) {
+    case "featured":
+      filters.featured = true;
+      filters.sortBy = "createdAt";
+      break;
+
+    case "most-read":
+      filters.sortBy = "views";
+      break;
+
+    default: // latest
+      filters.sortBy = "createdAt";
+  }
+
+  // ======== getting articles by type =====
+  const { blogs: allArticles, pages, total } = await getBlogs(filters);
+
+  // const {
+  //   blogs: allArticles,
+  //   pages,
+  //   total,
+  // } = await getBlogs({
+  //   page: currentPage,
+  //   limit: ARTICLE_LIMIT,
+  //   sortBy: type === "latest" ? "createdAt" : "views",
+  // });
 
   return (
     <main>
       <Container className="py-12">
         <BlogCommonLayout
           blogs={allArticles}
-          sectionHeading={`${type?.replace(/-/g, " ") || "all"} articles : ${total}`}
+          // sectionHeading={`${type?.replace(/-/g, " ") || "all"} articles : ${total}`}
+          sectionHeading={`${currentType.replace(/-/g, " ")} articles : ${total}`}
           limit={ARTICLE_LIMIT}
           isBtn={false}
         />
@@ -43,7 +70,7 @@ export default async function BlogPage({ searchParams }) {
             {Array.from({ length: pages }, (_, i) => i + 1).map((p) => (
               <Link
                 key={p}
-                href={`/blogs?type=${type}&page=${p}`}
+                href={`/blogs?type=${currentType}&page=${p}`}
                 className={`px-4 py-2 rounded-lg text-sm font-medium border transition-colors ${
                   p === currentPage
                     ? "bg-blue-600 text-white border-blue-600"

@@ -3,9 +3,18 @@ import BlogCommonLayout from "@/components/blog/BlogCommonLayout";
 import { getBlogs } from "@/services/blog.service";
 
 const Home = async () => {
-  const  ARTICLE_LIMIT = 3;
-  const { blogs: latestArticles, total : latestTotal, } = await getBlogs({ limit: ARTICLE_LIMIT});
-  const { blogs: mostReadArticles , total : mostReadTotal, } = await getBlogs({ limit: ARTICLE_LIMIT, sortBy: "views",});
+  const ARTICLE_LIMIT = 3;
+  const { blogs: latestArticles, total: latestTotal } = await getBlogs({
+    limit: ARTICLE_LIMIT,
+  });
+  const { blogs: mostReadArticles, total: mostReadTotal } = await getBlogs({
+    limit: ARTICLE_LIMIT,
+    sortBy: "views",
+  });
+  const { blogs: featuredArticles, total: featuredTotal } = await getBlogs({
+    featured: true,
+    limit: ARTICLE_LIMIT,
+  });
 
   return (
     <div className="">
@@ -17,7 +26,7 @@ const Home = async () => {
         sectionHeading="Latest Articles"
         limit={ARTICLE_LIMIT}
         total={latestTotal}
-        type="latest"
+        currentType="latest"
       ></BlogCommonLayout>
 
       {/* ======= most read articles ===== */}
@@ -26,7 +35,16 @@ const Home = async () => {
         sectionHeading="Most Read Articles"
         limit={ARTICLE_LIMIT}
         total={mostReadTotal}
-        type="most-read"
+        currentType="most-read"
+      ></BlogCommonLayout>
+
+      {/* ======= featured articles ===== */}
+      <BlogCommonLayout
+        blogs={featuredArticles}
+        sectionHeading="Featured Articles"
+        limit={ARTICLE_LIMIT}
+        total={featuredTotal}
+        currentType="featured"
       ></BlogCommonLayout>
     </div>
   );

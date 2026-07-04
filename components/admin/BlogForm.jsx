@@ -4,6 +4,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { BlogEditor } from "@/components/admin/editor";
+import Image from "next/image";
 
 export default function BlogForm({ initialData = null }) {
   const router = useRouter();
@@ -17,6 +18,7 @@ export default function BlogForm({ initialData = null }) {
     category: initialData?.category?._id || initialData?.category || "",
     tags: initialData?.tags?.join(", ") || "",
     status: initialData?.status || "draft",
+    featured: initialData?.featured || false,
     metaTitle: initialData?.metaTitle || "",
     metaDescription: initialData?.metaDescription || "",
   });
@@ -35,8 +37,12 @@ export default function BlogForm({ initialData = null }) {
   *HANDLE CHANGE FUNCTION
   ----------------------------*/
   function handleChange(e) {
-    const { name, value } = e.target;
-    setForm((prev) => ({ ...prev, [name]: value }));
+    const { name, value, type, checked } = e.target;
+
+    setForm((prev) => ({
+      ...prev,
+      [name]: type === "checkbox" ? checked : value,
+    }));
   }
 
   /* ---------------------------
@@ -165,6 +171,21 @@ export default function BlogForm({ initialData = null }) {
             <option value="published">Published</option>
           </select>
         </div>
+
+        <div className="border rounded-lg p-4 flex items-center justify-between">
+          <div>
+            <h4 className="font-medium text-gray-900">Featured Blog</h4>
+          </div>
+
+          <input
+            id="featured"
+            type="checkbox"
+            name="featured"
+            checked={form.featured}
+            onChange={handleChange}
+            className="h-5 w-5 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+          />
+        </div>
       </div>
 
       <div>
@@ -191,10 +212,12 @@ export default function BlogForm({ initialData = null }) {
           <p className="text-xs text-blue-500 mt-1">Uploading...</p>
         )}
         {form.thumbnail && (
-          <img
+          <Image
             src={form.thumbnail}
-            alt="preview"
-            className="mt-2 h-32 object-cover rounded-lg"
+            alt="Thumbnail preview"
+            width={200}
+            height={128}
+            className="mt-2 h-32 w-auto object-cover rounded-lg"
           />
         )}
       </div>
