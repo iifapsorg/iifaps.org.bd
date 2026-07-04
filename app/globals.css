@@ -102,7 +102,7 @@
 }
 
 
-/* ========= editor classes ====== */
+/* ====== editor classes === */
 .prose blockquote {
   margin: 2rem 0;
   padding: 1.5rem;
@@ -134,10 +134,9 @@
 .prose a:hover {
   color: #1d4ed8;
 }
-/* ========= editor classes ====== */
 
 
-
+/* ========= scrollbar classes ====== */
 /* Track */
 .os-scrollbar-track {
   background: #f3f4f6;
