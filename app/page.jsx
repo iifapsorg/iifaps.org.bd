@@ -2,6 +2,7 @@ import HeroSection from "@/components/home/HeroSection";
 import BlogCommonLayout from "@/components/blog/BlogCommonLayout";
 import { getBlogs } from "@/services/blog.service";
 
+
 const Home = async () => {
   const ARTICLE_LIMIT = 3;
   const { blogs: latestArticles, total: latestTotal } = await getBlogs({
@@ -17,7 +18,7 @@ const Home = async () => {
   });
 
   return (
-    <div className="">
+    <div>
       <HeroSection></HeroSection>
 
       {/* ======= latest articles ===== */}

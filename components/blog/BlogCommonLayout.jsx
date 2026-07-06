@@ -44,7 +44,7 @@ export default function BlogCommonLayout({
 
         {/* ===== see more btn ====== */}
         {isBtn && (
-          <Link href={`/blogs?type=${currentType}&page=${1}`}>
+          <Link href={`/blogs?type=${currentType}&page=${1}`} >
             <Button variant={btnVariant} className="my-10 block mx-auto px-20">
               {btnText}
             </Button>

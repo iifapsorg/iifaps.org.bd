@@ -24,7 +24,7 @@ export default function Pagination({ pages, currentPage, currentType }) {
     <>
       {/* ==== loading ui / spinner ==== */}
       {isPending && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center  backdrop-blur-md">
+        <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-md">
           <GridLoader color="#4B5563" size={22} />
         </div>
       )}
