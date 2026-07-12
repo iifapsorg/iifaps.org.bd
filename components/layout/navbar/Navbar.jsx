@@ -85,7 +85,7 @@ export default function Navbar() {
                 variant="normalText"
                 className="md:w-70 leading-tight text-[10px] sm:text-xs md:text-sm lg:text-base text-foreground"
               >
-                INTERNATIONAL INSTITUTE FOR ADVANCED POLITICAL STUDIES
+                <Link href ="/">INTERNATIONAL INSTITUTE FOR ADVANCED POLITICAL STUDIES</Link>
               </Text>
             </div>
 
