@@ -1,4 +1,5 @@
 import HeroSection from "@/components/home/HeroSection";
+import Subscribe from "@/components/home/Subscribe";
 import BlogCommonLayout from "@/components/blog/BlogCommonLayout";
 import { getBlogs } from "@/services/blog.service";
 
@@ -18,7 +19,7 @@ const Home = async () => {
   });
 
   return (
-    <div>
+    <>
       <HeroSection></HeroSection>
 
       {/* ======= latest articles ===== */}
@@ -47,7 +48,10 @@ const Home = async () => {
         total={featuredTotal}
         currentType="featured"
       ></BlogCommonLayout>
-    </div>
+
+      {/* ======= subscribe section ===== */}
+      <Subscribe></Subscribe>
+    </>
   );
 };
 

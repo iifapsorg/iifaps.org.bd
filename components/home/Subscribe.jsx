@@ -1,7 +1,9 @@
 "use client";
 
 import { useState } from "react";
+import Container from "@/components/shared/Container";
 import Button from "@/components/shared/Button";
+import Text from "@/components/shared/Text";
 
 export default function Subscribe() {
   const [email, setEmail] = useState("");
@@ -56,28 +58,30 @@ export default function Subscribe() {
   };
 
   return (
-    <div className="flex flex-col items-center gap-4">
-      <h2 className="text-2xl font-bold">Subscribe to our newsletter</h2>
+    <section className="py-15 bg-secondary">
+      <Container>
+        <div className="flex flex-col items-center gap-8">
+          <Text variant="sectionHeading" className="text-center">Subscribe for Weekly Updates</Text>
 
-      <div className="flex gap-2 w-full max-w-md">
-        <input
-          type="email"
-          placeholder="Enter your email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          className="flex-1 px-4 py-2 border rounded-md"
-        />
+          <div className="flex flex-col gap-4 md:flex-row w-full max-w-md">
+            <input
+              type="email"
+              placeholder="Enter your email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="flex-1 px-4 py-2 border rounded-md"
+            />
 
-        <Button onClick={handleSubscribe} disabled={loading}>
-          {loading ? "Subscribing..." : "Subscribe"}
-        </Button>
-      </div>
+            <Button onClick={handleSubscribe} disabled={loading}>
+              {loading ? "Subscribing..." : "Subscribe"}
+            </Button>
+          </div>
 
-      {message && (
-        <p className="text-sm text-center text-gray-600">
-          {message}
-        </p>
-      )}
-    </div>
+          {message && (
+            <p className="text-sm text-center text-gray-600">{message}</p>
+          )}
+        </div>
+      </Container>
+    </section>
   );
 }
