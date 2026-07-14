@@ -63,7 +63,7 @@ export default function Subscribe() {
         <div className="flex flex-col items-center gap-8">
           <Text variant="sectionHeading" className="text-center">Subscribe for Weekly Updates</Text>
 
-          <div className="flex flex-col gap-4 md:flex-row w-full max-w-md">
+          <div className="flex flex-col gap-4 md:flex-row max-w-md">
             <input
               type="email"
               placeholder="Enter your email"

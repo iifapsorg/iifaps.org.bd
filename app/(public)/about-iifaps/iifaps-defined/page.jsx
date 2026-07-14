@@ -1,11 +1,29 @@
-import React from 'react'
+import React from "react";
+import Container from "@/components/shared/Container";
+import Text from "@/components/shared/Text";
 
 const page = () => {
   return (
-    <div>
-      iifaps-defined here
-    </div>
-  )
-}
+    <section>
+      <Container>
+        <div className="">
+          <Text variant="sectionHeading" className="mx-auto text-center">
+            IIFAPS Defined
+          </Text>
 
-export default page
+          <Text className="mt-10 text-justify">
+            The Institute for Islamic Philosophy, Politics and Civilizational
+            Studies (IIFAPS) is an interdisciplinary academic and research
+            institute dedicated to the systematic exploration of Islamic
+            intellectual traditions. It integrates philosophy, politics,
+            theology, history, and cultural studies to develop a deeper
+            understanding of civilization and knowledge systems from both
+            classical and contemporary perspectives.
+          </Text>
+        </div>
+      </Container>
+    </section>
+  );
+};
+
+export default page;
