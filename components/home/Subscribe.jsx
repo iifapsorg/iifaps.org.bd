@@ -51,7 +51,7 @@ export default function Subscribe() {
       setMessage(data.message);
       setEmail("");
     } catch (error) {
-      setMessage("Server error");
+      setMessage("Server error", error);
     } finally {
       setLoading(false);
     }
