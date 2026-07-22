@@ -2,10 +2,11 @@
 
 import connectDB from "@/lib/connectDB";
 import Blog from "@/models/Blog";
+import Category from "@/models/Category";
 import { slugify, uniqueSlug } from "@/lib/slugify";
 
 /* ---------------------------
-   GET ALL BLOGS
+   GET BLOGS
 ----------------------------*/
 export async function getBlogs({
   page = 1,
@@ -26,13 +27,32 @@ export async function getBlogs({
     status,
   };
 
-  if (category) query.category = category;
+  // Filter by Category Slug
+  if (category) {
+    const categoryDoc = await Category.findOne({
+      slug: category,
+      isActive: true,
+      isDeleted: false,
+    }).select("_id");
 
+    if (!categoryDoc) {
+      return {
+        blogs: [],
+        total: 0,
+        pages: 0,
+        page,
+      };
+    }
+
+    query.category = categoryDoc._id;
+  }
+
+  // Exclude Blog
   if (excludeId) {
     query._id = { $ne: excludeId };
   }
 
-  // Filter featured articles
+  // Featured Blogs
   if (featured !== undefined) {
     query.featured = featured;
   }

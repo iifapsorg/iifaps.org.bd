@@ -15,10 +15,13 @@ const page = () => {
             The Institute for Islamic Philosophy, Politics and Civilizational
             Studies (IIFAPS) is an interdisciplinary academic and research
             institute dedicated to the systematic exploration of Islamic
-            intellectual traditions. It integrates philosophy, politics,
-            theology, history, and cultural studies to develop a deeper
-            understanding of civilization and knowledge systems from both
-            classical and contemporary perspectives.
+            intellectual traditions.
+          </Text>
+
+          <Text className="mt-5 text-justify">
+            It integrates philosophy, politics, theology, history, and cultural
+            studies to develop a deeper understanding of civilization and
+            knowledge systems from both classical and contemporary perspectives.
           </Text>
         </div>
       </Container>

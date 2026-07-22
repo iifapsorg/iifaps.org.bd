@@ -2,6 +2,7 @@
 
 import connectDB from "@/lib/connectDB";
 import Category from "@/models/Category";
+import { unstable_cache } from "next/cache";
 import { slugify, uniqueSlug } from "@/lib/slugify";
 
 /* ---------------------------
@@ -40,7 +41,7 @@ export async function getAllCategories() {
 /* ---------------------------
    TREE OF CATEGORY
 ----------------------------*/
-export async function getCategoryTree() {
+const getCategoryTreeFromDB = async () => {
   await connectDB();
 
   return Category.aggregate([
@@ -69,18 +70,29 @@ export async function getCategoryTree() {
         children: {
           $sortArray: {
             input: "$children",
-            sortBy: { name: 1 },
+            sortBy: {
+              name: 1,
+            },
           },
         },
       },
     },
     {
       $sort: {
-        name: 1, 
+        name: 1,
       },
     },
   ]);
-}
+};
+
+export const getCategoryTree = unstable_cache(
+  getCategoryTreeFromDB,
+  ["category-tree"],
+  {
+    revalidate: 3600, // 1 Hour
+    tags: ["categories"],
+  }
+);
 
 /* ---------------------------
    GET CATEGORY BY SLUG
