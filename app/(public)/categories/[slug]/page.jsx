@@ -1,7 +1,8 @@
-import { notFound } from "next/navigation";
 import { getBlogs } from "@/services/blog.service";
 import Container from "@/components/shared/Container";
 import BlogCard from "@/components/blog/BlogCard";
+import BlogNotFound from "@/components/not-found/BlogNotFound"
+
 
 export default async function CategoryPage({ params }) {
   const { slug } = await params;
@@ -12,7 +13,7 @@ export default async function CategoryPage({ params }) {
   });
 
   if (!blogs.length) {
-    notFound();
+    return <BlogNotFound />
   }
 
   return (
