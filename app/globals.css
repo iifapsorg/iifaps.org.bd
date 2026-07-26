@@ -5,7 +5,6 @@
 @plugin "@tailwindcss/typography";
 @import "tw-animate-css";
 
-
 @custom-variant dark (&:is(.dark *));
 
 :root {
@@ -41,7 +40,7 @@
   --card: oklch(0.19 0.02 255);
   --card-foreground: oklch(0.98 0 0);
 
-  --primary: oklch(0.70 0.18 255);
+  --primary: oklch(0.7 0.18 255);
   --secondary: oklch(0.24 0.02 255);
 
   --muted: oklch(0.24 0.02 255);
@@ -99,26 +98,27 @@
   body {
     @apply bg-background text-foreground;
   }
-}
+  button {
+    @apply cursor-pointer;
+  }
 
+  button:disabled {
+    @apply cursor-not-allowed opacity-50;
+  }
+}
 
 /* ====== editor classes === */
 .prose blockquote {
   margin: 2rem 0;
   padding: 1.5rem;
 
-  background: linear-gradient(
-    135deg,
-    #f8fbff,
-    #eef5ff
-  );
+  background: linear-gradient(135deg, #f8fbff, #eef5ff);
 
   border-left: 6px solid #2563eb;
 
   border-radius: 14px;
 
-  box-shadow:
-    0 8px 20px rgba(0,0,0,.05);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
 
   font-style: italic;
 }
@@ -128,13 +128,11 @@
   text-decoration: underline;
   cursor: pointer;
   font-style: italic;
-
 }
 
 .prose a:hover {
   color: #1d4ed8;
 }
-
 
 /* ========= scrollbar classes ====== */
 /* Track */

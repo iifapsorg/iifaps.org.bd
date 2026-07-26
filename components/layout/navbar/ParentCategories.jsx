@@ -1,6 +1,6 @@
 "use client";
 
-import { ChevronDown, ChevronRight } from "lucide-react";
+import { Bold, ChevronDown, ChevronRight, Minus, Plus } from "lucide-react";
 import ChildCategories from "./ChildCategories";
 
 export default function ParentCategories({
@@ -31,7 +31,7 @@ export default function ParentCategories({
                 py-3
                 text-left
                 transition-colors
-                hover:bg-muted
+                 hover:text-white hover:bg-gray-600 
               "
             >
               <span className="font-medium">
@@ -39,9 +39,11 @@ export default function ParentCategories({
               </span>
 
               {isOpen ? (
-                <ChevronDown size={18} />
+                // <Minus />
+                <Minus />
               ) : (
-                <ChevronRight size={18} />
+                <Plus />
+            
               )}
             </button>
 

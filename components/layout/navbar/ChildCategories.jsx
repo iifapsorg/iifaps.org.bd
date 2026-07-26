@@ -16,7 +16,7 @@ export default function ChildCategories({ children = [] }) {
         <li key={child._id.toString()}>
           <Link
             href={`/categories/${child.slug}`}
-            className="group flex items-center gap-2 px-8 py-2.5 text-sm transition-colors hover:bg-primary hover:text-primary-foreground"
+            className="group flex items-center gap-2 px-8 py-2.5 text-sm transition-colors  hover:text-white hover:bg-gray-600"
           >
             <ChevronRight
               size={14}
