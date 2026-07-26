@@ -61,7 +61,7 @@ const Button = ({
       disabled={disabled}
       className={cn(baseStyle, variants[variant], className)}
     >
-      <span className="relative z-10">{children}</span>
+      <span className="relative z-10 flex items-center gap-2">{children}</span>
     </button>
   );
 };
