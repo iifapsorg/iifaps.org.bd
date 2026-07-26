@@ -1,6 +1,6 @@
 "use client";
 
-import { Bold, ChevronDown, ChevronRight, Minus, Plus } from "lucide-react";
+import { Minus, Plus } from "lucide-react";
 import ChildCategories from "./ChildCategories";
 
 export default function ParentCategories({
