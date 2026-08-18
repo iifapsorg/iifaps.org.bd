@@ -1,6 +1,6 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import "overlayscrollbars/overlayscrollbars.css";
+// import "overlayscrollbars/overlayscrollbars.css";
 
 import { Providers } from "@/components/providers/Providers";
 import Navbar from "@/components/layout/navbar/Navbar";

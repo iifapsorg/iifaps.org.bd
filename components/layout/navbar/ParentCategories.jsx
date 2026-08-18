@@ -1,3 +1,5 @@
+//components/layout/navbar/ParentCategories.jsx
+
 "use client";
 
 import { Minus, Plus } from "lucide-react";
@@ -40,9 +42,9 @@ export default function ParentCategories({
 
               {isOpen ? (
                 // <Minus />
-                <Minus />
+                <Minus size={22}/>
               ) : (
-                <Plus />
+                <Plus size={22}/>
             
               )}
             </button>

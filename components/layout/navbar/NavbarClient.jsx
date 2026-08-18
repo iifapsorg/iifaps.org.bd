@@ -1,103 +1,152 @@
+// components/layout/NavbarClient.jsx
+
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
+import { Menu, Search, X } from "lucide-react";
 import { usePathname } from "next/navigation";
-import { Menu, X, Search } from "lucide-react";
+
+import Container from "@/components/shared/Container";
+import Text from "@/components/shared/Text";
+import ThemeToggle from "@/components/shared/ThemeToggle";
+import SearchBlog from "@/components/blog/SearchBlog";
 
 import NavbarItem from "./NavbarItem";
 import CategoryDropdown from "./CategoryDropdown";
+import { navs } from "./Navbar.config";
 
-import Container from "@/components/shared/Container";
-import { navs } from "@/components/layout/navbar/Navbar.config";
-import SearchBlog from "@/components/blog/SearchBlog";
-import ThemeToggle from "@/components/shared/ThemeToggle";
-import Image from "next/image";
 import logo from "@/public/images/IIFAPS-logo.webp";
-import Text from "@/components/shared/Text";
 
 export default function NavbarClient({ categoryTree }) {
-  const [isOpen, setIsOpen] = useState(false);
-  const [isSearchOpen, setIsSearchOpen] = useState(false);
-  const [isCategoryOpen, setIsCategoryOpen] = useState(false);
-  const [activeParent, setActiveParent] = useState(null);
-
   const pathname = usePathname();
   const menuRef = useRef(null);
 
-  // ==========================
-  // Parent Category Toggle
-  // ==========================
-  const handleParentClick = (parentId) => {
-    setActiveParent((prev) => (prev === parentId ? null : parentId));
-  };
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [isCategoryOpen, setIsCategoryOpen] = useState(false);
+  const [activeParent, setActiveParent] = useState(null);
+  const [isScrolled, setIsScrolled] = useState(false);
 
-  // ==========================
-  // Active Route Helper
-  // ==========================
-  const isActive = (path) => {
-    if (path === "/") return pathname === "/";
+  const isHome = pathname === "/";
 
-    return pathname === path || pathname.startsWith(`${path}/`);
-  };
-
-  // ==========================
-  // Close menus on route change
-  // ==========================
+  /* =========================
+     Navbar Scroll
+  ========================= */
   useEffect(() => {
-    setIsOpen(false);
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 80);
+    };
+
+    handleScroll();
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  /* =========================
+     Close All Menus
+  ========================= */
+  const closeMenus = () => {
+    setIsMenuOpen(false);
     setIsCategoryOpen(false);
     setActiveParent(null);
+  };
+
+  /* =========================
+     Route Change
+  ========================= */
+  useEffect(() => {
+    closeMenus();
   }, [pathname]);
 
-  // ==========================
-  // Close menus on outside click
-  // ==========================
+  /* =========================
+     Outside Click
+  ========================= */
   useEffect(() => {
+    if (!isMenuOpen && !isCategoryOpen) return;
+
     const handleClickOutside = (event) => {
-      if (menuRef.current && !menuRef.current.contains(event.target)) {
-        setIsOpen(false);
-        setIsCategoryOpen(false);
-        setActiveParent(null);
+      if (!menuRef.current?.contains(event.target)) {
+        closeMenus();
       }
     };
 
-    if (isOpen || isCategoryOpen) {
-      document.addEventListener("mousedown", handleClickOutside);
-    }
+    document.addEventListener("mousedown", handleClickOutside);
 
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [isOpen, isCategoryOpen]);
+  }, [isMenuOpen, isCategoryOpen]);
 
-  // ==========================
-  // Prevent body scroll
-  // ==========================
-  useEffect(() => {
-    const shouldLock = isOpen || isCategoryOpen;
+  /* =========================
+     Active Route
+  ========================= */
+  const isActive = (path) => {
+    if (path === "/") {
+      return pathname === "/";
+    }
 
-    document.body.classList.toggle("overflow-hidden", shouldLock);
+    return pathname === path || pathname.startsWith(`${path}/`);
+  };
 
-    return () => {
-      document.body.classList.remove("overflow-hidden");
-    };
-  }, [isOpen, isCategoryOpen]);
+  /* =========================
+     Menu Toggle
+  ========================= */
+  const toggleMenu = () => {
+    setIsCategoryOpen(false);
+    setActiveParent(null);
+    setIsMenuOpen((prev) => !prev);
+  };
+
+  /* =========================
+     Category Toggle
+  ========================= */
+  const toggleCategories = () => {
+    setIsMenuOpen(false);
+    setIsCategoryOpen((prev) => !prev);
+  };
+
+  /* =========================
+     Parent Category
+  ========================= */
+  const handleParentClick = (parentId) => {
+    setActiveParent((prev) => (prev === parentId ? null : parentId));
+  };
 
   return (
     <>
-      {/* ========================== */}
-      {/* Navbar */}
-      {/* ========================== */}
+      {/* =========================
+          Navbar
+      ========================= */}
       <nav
         ref={menuRef}
-        className="sticky top-0 z-50 bg-background shadow-lg"
         aria-label="Main Navigation"
+        className={`
+          z-50 w-full
+          transition-all duration-200 ease-in
+          ${
+            isHome
+              ? isScrolled
+                ? "fixed top-0 left-0 bg-background shadow-lg"
+                : isMenuOpen || isCategoryOpen
+                  ? "absolute top-0 left-0 bg-background shadow-lg"
+                  : "absolute top-0 left-0 bg-transparent"
+              : "sticky top-0 bg-background shadow-lg"
+          }
+        `}
       >
+        {/* =========================
+            Header
+        ========================= */}
         <Container>
-          <div className="flex items-center justify-between w-full py-2">
+          <div className="flex w-full items-center justify-between py-2">
             {/* Logo */}
-            <div className="flex items-center gap-2 md:gap-3 flex-1 min-w-0">
+            <div className="flex min-w-0 flex-1 items-center gap-2 md:gap-3">
               <Link href="/" className="shrink-0">
                 <Image
                   src={logo}
@@ -108,10 +157,18 @@ export default function NavbarClient({ categoryTree }) {
                 />
               </Link>
 
-              <Link href="/">
+              <Link href="/" className="min-w-0">
                 <Text
                   variant="normalText"
-                  className="md:w-70 leading-tight text-[10px] sm:text-xs md:text-sm lg:text-base text-foreground"
+                  className="
+                    leading-tight
+                    text-[10px]
+                    text-foreground
+                    sm:text-xs
+                    md:w-70
+                    md:text-sm
+                    lg:text-base
+                  "
                 >
                   INTERNATIONAL INSTITUTE FOR ADVANCED POLITICAL STUDIES
                 </Text>
@@ -119,20 +176,21 @@ export default function NavbarClient({ categoryTree }) {
             </div>
 
             {/* Actions */}
-            <div className="flex items-center gap-2 md:gap-3 ml-3 shrink-0">
-
+            <div className="ml-3 flex shrink-0 items-center gap-2 md:gap-3">
               {/* Categories */}
               <button
                 type="button"
-                onClick={() => {
-                  setIsOpen(false);
-                  setIsCategoryOpen((prev) => !prev);
-                }}
-                className="flex h-10 items-center rounded-md border px-4 transition hover:bg-gray-800 hover:text-white"
+                onClick={toggleCategories}
+                className="
+                  flex h-10 items-center rounded-md border px-4
+                  transition
+                  hover:bg-gray-800 hover:text-white
+                "
               >
                 Categories
               </button>
 
+              {/* Theme */}
               <ThemeToggle />
 
               {/* Search */}
@@ -140,7 +198,11 @@ export default function NavbarClient({ categoryTree }) {
                 type="button"
                 onClick={() => setIsSearchOpen(true)}
                 aria-label="Open Search"
-                className="flex h-10 w-10 items-center justify-center rounded-md border transition hover:bg-gray-800 hover:text-white"
+                className="
+                  flex h-10 w-10 items-center justify-center rounded-md border
+                  transition
+                  hover:bg-gray-800 hover:text-white
+                "
               >
                 <Search size={18} />
               </button>
@@ -148,53 +210,57 @@ export default function NavbarClient({ categoryTree }) {
               {/* Menu */}
               <button
                 type="button"
-                onClick={() => {
-                  setIsCategoryOpen(false);
-                  setActiveParent(null);
-                  setIsOpen((prev) => !prev);
-                }}
-                aria-expanded={isOpen}
+                onClick={toggleMenu}
+                aria-expanded={isMenuOpen}
                 aria-controls="mobile-menu"
-                aria-label={isOpen ? "Close menu" : "Open menu"}
-                className="flex h-10 w-10 items-center justify-center rounded-md border transition hover:bg-gray-800 hover:text-white"
+                aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+                className="
+                  flex h-10 w-10 items-center justify-center rounded-md border
+                  transition
+                  hover:bg-gray-800 hover:text-white
+                "
               >
-                {isOpen ? <X size={18} /> : <Menu size={18} />}
+                {isMenuOpen ? <X size={18} /> : <Menu size={18} />}
               </button>
             </div>
           </div>
         </Container>
 
-        {/* ========================== */}
-        {/* Mobile Menu */}
-        {/* ========================== */}
+        {/* =========================
+            Mobile Menu
+        ========================= */}
         <div
           id="mobile-menu"
-          className={`absolute top-full left-0 w-full
-          max-h-[calc(100vh-120px)]
-          overflow-y-auto
-          bg-background/60
-          shadow-2xl
-          transition-all duration-300 ease-in-out
-          ${
-            isOpen
-              ? "translate-y-0 opacity-100 visible"
-              : "-translate-y-2 opacity-0 invisible"
-          }`}
+          className={`
+            absolute top-full left-0 w-full
+            max-h-[calc(100vh-120px)]
+            overflow-y-auto
+            bg-background/60
+            shadow-2xl
+            transition-all duration-300 ease-in-out
+            ${
+              isMenuOpen
+                ? "visible translate-y-0 opacity-100"
+                : "invisible -translate-y-2 opacity-0"
+            }
+          `}
         >
-          <ul className="flex flex-col gap-1 border-t border-gray-800 px-4 py-4">
-            {navs.map((nav) => (
-              <NavbarItem
-                key={nav.id}
-                item={nav}
-                isActive={isActive}
-              />
-            ))}
-          </ul>
+          <Container>
+            <ul className="flex flex-col py-4">
+              {navs.map((nav) => (
+                <NavbarItem
+                  key={nav.id}
+                  item={nav}
+                  isActive={isActive}
+                />
+              ))}
+            </ul>
+          </Container>
         </div>
 
-        {/* ========================== */}
-        {/* Category Dropdown */}
-        {/* ========================== */}
+        {/* =========================
+            Category Dropdown
+        ========================= */}
         <CategoryDropdown
           isOpen={isCategoryOpen}
           categoryTree={categoryTree}
@@ -204,23 +270,19 @@ export default function NavbarClient({ categoryTree }) {
         />
       </nav>
 
-      {/* ========================== */}
-      {/* Shared Backdrop */}
-      {/* ========================== */}
-      {(isOpen || isCategoryOpen) && (
+      {/* =========================
+          Backdrop
+      ========================= */}
+      {(isMenuOpen || isCategoryOpen) && (
         <div
           className="fixed inset-0 z-40 bg-black/40 backdrop-blur-sm"
-          onClick={() => {
-            setIsOpen(false);
-            setIsCategoryOpen(false);
-            setActiveParent(null);
-          }}
+          onClick={closeMenus}
         />
       )}
 
-      {/* ========================== */}
-      {/* Search */}
-      {/* ========================== */}
+      {/* =========================
+          Search
+      ========================= */}
       <SearchBlog
         isOpen={isSearchOpen}
         onClose={() => setIsSearchOpen(false)}
