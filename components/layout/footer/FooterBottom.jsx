@@ -16,7 +16,7 @@ export default function FooterBottom() {
           <Link
             key={item.name}
             href={item.href}
-            className="hover:text-primary"
+            className="text-muted-foreground transition-[letter-spacing,color] duration-300 hover:tracking-[1px] hover:text-muted-foreground/90 capitalize"
           >
             {item.name}
           </Link>

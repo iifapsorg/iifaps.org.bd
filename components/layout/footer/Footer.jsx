@@ -5,13 +5,13 @@ import FooterContact from "./FooterContact";
 import FooterBottom from "@/components/layout/footer/FooterBottom";
 
 import {
-  quickLinks,
-  categories,
+  about,
+  our_team,
 } from "@/components/layout/footer/footer.config";
 
 export default function Footer() {
   return (
-    <footer className="relative mt-25 bg-secondary">
+    <footer className="relative bg-secondary border-t border-border">
       <Container className="py-16">
 
         <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-4">
@@ -19,14 +19,13 @@ export default function Footer() {
           <FooterBrand />
 
           <FooterLinks
-            title="Quick Links"
-            links={quickLinks}
+            title="About"
+            links={about}
           />
 
           <FooterLinks
-            title="Categories"
-            links={categories}
-            category
+            title="Our Team"
+            links={our_team}
           />
 
           <FooterContact />

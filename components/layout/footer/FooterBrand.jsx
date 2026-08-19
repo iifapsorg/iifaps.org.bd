@@ -40,7 +40,7 @@ export default function FooterBrand() {
               key={item.label}
               href={item.href}
               aria-label={item.label}
-              className="flex h-11 w-11 items-center justify-center rounded-full border border-border bg-background transition-all duration-300 hover:-translate-y-1 hover:border-primary hover:bg-primary hover:text-white"
+              className="flex h-11 w-11 items-center justify-center rounded-full  bg-background/40 hover:bg-[linear-gradient(90deg,#08203E,#557C93)] text-foreground/80 hover:text-white/80"
             >
               <Icon />
             </Link>
