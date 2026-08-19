@@ -1,11 +1,8 @@
-import React from 'react'
+import React from "react";
+import UnderConstruction from "@/components/shared/UnderConstruction";
 
 const page = () => {
-  return (
-    <div>
-      distinguished-fellows here
-    </div>
-  )
-}
+  return <UnderConstruction />;
+};
 
-export default page
+export default page;
