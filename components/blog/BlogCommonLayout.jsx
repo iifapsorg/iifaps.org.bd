@@ -1,56 +1,48 @@
 // components/blog/BlogCommonLayout
+import Link from "next/link";
 
 import BlogCard from "./BlogCard";
 import Text from "@/components/shared/Text";
 import Container from "@/components/shared/Container";
-import Button from "../shared/Button";
-import Link from "next/link";
+import Button from "@/components/shared/Button";
 
 export default function BlogCommonLayout({
   blogs = [],
   sectionHeading,
-  limit = 3,
-  total,
   isBtn = true,
   btnText = "View All Articles",
   btnVariant = "primary",
-  currentType = "latest"
-  
+  currentType = "latest",
+  cardProps = {},
 }) {
-  // Apply limit if provided
-  const displayedBlogs = limit ? blogs.slice(0, limit) : blogs;
-
-  if (!displayedBlogs.length) {
-    return (
-      <div className="text-center py-16 text-gray-400">
-        <p className="text-lg">No blogs found.</p>
-      </div>
-    );
-  }
+  if (!blogs.length) return null;
 
   return (
     <section className="my-20">
       <Container>
-        {/* ======= Section Heading ===== */}
+        {/* Section Heading */}
         <Text variant="sectionHeading" className="my-8 capitalize">
-          {sectionHeading} {total && `: ${total}`}
+          {sectionHeading}
         </Text>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-          {displayedBlogs.map((blog) => (
-            <BlogCard key={blog._id} blog={blog} />
+        {/* Blog Grid */}
+        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+          {blogs.map((blog) => (
+            <BlogCard key={blog._id} blog={blog} {...cardProps} />
           ))}
         </div>
 
-        {/* ===== see more btn ====== */}
+        {/* View All */}
         {isBtn && (
-          <Link href={`/blogs?type=${currentType}&page=${1}`} >
-            <Button variant={btnVariant} className="my-10 block mx-auto px-20">
+          <Link
+            href={`/blogs?type=${currentType}`}
+            className="mx-auto block w-fit"
+          >
+            <Button variant={btnVariant} className="my-10 px-20">
               {btnText}
             </Button>
           </Link>
         )}
-
       </Container>
     </section>
   );

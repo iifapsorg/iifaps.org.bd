@@ -3,54 +3,59 @@ import Subscribe from "@/components/home/Subscribe";
 import BlogCommonLayout from "@/components/blog/BlogCommonLayout";
 import { getBlogs } from "@/services/blog.service";
 
-
 const Home = async () => {
-  const ARTICLE_LIMIT = 3;
-  const { blogs: latestArticles, total: latestTotal } = await getBlogs({
-    limit: ARTICLE_LIMIT,
-  });
-  const { blogs: mostReadArticles, total: mostReadTotal } = await getBlogs({
-    limit: ARTICLE_LIMIT,
-    sortBy: "views",
-  });
-  const { blogs: featuredArticles, total: featuredTotal } = await getBlogs({
-    featured: true,
-    limit: ARTICLE_LIMIT,
-  });
+  const [
+    { blogs: latestArticles },
+    { blogs: mostReadArticles },
+    { blogs: featuredArticles },
+  ] = await Promise.all([
+    getBlogs({ limit: 3 }),
+    getBlogs({
+      limit: 6,
+      sortBy: "views",
+    }),
+    getBlogs({
+      limit: 3,
+      featured: true,
+    }),
+  ]);
 
   return (
     <>
-         <HeroSection latestArticles={latestArticles} />
+      {/* === hero section === */}
+      <HeroSection latestArticles={latestArticles} />
 
-      {/* ======= latest articles ===== */}
+      {/* Latest Articles */}
       <BlogCommonLayout
         blogs={latestArticles}
         sectionHeading="Latest Articles"
-        limit={ARTICLE_LIMIT}
-        total={latestTotal}
         currentType="latest"
-      ></BlogCommonLayout>
+        cardProps={{
+          showExcerpt: false,
+          showReadMore: true,
+        }}
+      />
 
-      {/* ======= most read articles ===== */}
+      {/* Most Read Articles */}
       <BlogCommonLayout
         blogs={mostReadArticles}
         sectionHeading="Most Read Articles"
-        limit={ARTICLE_LIMIT}
-        total={mostReadTotal}
         currentType="most-read"
-      ></BlogCommonLayout>
+      />
 
-      {/* ======= featured articles ===== */}
+      {/* Featured Articles */}
       <BlogCommonLayout
         blogs={featuredArticles}
         sectionHeading="Featured Articles"
-        limit={ARTICLE_LIMIT}
-        total={featuredTotal}
         currentType="featured"
-      ></BlogCommonLayout>
+        cardProps={{
+          showExcerpt: true,
+          showReadMore: true,
+        }}
+      />
 
-      {/* ======= subscribe section ===== */}
-      <Subscribe></Subscribe>
+      {/*  === subscribe === */}
+      <Subscribe />
     </>
   );
 };

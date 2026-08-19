@@ -51,7 +51,10 @@ export default async function BlogPage({ searchParams }) {
           blogs={allArticles}
           sectionHeading={`${currentType.replace(/-/g, " ")} articles : ${total}`}
           limit={ARTICLE_LIMIT}
-          isBtn={false}
+          cardProps={{
+            showExcerpt: false,
+            showReadMore: true,
+          }}
         />
 
         {/* Pagination */}
