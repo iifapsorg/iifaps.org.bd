@@ -20,7 +20,7 @@ const Home = async () => {
 
   return (
     <>
-      <HeroSection></HeroSection>
+         <HeroSection latestArticles={latestArticles} />
 
       {/* ======= latest articles ===== */}
       <BlogCommonLayout

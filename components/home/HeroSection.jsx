@@ -1,39 +1,218 @@
+// components/home/HeroSection.jsx
 "use client";
 
-import Button from "@/components/shared/Button";
-import Text from "@/components/shared/Text";
+import Image from "next/image";
 import Link from "next/link";
+import Slider from "react-slick";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
-const HeroSection = () => {
+import Container from "@/components/shared/Container";
+import "@/styles/home/hero-slider.css";
+import Text from "../shared/Text";
+
+function PrevArrow({ onClick }) {
   return (
-    <section className="relative overflow-hidden bg-background">
-      {/* Background Blur */}
-      <div className="absolute -top-32 -left-24 h-72 w-72 rounded-full bg-sky-400/20 blur-3xl dark:bg-sky-500/10" />
-      <div className="absolute -bottom-32 -right-24 h-80 w-80 rounded-full bg-indigo-400/20 blur-3xl dark:bg-indigo-500/10" />
+    <button
+      type="button"
+      aria-label="Previous article"
+      onClick={onClick}
+      className="
+        absolute left-2 top-1/2 z-20
+        flex h-10 w-10 -translate-y-1/2 items-center justify-center
+        rounded-full border border-white/20
+        bg-black/30 text-white
+        backdrop-blur-md
+        transition-all duration-300
+        hover:scale-105 hover:bg-black/50
+        sm:left-4 sm:h-11 sm:w-11
+        lg:left-10
+      "
+    >
+      <ChevronLeft size={22} strokeWidth={1.8} />
+    </button>
+  );
+}
 
-      <div className="container relative mx-auto px-4 py-20 md:py-28">
-        <div className="mx-auto max-w-4xl text-center">
-          <Text variant="heroHeading">
-            Explore Our{" "}
-            <span className="bg-linear-to-r from-sky-500 via-indigo-500 to-purple-500 bg-clip-text text-transparent">
-              Categories
-            </span>
-          </Text>
+function NextArrow({ onClick }) {
+  return (
+    <button
+      type="button"
+      aria-label="Next article"
+      onClick={onClick}
+      className="
+        absolute right-2 top-1/2 z-20
+        flex h-10 w-10 -translate-y-1/2 items-center justify-center
+        rounded-full border border-white/20
+        bg-black/30 text-white
+        backdrop-blur-md
+        transition-all duration-300
+        hover:scale-105 hover:bg-black/50
+        sm:right-4 sm:h-11 sm:w-11
+        lg:right-10
+      "
+    >
+      <ChevronRight size={22} strokeWidth={1.8} />
+    </button>
+  );
+}
 
-          <Text variant="title" className="mx-auto">
-            Discover a wide range of thoughtfully organized categories to help
-            you find exactly what you need—quickly, easily, and beautifully.
-          </Text>
+const HeroSection = ({ latestArticles = [] }) => {
+  const articles = latestArticles.slice(0, 5);
 
-          <div className="mt-10">
-            <Link href="/categories">
-              <Button variant="primary" className="inline-flex">
-                Browse Categories
-              </Button>
-            </Link>
-          </div>
-        </div>
+  if (!articles.length) {
+    return null;
+  }
+
+  const settings = {
+    dots: true,
+    arrows: true,
+    infinite: articles.length > 1,
+    speed: 600,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeed: 5000,
+    pauseOnHover: true,
+    pauseOnFocus: true,
+    swipe: true,
+    adaptiveHeight: false,
+
+    prevArrow: <PrevArrow />,
+    nextArrow: <NextArrow />,
+
+    appendDots: (dots) => (
+      <div className="hero-slider-dots">
+        <ul className="">{dots}</ul>
+        <p className="blackColor">hello</p>
       </div>
+    ),
+
+    customPaging: () => (
+      <button
+        type="button"
+        aria-label="Go to slide"
+        className="
+          h-2 w-2 rounded-full
+          bg-white/50
+          transition-all duration-300
+        "
+      />
+    ),
+
+    responsive: [
+      {
+        breakpoint: 768,
+        settings: {
+          arrows: true,
+          autoplaySpeed: 4500,
+        },
+      },
+      {
+        breakpoint: 640,
+        settings: {
+          arrows: true,
+          autoplaySpeed: 4000,
+        },
+      },
+    ],
+  };
+
+  return (
+    <section className="hero-slider relative w-full overflow-hidden bg-black">
+      <Slider {...settings}>
+        {articles.map((article) => {
+          const category =
+            typeof article.category === "string"
+              ? article.category
+              : article.category?.name || "Uncategorized";
+
+          const author =
+            typeof article.author === "string"
+              ? article.author
+              : article.author?.name || "Unknown Author";
+
+          const image =
+            article.thumbnail ||
+            article.image ||
+            article.coverImage ||
+            "/images/placeholder.webp";
+
+          return (
+            <article
+              key={article._id?.toString() || article.slug}
+              className="relative h-screen outline-none"
+            >
+              {/* ================= IMAGE ================= */}
+              <div className="absolute inset-0">
+                <Image
+                  src={image}
+                  alt={article.title || "Article image"}
+                  fill
+                  priority
+                  sizes="100vw"
+                  className="object-cover"
+                />
+              </div>
+
+              {/* ================= OVERLAY ================= */}
+              <div
+                className="
+                  absolute inset-0
+                  bg-linear-to-t
+                  from-black/90
+                  via-black/35
+                  to-black/10
+                "
+              />
+
+              {/* ================= ARTICLE INFO ================= */}
+              <Container className="relative z-10 flex h-full items-end">
+                <div
+                  className="
+                    w-full
+                    pb-15
+                    pt-24
+                    text-white
+                  "
+                >
+                  <div className="max-w-4xl">
+                    {/* Category */}
+                    <Link
+                      href={`/categories/${article.category?.slug || ""}`}
+                      className="
+                        bg-black/60 p-2 rounded-md
+                        text-xs font-semibold uppercase tracking-[0.18em]
+                        text-white/80
+                        transition-colors duration-200
+                        hover:text-white
+                        sm:text-sm
+                      "
+                    >
+                      {category}
+                    </Link>
+
+                    {/* Title */}
+                    <Link href={`/blogs/${article.slug}`} className="block">
+                      <Text
+                        variant="sectionHeading"
+                        className="mt-5 ml-0 line-clamp-2 text-white"
+                      >
+                        {article.title}
+                      </Text>
+                    </Link>
+
+                    {/* Author */}
+                    <Text className="mt-5 text-white flex items-center gap-2 ">
+                      <span className="h-px w-7 bg-white/50" />
+                      <span>By {author}</span>
+                    </Text>
+                  </div>
+                </div>
+              </Container>
+            </article>
+          );
+        })}
+      </Slider>
     </section>
   );
 };
