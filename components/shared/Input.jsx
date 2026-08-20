@@ -35,9 +35,9 @@ const Input = ({
         onChange={onChange}
         required={required}
         className={cn(
-          "w-full px-4 py-2 border border-gray-300 rounded-md",
+          "w-full px-4 py-2 border border-gray-300 rounded-sm",
           "focus:outline-none focus:ring focus:ring-indigo-100",
-          "bg-white text-gray-900 placeholder-gray-400",
+          "bg-transparent text-foreground/70 placeholder-gray-400",
           "transition",
           "disabled:bg-gray-100 disabled:cursor-not-allowed"
         )}

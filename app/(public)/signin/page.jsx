@@ -6,21 +6,10 @@ import { useState } from "react";
 import { signIn } from "next-auth/react";
 import { FiEye, FiEyeOff } from "react-icons/fi";
 import { useRouter } from "next/navigation";
-
-const inputFields = [
-  {
-    label: "Email",
-    name: "email",
-    type: "email",
-    placeholder: "Enter your email",
-  },
-  {
-    label: "Password",
-    name: "password",
-    type: "password",
-    placeholder: "Enter your password",
-  },
-];
+import { inputFields } from "@/config/signin/signin.config";
+import Text from "@/components/shared/Text";
+import Button from "@/components/shared/Button";
+import Input from "@/components/shared/Input";
 
 export default function SigninPage() {
   const [formData, setFormData] = useState({
@@ -69,19 +58,22 @@ export default function SigninPage() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-100 p-4">
-      <div className="w-full max-w-md rounded-lg bg-white p-6 shadow-lg">
-        <h1 className="mb-6 text-center text-3xl font-bold">Sign In</h1>
+    <div className="flex min-h-screen items-center justify-center bg-background p-4">
+      <div className="w-full max-w-md rounded-lg bg-background border-2 border-border p-6 shadow-lg">
+        <Text variant="sectionHeading" className="text-center my-5">
+          Admin Sign In
+        </Text>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           {inputFields.map((field) => (
             <div key={field.name}>
-              <label className="mb-1 block text-sm font-medium">
+              <label className="mb-2 block text-lg  font-medium">
                 {field.label}
               </label>
 
               <div className="relative">
-                <input
+                <Input
+                  placeholder={field.placeholder}
                   type={
                     field.name === "password"
                       ? showPassword
@@ -92,8 +84,6 @@ export default function SigninPage() {
                   name={field.name}
                   value={formData[field.name]}
                   onChange={handleChange}
-                  placeholder={field.placeholder}
-                  className="w-full rounded border p-3 pr-12 outline-none focus:ring"
                 />
 
                 {field.name === "password" && (
@@ -115,13 +105,13 @@ export default function SigninPage() {
 
           {error && <p className="text-sm text-red-500">{error}</p>}
 
-          <button
+          <Button
             type="submit"
             disabled={loading}
-            className="w-full rounded bg-black py-3 text-white transition hover:bg-gray-800 disabled:opacity-50"
+            className="w-[80%] flex mt-10 mb-5 mx-auto disabled:cursor-not-allowed"
           >
             {loading ? "Signing in..." : "Sign In"}
-          </button>
+          </Button>
         </form>
       </div>
     </div>
