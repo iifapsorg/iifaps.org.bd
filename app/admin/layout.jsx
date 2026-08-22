@@ -9,7 +9,7 @@ export const metadata = { title: "Admin Panel" };
 
 export default async function AdminLayout({ children }) {
   const session = await getServerSession(authOptions);
-  if (!session) redirect("/admin?error=unauthorized");
+  if (!session) redirect("/signin");
 
   return (
     <div className="flex min-h-screen bg-gray-50">
