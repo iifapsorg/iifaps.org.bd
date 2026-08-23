@@ -5,7 +5,7 @@ import { Construction } from "lucide-react";
 
 const page = () => {
   return (
-    <div className="flex min-h-[70vh] items-center justify-center px-4">
+    <div className="lg:h-full flex items-center justify-center px-4">
       <div className="w-full max-w-lg rounded-2xl border border-gray-200 p-10 text-center shadow-sm transition-shadow duration-300 hover:shadow-md dark:border-gray-800 bg-background">
         <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl border border-gray-200 bg-gray-50 shadow-sm dark:border-gray-800 dark:bg-gray-900">
           <Construction className="h-8 w-8 text-gray-500 dark:text-gray-400" />
