@@ -3,7 +3,7 @@
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag, updateTag } from "next/cache";
 
 import {
   getAllCategories,
@@ -53,6 +53,10 @@ export async function POST(request) {
     }
 
     const category = await createCategory(parsed.data, session.user);
+    // Invalidate category cache
+    revalidateTag("categories", "max");
+
+    // Revalidate admin category page
     revalidatePath("/admin/categories");
 
     return NextResponse.json({ category }, { status: 201 });

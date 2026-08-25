@@ -3,7 +3,8 @@
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
+import mongoose from "mongoose";
 
 import {
   getCategoryById,
@@ -17,20 +18,37 @@ import { categorySchemaZ } from "@/validations/category.validation";
    GET SINGLE
 ----------------------------*/
 export async function GET(req, { params }) {
-  const { id } = await params;
   try {
+    const { id } = await params;
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return NextResponse.json(
+        { error: "Invalid category ID" },
+        { status: 400 }
+      );
+    }
+
     const category = await getCategoryById(id);
 
     if (!category) {
       return NextResponse.json(
         { error: "Category not found" },
-        { status: 404 },
+        { status: 404 }
       );
     }
 
-    return NextResponse.json({ category });
+    return NextResponse.json({
+      category,
+    });
   } catch (error) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    console.error("GET_CATEGORY_ERROR:", error);
+
+    return NextResponse.json(
+      {
+        error: "Failed to fetch category",
+      },
+      { status: 500 }
+    );
   }
 }
 
@@ -38,49 +56,151 @@ export async function GET(req, { params }) {
    UPDATE
 ----------------------------*/
 export async function PUT(req, { params }) {
-  const { id } = await params;
   try {
+    const { id } = await params;
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return NextResponse.json(
+        { error: "Invalid category ID" },
+        { status: 400 }
+      );
+    }
+
     const session = await getServerSession(authOptions);
 
-    // if (!session || session.user.role !== "admin") {
-    //   return NextResponse.json({ error: "Forbidden" }, { status: 403 });
-    // }
+    if (!session || session.user.role !== "super_admin") {
+      return NextResponse.json(
+        { error: "Forbidden" },
+        { status: 403 }
+      );
+    }
 
     const body = await req.json();
 
     const parsed = categorySchemaZ.safeParse(body);
+
     if (!parsed.success) {
-      return NextResponse.json({ error: parsed.error.errors }, { status: 400 });
+      return NextResponse.json(
+        {
+          error: parsed.error.flatten(),
+        },
+        { status: 400 }
+      );
     }
 
-    const category = await updateCategory(id, parsed.data, session.user);
+    const category = await updateCategory(
+      id,
+      parsed.data,
+      session.user
+    );
+
+    if (!category) {
+      return NextResponse.json(
+        {
+          error: "Category not found",
+        },
+        { status: 404 }
+      );
+    }
+
+    // Invalidate category cache
+    revalidateTag("categories", "max");
+
+    // Revalidate categories page
     revalidatePath("/admin/categories");
 
-    return NextResponse.json({ category });
+    return NextResponse.json({
+      success: true,
+      message: "Category updated successfully",
+      category,
+    });
   } catch (error) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    console.error("UPDATE_CATEGORY_ERROR:", error);
+
+    return NextResponse.json(
+      {
+        error:
+          error instanceof Error
+            ? error.message
+            : "Failed to update category",
+      },
+      { status: 500 }
+    );
   }
 }
 
 /* ---------------------------
-   DELETE (SOFT)
+   DELETE - SOFT
 ----------------------------*/
 export async function DELETE(req, { params }) {
-  const { id } = await params;
   try {
+    const { id } = await params;
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return NextResponse.json(
+        {
+          error: "Invalid category ID",
+        },
+        { status: 400 }
+      );
+    }
+
     const session = await getServerSession(authOptions);
 
-    // if (!session || session.user.role !== "admin") {
-    //   return NextResponse.json({ error: "Forbidden" }, { status: 403 });
-    // }
+    if (!session || session.user.role !== "super_admin") {
+      return NextResponse.json(
+        {
+          error: "Forbidden",
+        },
+        { status: 403 }
+      );
+    }
 
-    await deleteCategory(id, session.user);
+    const deletedCategory = await deleteCategory(
+      id,
+      session.user
+    );
+
+    if (!deletedCategory) {
+      return NextResponse.json(
+        {
+          error:
+            "Category not found or already deleted",
+        },
+        { status: 404 }
+      );
+    }
+
+    /*
+     * IMPORTANT
+     *
+     * getCategoryTree() uses unstable_cache
+     * with the "categories" tag.
+     *
+     * Therefore invalidate the tag after mutation.
+     */
+    revalidateTag("categories", "max");
+
+    /*
+     * Revalidate the admin categories page.
+     */
     revalidatePath("/admin/categories");
 
     return NextResponse.json({
+      success: true,
       message: "Category deleted successfully",
     });
   } catch (error) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    console.error("DELETE_CATEGORY_ERROR:", error);
+
+    return NextResponse.json(
+      {
+        error:
+          error instanceof Error
+            ? error.message
+            : "Failed to delete category",
+      },
+      { status: 500 }
+    );
   }
 }

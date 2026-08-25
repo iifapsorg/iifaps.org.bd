@@ -17,7 +17,11 @@ async function detectCycle(parentId, childId) {
     if (current._id.toString() === childId?.toString()) {
       return true;
     }
-    if (!current.parent) break;
+
+    if (!current.parent) {
+      break;
+    }
+
     current = await Category.findById(current.parent);
   }
 
@@ -39,9 +43,9 @@ export async function getAllCategories() {
 }
 
 /* ---------------------------
-   TREE OF CATEGORY
+   CATEGORY TREE - DB
 ----------------------------*/
-const getCategoryTreeFromDB = async () => {
+async function getCategoryTreeFromDB() {
   await connectDB();
 
   return Category.aggregate([
@@ -52,6 +56,7 @@ const getCategoryTreeFromDB = async () => {
         parent: null,
       },
     },
+
     {
       $graphLookup: {
         from: "categories",
@@ -59,12 +64,14 @@ const getCategoryTreeFromDB = async () => {
         connectFromField: "_id",
         connectToField: "parent",
         as: "children",
+
         restrictSearchWithMatch: {
           isActive: true,
           isDeleted: false,
         },
       },
     },
+
     {
       $set: {
         children: {
@@ -77,21 +84,25 @@ const getCategoryTreeFromDB = async () => {
         },
       },
     },
+
     {
       $sort: {
         name: 1,
       },
     },
   ]);
-};
+}
 
+/* ---------------------------
+   CATEGORY TREE - CACHE
+----------------------------*/
 export const getCategoryTree = unstable_cache(
   getCategoryTreeFromDB,
   ["category-tree"],
   {
-    revalidate: 3600, // 1 Hour
+    revalidate: 3600,
     tags: ["categories"],
-  }
+  },
 );
 
 /* ---------------------------
@@ -99,7 +110,12 @@ export const getCategoryTree = unstable_cache(
 ----------------------------*/
 export async function getCategoryBySlug(slug) {
   await connectDB();
-  return Category.findOne({ slug, isActive: true }).lean();
+
+  return Category.findOne({
+    slug,
+    isActive: true,
+    isDeleted: false,
+  }).lean();
 }
 
 /* ---------------------------
@@ -121,7 +137,10 @@ export async function createCategory(data, user) {
   await connectDB();
 
   const baseSlug = slugify(data.name);
-  const exists = await Category.findOne({ slug: baseSlug });
+
+  const exists = await Category.findOne({
+    slug: baseSlug,
+  });
 
   const slug = exists ? uniqueSlug(data.name) : baseSlug;
 
@@ -138,17 +157,19 @@ export async function createCategory(data, user) {
 export async function updateCategory(id, data, user) {
   await connectDB();
 
-  // cycle protection
+  // Cycle protection
   if (data.parent) {
     const hasCycle = await detectCycle(data.parent, id);
+
     if (hasCycle) {
       throw new Error("Circular category reference detected");
     }
   }
 
-  // slug update
+  // Slug update
   if (data.name) {
     const baseSlug = slugify(data.name);
+
     const exists = await Category.findOne({
       slug: baseSlug,
       _id: { $ne: id },
@@ -157,27 +178,48 @@ export async function updateCategory(id, data, user) {
     data.slug = exists ? uniqueSlug(data.name) : baseSlug;
   }
 
-  return Category.findByIdAndUpdate(
-    id,
+  return Category.findOneAndUpdate(
     {
-      ...data,
-      updatedBy: user?.id,
+      _id: id,
+      isDeleted: false,
     },
-    { new: true, runValidators: true }
+    {
+      $set: {
+        ...data,
+        updatedBy: user?.id,
+        updatedAt: new Date(),
+      },
+    },
+    {
+      new: true,
+      runValidators: true,
+    },
   );
 }
 
 /* ---------------------------
-   DELETE CATEGORY (SOFT)
+   DELETE CATEGORY - SOFT
 ----------------------------*/
 export async function deleteCategory(id, user) {
   await connectDB();
 
-  return Category.findByIdAndUpdate(id, {
-    isDeleted: true,
-    isActive: false,
-    updatedBy: user?.id,
-  });
+  return Category.findOneAndUpdate(
+    {
+      _id: id,
+      isDeleted: false,
+    },
+    {
+      $set: {
+        isDeleted: true,
+        isActive: false,
+        updatedBy: user?.id,
+        updatedAt: new Date(),
+      },
+    },
+    {
+      new: true,
+    },
+  );
 }
 
 /* ---------------------------
@@ -190,6 +232,7 @@ export async function getSubcategories(parentId) {
     parent: parentId,
     isActive: true,
     isDeleted: false,
-  }).lean();
+  })
+    .sort({ name: 1 })
+    .lean();
 }
-
