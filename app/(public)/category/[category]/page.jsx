@@ -3,8 +3,8 @@
 import { notFound } from "next/navigation";
 import { getCategoryBySlug, getSubcategories } from "@/services/category.service";
 import { getBlogs } from "@/services/blog.service";
-import BlogList from "@/components/blog/BlogCommonLayout";
-import SubCategoryMenu from "@/components/category/SubCategoryMenu";
+import BlogList from "@/components/public/blog/BlogCommonLayout";
+import SubCategoryMenu from "@/components/public/category/SubCategoryMenu";
 import Container from "@/components/shared/Container";
 import SectionTitle from "@/components/shared/SectionTitle";
 import { generateMetaData } from "@/utils/generateMetaData";

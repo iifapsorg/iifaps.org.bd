@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { bottomLinks } from "@/components/layout/footer/footer.config";
+import { bottomLinks } from "@/components/public/layout/footer/footer.config";
 
 export default function FooterBottom() {
   return (

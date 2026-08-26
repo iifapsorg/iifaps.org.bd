@@ -1,7 +1,7 @@
 // components/layout/Navbar.jsx
 
 import { getCategoryTree } from "@/services/category.service";
-import NavbarClient from "@/components/layout/navbar/NavbarClient";
+import NavbarClient from "@/components/public/layout/navbar/NavbarClient";
 
 export default async function Navbar() {
   const categoryTree = await getCategoryTree();

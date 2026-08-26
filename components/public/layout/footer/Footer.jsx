@@ -2,12 +2,12 @@ import Container from "@/components/shared/Container";
 import FooterBrand from "./FooterBrand";
 import FooterLinks from "./FooterLinks";
 import FooterContact from "./FooterContact";
-import FooterBottom from "@/components/layout/footer/FooterBottom";
+import FooterBottom from "@/components/public/layout/footer/FooterBottom";
 
 import {
   about,
   our_team,
-} from "@/components/layout/footer/footer.config";
+} from "@/components/public/layout/footer/footer.config";
 
 export default function Footer() {
   return (

@@ -2,8 +2,8 @@
 
 import { notFound } from "next/navigation";
 import { getBlogBySlug, getRelatedBlogs } from "@/services/blog.service";
-import BlogDetails from "@/components/blog/BlogDetails";
-import RelatedBlogs from "@/components/blog/RelatedBlogs";
+import BlogDetails from "@/components/public/blog/BlogDetails";
+import RelatedBlogs from "@/components/public/blog/RelatedBlogs";
 import Container from "@/components/shared/Container";
 import { generateBlogMetaData } from "@/utils/generateMetaData";
 

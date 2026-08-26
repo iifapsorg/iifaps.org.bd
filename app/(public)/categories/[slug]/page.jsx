@@ -1,6 +1,6 @@
 import { getBlogs } from "@/services/blog.service";
 import Container from "@/components/shared/Container";
-import BlogCard from "@/components/blog/BlogCard";
+import BlogCard from "@/components/public/blog/BlogCard";
 import BlogNotFound from "@/components/not-found/BlogNotFound"
 
 

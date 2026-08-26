@@ -1,10 +1,10 @@
 // /blog/page
 
 import { getBlogs } from "@/services/blog.service";
-import BlogCommonLayout from "@/components/blog/BlogCommonLayout";
+import BlogCommonLayout from "@/components/public/blog/BlogCommonLayout";
 import Container from "@/components/shared/Container";
 import { generateMetaData } from "@/utils/generateMetaData";
-import Pagination from "@/components/blog/Pagination";
+import Pagination from "@/components/public/blog/Pagination";
 
 export const metadata = generateMetaData({
   title: "Blog",

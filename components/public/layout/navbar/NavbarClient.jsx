@@ -11,7 +11,7 @@ import { usePathname } from "next/navigation";
 import Container from "@/components/shared/Container";
 import Text from "@/components/shared/Text";
 import ThemeToggle from "@/components/shared/ThemeToggle";
-import SearchBlog from "@/components/blog/SearchBlog";
+import SearchBlog from "@/components/public/blog/SearchBlog";
 
 import NavbarItem from "./NavbarItem";
 import CategoryDropdown from "./CategoryDropdown";

@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 import logo from "@/public/images/IIFAPS-logo.webp";
-import { footerBrand, socialLinks } from "@/components/layout/footer/footer.config";
+import { footerBrand, socialLinks } from "@/components/public/layout/footer/footer.config";
 
 export default function FooterBrand() {
   return (

@@ -2,7 +2,7 @@
 
 import { notFound } from "next/navigation";
 import { getBlogById } from "@/services/blog.service";
-import BlogForm from "@/components/admin/BlogForm";
+import BlogForm from "@/components/admin/blogs/BlogForm";
 
 export const metadata = { title: "Edit Blog | Admin" };
 

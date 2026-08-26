@@ -1,10 +1,11 @@
 "use client";
 
-import { Plus, FolderTree, Pencil, FolderOpen } from "lucide-react";
+import { FolderTree, Pencil, FolderOpen } from "lucide-react";
 import React, { useState } from "react";
-import Text from "../shared/Text";
+import Text from "../../shared/Text";
 import Link from "next/link";
-import DeleteCategoryButton from "./categories/DeleteCategoryButton";
+import DeleteCategoryButton from "./DeleteCategoryButton";
+import EmptyCategory from "./EmptyCategory";
 
 const AdminCategoryItem = ({ categories = [] }) => {
   const [selectedCategory, setSelectedCategory] = useState(
@@ -42,9 +43,7 @@ const AdminCategoryItem = ({ categories = [] }) => {
                       border-b border-border last:border-b-0
                       transition-all duration-200
                       ${
-                        isSelected
-                          ? "bg-gray-600 text-white"
-                          : "hover:bg-muted"
+                        isSelected ? "bg-gray-600 text-white" : "hover:bg-muted"
                       }
                     `}
                   >
@@ -52,9 +51,7 @@ const AdminCategoryItem = ({ categories = [] }) => {
                     <div className="flex items-center gap-3 min-w-0">
                       <FolderTree
                         className={`h-4 w-4 shrink-0 ${
-                          isSelected
-                            ? "text-white"
-                            : "text-muted-foreground"
+                          isSelected ? "text-white" : "text-muted-foreground"
                         }`}
                       />
 
@@ -158,33 +155,13 @@ const AdminCategoryItem = ({ categories = [] }) => {
                     </div>
                   ) : (
                     /* ================= NO CHILDREN ================= */
-                    <div className="flex min-h-52.5 flex-col items-center justify-center px-6 py-10 text-center">
-                      <div className="flex h-12 w-12 items-center justify-center rounded-xl border border-border bg-muted shadow-sm">
-                        <FolderOpen className="h-5 w-5 text-foreground/40" />
-                      </div>
-
-                      <Text variant="title" className="mt-4 text-base">
-                        No sub-categories
-                      </Text>
-
-                      <Text
-                        variant="mediumText"
-                        className="mt-1 max-w-sm text-sm"
-                      >
-                        <span className="capitalize">
-                          {selectedCategory.name}
-                        </span>
-                        {`doesn't have any sub-categories yet.`}
-                      </Text>
-
-                      <Link
-                        href={`/admin/categories/create?parent=${selectedCategory._id}`}
-                        className="mt-5 inline-flex items-center gap-2 rounded-md bg-foreground px-4 py-2 text-sm font-medium text-background transition-opacity hover:opacity-90"
-                      >
-                        <Plus className="h-4 w-4" />
-                        Add Sub-category
-                      </Link>
-                    </div>
+                    <EmptyCategory
+                      type="sub-category"
+                      title="No sub-categories"
+                      text=" doesn't have any sub-categories yet."
+                      btnText="Add Sub-category"
+                      selectedCategory={selectedCategory}
+                    />
                   )}
                 </>
               ) : (
@@ -206,30 +183,7 @@ const AdminCategoryItem = ({ categories = [] }) => {
         </div>
       ) : (
         /* ================= EMPTY CATEGORIES ================= */
-        <div className="flex flex-col items-center justify-center px-6 py-16 text-center">
-          <div className="flex h-14 w-14 items-center justify-center rounded-xl border border-border bg-muted shadow-sm">
-            <FolderTree className="h-6 w-6 text-foreground/40" />
-          </div>
-
-          <Text variant="title" className="mt-5 text-lg">
-            No categories yet
-          </Text>
-
-          <Text
-            variant="mediumText"
-            className="mx-auto mt-2 max-w-sm text-center"
-          >
-            Create your first category to start organizing your blog content.
-          </Text>
-
-          <Link
-            href="/admin/categories/create"
-            className="mt-6 inline-flex items-center gap-2 rounded-md bg-foreground px-4 py-2.5 text-sm font-medium text-background transition-opacity hover:opacity-90"
-          >
-            <Plus className="h-4 w-4" />
-            Create your first category
-          </Link>
-        </div>
+        <EmptyCategory></EmptyCategory>
       )}
     </div>
   );

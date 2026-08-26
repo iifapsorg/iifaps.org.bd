@@ -1,6 +1,6 @@
-import HeroSection from "@/components/home/HeroSection";
-import Subscribe from "@/components/home/Subscribe";
-import BlogCommonLayout from "@/components/blog/BlogCommonLayout";
+import HeroSection from "@/components/public/home/HeroSection";
+import Subscribe from "@/components/public/home/Subscribe";
+import BlogCommonLayout from "@/components/public/blog/BlogCommonLayout";
 import { getBlogs } from "@/services/blog.service";
 
 const Home = async () => {

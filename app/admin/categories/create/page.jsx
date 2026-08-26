@@ -1,13 +1,16 @@
 // /admin/categories/create/page
 
-import CategoryForm from "@/components/admin/CategoryForm";
+import CategoryForm from "@/components/admin/categories/CategoryForm";
+import Text from "@/components/shared/Text";
 
 export const metadata = { title: "Create Category | Admin" };
 
 export default function CreateCategoryPage() {
   return (
     <div>
-      <h1 className="text-2xl font-bold text-gray-900 mb-6">Create New Category</h1>
+      <Text variant="sectionHeading" className="mb-5 text-2xl md:text-3xl capitalize">
+        Add categories
+      </Text>
       <CategoryForm />
     </div>
   );

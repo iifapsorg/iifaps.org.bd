@@ -3,8 +3,8 @@ import "./globals.css";
 // import "overlayscrollbars/overlayscrollbars.css";
 
 import { Providers } from "@/components/providers/Providers";
-import Navbar from "@/components/layout/navbar/Navbar";
-import Footer from "@/components/layout/footer/Footer";
+import Navbar from "@/components/public/layout/navbar/Navbar";
+import Footer from "@/components/public/layout/footer/Footer";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",

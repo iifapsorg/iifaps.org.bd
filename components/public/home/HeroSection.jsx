@@ -7,7 +7,7 @@ import Slider from "react-slick";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 import Container from "@/components/shared/Container";
-import Text from "../shared/Text";
+import Text from "../../shared/Text";
 
 function PrevArrow({ onClick }) {
   return (

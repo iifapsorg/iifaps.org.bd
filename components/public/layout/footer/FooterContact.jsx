@@ -1,4 +1,4 @@
-import { contactInfo } from "@/components/layout/footer/footer.config";
+import { contactInfo } from "@/components/public/layout/footer/footer.config";
 
 export default function FooterContact() {
   return (

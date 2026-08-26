@@ -4,7 +4,7 @@ import { FolderTree } from "lucide-react";
 import { getCategoryTree } from "@/services/category.service";
 import Text from "@/components/shared/Text";
 import Button from "@/components/shared/Button";
-import AdminCategoryItem from "@/components/admin/AdminCategoryItem";
+import AdminCategoryItem from "@/components/admin/categories/AdminCategoryItem";
 
 export const dynamic = "force-dynamic";
 
