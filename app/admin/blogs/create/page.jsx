@@ -1,6 +1,7 @@
 // /admin/blogs/create/page
 
-import BlogForm from "@/components/admin/blogs/BlogForm";
+import BlogForm from "@/components/admin/blogs/blog-form/BlogForm";
+// import BlogForm from "@/components/admin/blogs/BlogForm";
 
 export const metadata = { title: "Create Blog | Admin" };
 

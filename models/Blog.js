@@ -38,9 +38,11 @@ const blogSchema = new mongoose.Schema(
     },
 
     author: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
+      // type: mongoose.Schema.Types.ObjectId,
+      // ref: "User",
+      type: String,
       required: true,
+      trim: true,
     },
 
     category: {
@@ -78,7 +80,7 @@ const blogSchema = new mongoose.Schema(
   },
   {
     timestamps: true,
-  }
+  },
 );
 
 // Indexes

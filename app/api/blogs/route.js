@@ -67,7 +67,7 @@ export async function POST(request) {
 
     const blog = await createBlog({
       ...parsed.data,
-      author: session.user.id,
+      // author: session.user.id,
     });
 
     // Admin pages
