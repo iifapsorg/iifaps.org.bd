@@ -52,7 +52,7 @@ export default async function BlogPage({ searchParams }) {
           sectionHeading={`${currentType.replace(/-/g, " ")} articles : ${total}`}
           limit={ARTICLE_LIMIT}
           cardProps={{
-            showExcerpt: false,
+            showsummary: false,
             showReadMore: true,
           }}
         />

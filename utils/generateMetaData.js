@@ -50,7 +50,7 @@ export function generateMetaData({
 export function generateBlogMetaData(blog) {
   return generateMetaData({
     title: blog.metaTitle || blog.title,
-    description: blog.metaDescription || blog.excerpt,
+    description: blog.metaDescription || blog.summary,
     image: blog.thumbnail,
     type: "article",
   });

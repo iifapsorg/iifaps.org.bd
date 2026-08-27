@@ -22,13 +22,13 @@ export default function BlogBasicFields({ form, onChange }) {
           className="md:col-span-2"
         />
 
-        <Field
+        {/* <Field
           name="author"
           label="Author"
           value={form.author}
           onChange={onChange}
           placeholder="Author name..."
-        />
+        /> */}
 
         <Field
           name="summary"

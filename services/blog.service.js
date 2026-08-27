@@ -17,7 +17,7 @@ export async function getBlogs({
   featured,
   sortBy = "createdAt",
   order = -1,
-  select = "thumbnail title category excerpt slug views status createdAt category author",
+  select = "thumbnail title category summary slug views status createdAt category author",
   populate = true,
 } = {}) {
   await connectDB();
@@ -102,7 +102,7 @@ export async function getBlogBySlug(slug, { admin = false } = {}) {
 
   return Blog.findOne(query)
     .select(
-      "title slug content excerpt thumbnail createdAt category author views tags status",
+      "title slug content summary thumbnail createdAt category author views tags status",
     )
     .populate("category")
     .populate("author")
@@ -116,7 +116,7 @@ export async function getBlogBySlug(slug, { admin = false } = {}) {
 
   return Blog.findById(id)
     .select(
-      "title slug content excerpt thumbnail status createdAt category author tags",
+      "title slug content summary thumbnail status createdAt category author tags",
     )
     .populate("author", "name")
     .populate("category", "name slug")
@@ -186,12 +186,12 @@ export async function searchBlogs(q, { page = 1, limit = 10 } = {}) {
 
   const query = {
     status: "published",
-    $or: [{ title: regex }, { excerpt: regex }, { tags: regex }],
+    $or: [{ title: regex }, { summary: regex }, { tags: regex }],
   };
 
   const skip = (page - 1) * limit;
 
-  const selectFields = "title slug excerpt createdAt category author";
+  const selectFields = "title slug summary createdAt category author";
 
   const [blogs, total] = await Promise.all([
     Blog.find(query)

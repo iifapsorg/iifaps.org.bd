@@ -26,9 +26,9 @@ const blogSchema = new mongoose.Schema(
       required: [true, "Content is required"],
     },
 
-    excerpt: {
+    summary: {
       type: String,
-      maxlength: [500, "Excerpt cannot exceed 500 characters"],
+      maxlength: [500, "summary cannot exceed 500 characters"],
     },
 
     thumbnail: {
@@ -38,11 +38,9 @@ const blogSchema = new mongoose.Schema(
     },
 
     author: {
-      // type: mongoose.Schema.Types.ObjectId,
-      // ref: "User",
-      type: String,
-      required: true,
-      trim: true,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      default: null,
     },
 
     category: {

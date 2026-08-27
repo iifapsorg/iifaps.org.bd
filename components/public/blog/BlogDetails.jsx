@@ -30,7 +30,7 @@ export default function BlogDetails({ blog }) {
         <div className="mt-4 flex items-center gap-4 text-sm text-muted-foreground">
           {blog?.author && (
             <span className="font-bold">
-              {blog.author.name}
+              {blog.author.name || "IIFAPS Institute"}
             </span>
           )}
           <span>{formatDate(blog?.createdAt)}</span>

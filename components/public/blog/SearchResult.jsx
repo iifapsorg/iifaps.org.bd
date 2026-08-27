@@ -16,7 +16,7 @@ export default function SearchResult({ results, onClose }) {
             {blog.title}
           </h3>
           <p className="text-sm text-gray-400">
-            {blog.excerpt}
+            {blog.summary}
           </p>
         </Link>
       ))}

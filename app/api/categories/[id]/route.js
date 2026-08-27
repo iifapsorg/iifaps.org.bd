@@ -68,7 +68,7 @@ export async function PUT(req, { params }) {
 
     const session = await getServerSession(authOptions);
 
-    if (!session || session.user.role !== "super_admin") {
+    if (!session && session.user.role !== "super_admin") {
       return NextResponse.json(
         { error: "Forbidden" },
         { status: 403 }

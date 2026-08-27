@@ -128,7 +128,7 @@ const HeroSection = ({ latestArticles = [] }) => {
           const author =
             typeof article.author === "string"
               ? article.author
-              : article.author?.name || "Unknown Author";
+              : article.author?.name || "IIFAPS Institute";
 
           const image =
             article.thumbnail ||

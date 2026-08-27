@@ -12,14 +12,14 @@ import Button from "@/components/shared/Button";
 
 export default function BlogCard({
   blog,
-  showExcerpt = false,
+  showsummary = false,
   showReadMore = false,
 }) {
   const {
     slug,
     title,
     thumbnail,
-    excerpt = "",
+    summary = "",
     createdAt,
     category,
     author,
@@ -30,8 +30,8 @@ export default function BlogCard({
   const categoryName =
     typeof category === "string" ? category : category?.name || "Uncategorized";
 
-  const authorName = author?.name || "Admin";
-  const readTime = readingTime(excerpt);
+  const authorName = author?.name || "IIFAPS Institute";
+  const readTime = readingTime(summary);
 
   return (
     <article className="group overflow-hidden rounded-2xl border border-border bg-background shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
@@ -71,9 +71,9 @@ export default function BlogCard({
           </Text>
         </Link>
 
-        {/* ================= EXCERPT ================= */}
-        {showExcerpt && excerpt && (
-          <Text className="line-clamp-3 text-muted-foreground">{excerpt}</Text>
+        {/* ================= summary ================= */}
+        {showsummary && summary && (
+          <Text className="line-clamp-3 text-muted-foreground">{summary}</Text>
         )}
 
         {/* ================= AUTHOR + DATE ================= */}

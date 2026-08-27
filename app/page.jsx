@@ -31,7 +31,7 @@ const Home = async () => {
         sectionHeading="Latest Articles"
         currentType="latest"
         cardProps={{
-          showExcerpt: false,
+          showsummary: false,
           showReadMore: true,
         }}
       />
@@ -49,7 +49,7 @@ const Home = async () => {
         sectionHeading="Featured Articles"
         currentType="featured"
         cardProps={{
-          showExcerpt: true,
+          showsummary: true,
           showReadMore: true,
         }}
       />

@@ -22,7 +22,6 @@ export default function BlogForm({ initialData = null }) {
     category: getId(initialData?.category),
     subCategory: getId(initialData?.subCategory),
 
-    author: initialData?.author?.trim() || "",
 
     tags: Array.isArray(initialData?.tags)
       ? initialData.tags.join(", ")
@@ -145,8 +144,6 @@ export default function BlogForm({ initialData = null }) {
     try {
       const payload = {
         ...form,
-
-        author: form.author?.trim(),
 
         tags: form.tags
           .split(",")

@@ -1,4 +1,4 @@
-// validations/blog.validation
+// 8/blog.validation
 
 import { z } from "zod";
 
@@ -8,9 +8,8 @@ import { z } from "zod";
 export const blogSchemaZ = z.object({
   title: z.string().min(3),
   content: z.string().min(10),
-  author: z.string().min(3),
 
-  excerpt: z.string().optional(),
+  summary: z.string().optional(),
 
   thumbnail: z.string().url().optional().or(z.literal("")),
 

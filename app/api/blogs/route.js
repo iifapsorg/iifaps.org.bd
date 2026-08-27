@@ -5,10 +5,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { revalidatePath } from "next/cache";
 
-import {
-  getBlogs,
-  createBlog,
-} from "@/services/blog.service";
+import { getBlogs, createBlog } from "@/services/blog.service";
 
 import { blogSchemaZ } from "@/validations/blog.validation";
 
@@ -31,10 +28,7 @@ export async function GET(request) {
 
     return NextResponse.json(result);
   } catch (error) {
-    return NextResponse.json(
-      { error: error.message },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }
 
@@ -46,10 +40,11 @@ export async function POST(request) {
     const session = await getServerSession(authOptions);
 
     if (!session) {
-      return NextResponse.json(
-        { error: "Unauthorized" },
-        { status: 401 }
-      );
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    if (session.user.role === "user") {
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
 
     const body = await request.json();
@@ -61,29 +56,23 @@ export async function POST(request) {
         {
           error: parsed.error.errors,
         },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
     const blog = await createBlog({
       ...parsed.data,
-      // author: session.user.id,
+      author: session?.user?.role === "author" ? session.user.id : null,
     });
 
     // Admin pages
     revalidatePath("/admin/blogs");
 
     // Public blog pages
-    revalidatePath("/blog");
+    revalidatePath("/blogs");
 
-    return NextResponse.json(
-      { blog },
-      { status: 201 }
-    );
+    return NextResponse.json({ blog }, { status: 201 });
   } catch (error) {
-    return NextResponse.json(
-      { error: error.message },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }
