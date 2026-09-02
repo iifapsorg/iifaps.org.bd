@@ -132,9 +132,9 @@ export default function NavbarClient({ categoryTree }) {
           ${
             isHome
               ? isMenuOpen || isCategoryOpen
-                ? "absolute top-0 left-0 bg-background shadow-lg"
+                ? "absolute top-0 left-0 bg-transparent/60 shadow-lg"
                 : "absolute top-0 left-0 bg-transparent text-foreground"
-              : "static top-0 bg-background shadow-lg"
+              : "relative bg-background shadow-lg"
           }
         `}
       >
@@ -158,7 +158,7 @@ export default function NavbarClient({ categoryTree }) {
               <Link href="/" className="min-w-0">
                 <Text
                   variant="normalText"
-                  className="
+                  className={`
                     leading-tight
                     font-semibold
                     text-[10px]
@@ -168,7 +168,8 @@ export default function NavbarClient({ categoryTree }) {
                     lg:text-base
                     hidden md:block
                     text-white dark:text-white/70
-                  "
+                    ${isHome || "text-foreground"}
+                  `}
                 >
                   INTERNATIONAL INSTITUTE FOR ADVANCED POLITICAL STUDIES
                 </Text>
@@ -181,11 +182,11 @@ export default function NavbarClient({ categoryTree }) {
               <button
                 type="button"
                 onClick={toggleCategories}
-                className="
-                  flex h-10 items-center rounded-md border px-4
+                className={`
+                  flex h-10 items-center rounded-md border border-border px-4
                   transition
-                  hover:bg-gray-800 hover:text-white text-white dark:text-white/70
-                "
+                  hover:bg-gray-800 hover:text-white ${isHome && 'text-white'}
+                `}
               >
                 Categories
               </button>
@@ -198,11 +199,12 @@ export default function NavbarClient({ categoryTree }) {
                 type="button"
                 onClick={() => setIsSearchOpen(true)}
                 aria-label="Open Search"
-                className="
+                className={`
                   flex h-10 w-10 items-center justify-center rounded-md border
                   transition
-                  hover:bg-gray-800 hover:text-white text-white dark:text-white/70
-                "
+                  hover:bg-gray-800 hover:text-white
+                   ${isHome && 'text-white'}
+                `}
               >
                 <Search size={18} />
               </button>
@@ -214,11 +216,11 @@ export default function NavbarClient({ categoryTree }) {
                 aria-expanded={isMenuOpen}
                 aria-controls="mobile-menu"
                 aria-label={isMenuOpen ? "Close menu" : "Open menu"}
-                className="
+                className={`
                   flex h-10 w-10 items-center justify-center rounded-md border
                   transition
-                  hover:bg-gray-800 hover:text-white text-white dark:text-white/70
-                "
+                  hover:bg-gray-800 hover:text-white ${isHome && 'text-white'}
+                `}
               >
                 {isMenuOpen ? <X size={18} /> : <Menu size={18} />}
               </button>
@@ -237,7 +239,7 @@ export default function NavbarClient({ categoryTree }) {
             overflow-y-auto
             bg-background/60
             shadow-2xl
-            transition-all duration-300 ease-in-out text-white dark:text-white/70
+            transition-all duration-300 ease-in-out
             ${
               isMenuOpen
                 ? "visible translate-y-0 opacity-100"
@@ -271,7 +273,7 @@ export default function NavbarClient({ categoryTree }) {
       ========================= */}
       {(isMenuOpen || isCategoryOpen) && (
         <div
-          className="fixed inset-0 z-40 bg-black/40 backdrop-blur-sm"
+          className="fixed inset-0 z-40 bg-transparent/60 backdrop-blur-sm"
           onClick={closeMenus}
         />
       )}

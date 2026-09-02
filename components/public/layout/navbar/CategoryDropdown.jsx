@@ -12,9 +12,9 @@ export default function CategoryDropdown({
 }) {
   return (
     <div
-      className={`absolute top-full left-0 w-full z-40 overflow-hidden bg-background/60 shadow-2xl transition-all duration-300 ease-in-out ${
+      className={`absolute top-full left-0 w-full  bg-background/60 shadow-2xl transition-all duration-300 ease-in-out ${
         isOpen
-          ? "max-h-150 opacity-100 visible"
+          ? "max-h-[calc(100vh-80px)] opacity-100 visible overflow-y-auto"
           : "max-h-0 opacity-0 invisible"
       }`}
     >

@@ -5,10 +5,13 @@
 import { Moon, Sun } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useTheme } from "next-themes";
+import { usePathname } from "next/navigation";
 
 export default function ThemeToggle() {
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
+    const pathname = usePathname();
+      const isHome = pathname === "/";
 
   useEffect(() => {
     setMounted(true);
@@ -21,7 +24,7 @@ export default function ThemeToggle() {
       onClick={() =>
         setTheme(theme === "dark" ? "light" : "dark")
       }
-      className="flex h-10 w-10 items-center justify-center rounded-md border cursor-pointer hover:bg-gray-800 hover:text-white transition text-white dark:text-white/70"
+      className={`flex h-10 w-10 items-center justify-center rounded-md border cursor-pointer hover:bg-gray-800 hover:text-white transition ${isHome && 'text-white'}`}
     >
       {theme === "dark" ? (
         <Sun size={18} />

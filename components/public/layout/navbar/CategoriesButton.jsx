@@ -66,10 +66,10 @@ export default function CategoriesButton({ categoryTree = [] }) {
       {/* Dropdown */}
       {isOpen && (
         <div
-          className={`w-full overflow-hidden bg-background shadow-2xl transition-all duration-300 ease-in-out
+          className={`max-w-full overflow-hidden bg-background shadow-2xl transition-all duration-300 ease-in-out
     ${
       isOpen
-        ? "max-h-125 opacity-100 visible"
+        ? "max-h-[calc(100vh-120px)] overflow-y-auto opacity-100 visible"
         : "max-h-0 opacity-0 invisible"
     }
   `}
