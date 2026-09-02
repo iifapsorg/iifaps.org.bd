@@ -158,9 +158,9 @@ const HeroSection = ({ latestArticles = [] }) => {
                 className="
                   absolute inset-0
                   bg-linear-to-t
-                  from-black/90
-                  via-black/35
-                  to-black/10
+                  from-black/60
+                  via-black/20
+                  to-black/60
                 "
               />
 
@@ -194,7 +194,7 @@ const HeroSection = ({ latestArticles = [] }) => {
                     <Link href={`/blogs/${article.slug}`} className="block">
                       <Text
                         variant="sectionHeading"
-                        className="mt-5 ml-0 line-clamp-2 text-white"
+                        className="mt-5 ml-0 line-clamp-2 lg:line-clamp-3 text-white dark:text-white/70"
                       >
                         {article.title}
                       </Text>

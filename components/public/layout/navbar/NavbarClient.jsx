@@ -27,26 +27,26 @@ export default function NavbarClient({ categoryTree }) {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isCategoryOpen, setIsCategoryOpen] = useState(false);
   const [activeParent, setActiveParent] = useState(null);
-  const [isScrolled, setIsScrolled] = useState(false);
+  // const [isScrolled, setIsScrolled] = useState(false);
 
   const isHome = pathname === "/";
 
   /* =========================
      Navbar Scroll
   ========================= */
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 80);
-    };
+  // useEffect(() => {
+  //   const handleScroll = () => {
+  //     setIsScrolled(window.scrollY > 80);
+  //   };
 
-    handleScroll();
+  //   handleScroll();
 
-    window.addEventListener("scroll", handleScroll, { passive: true });
+  //   window.addEventListener("scroll", handleScroll, { passive: true });
 
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
+  //   return () => {
+  //     window.removeEventListener("scroll", handleScroll);
+  //   };
+  // }, []);
 
   /* =========================
      Close All Menus
@@ -131,12 +131,10 @@ export default function NavbarClient({ categoryTree }) {
           transition-all duration-200 ease-in
           ${
             isHome
-              ? isScrolled
-                ? "fixed top-0 left-0 bg-background shadow-lg"
-                : isMenuOpen || isCategoryOpen
-                  ? "absolute top-0 left-0 bg-background shadow-lg"
-                  : "absolute top-0 left-0 bg-transparent"
-              : "sticky top-0 bg-background shadow-lg"
+              ? isMenuOpen || isCategoryOpen
+                ? "absolute top-0 left-0 bg-background shadow-lg"
+                : "absolute top-0 left-0 bg-transparent text-foreground"
+              : "static top-0 bg-background shadow-lg"
           }
         `}
       >
@@ -162,12 +160,14 @@ export default function NavbarClient({ categoryTree }) {
                   variant="normalText"
                   className="
                     leading-tight
+                    font-semibold
                     text-[10px]
-                    text-foreground
                     sm:text-xs
                     md:w-70
                     md:text-sm
                     lg:text-base
+                    hidden md:block
+                    text-white dark:text-white/70
                   "
                 >
                   INTERNATIONAL INSTITUTE FOR ADVANCED POLITICAL STUDIES
@@ -184,7 +184,7 @@ export default function NavbarClient({ categoryTree }) {
                 className="
                   flex h-10 items-center rounded-md border px-4
                   transition
-                  hover:bg-gray-800 hover:text-white
+                  hover:bg-gray-800 hover:text-white text-white dark:text-white/70
                 "
               >
                 Categories
@@ -201,7 +201,7 @@ export default function NavbarClient({ categoryTree }) {
                 className="
                   flex h-10 w-10 items-center justify-center rounded-md border
                   transition
-                  hover:bg-gray-800 hover:text-white
+                  hover:bg-gray-800 hover:text-white text-white dark:text-white/70
                 "
               >
                 <Search size={18} />
@@ -217,7 +217,7 @@ export default function NavbarClient({ categoryTree }) {
                 className="
                   flex h-10 w-10 items-center justify-center rounded-md border
                   transition
-                  hover:bg-gray-800 hover:text-white
+                  hover:bg-gray-800 hover:text-white text-white dark:text-white/70
                 "
               >
                 {isMenuOpen ? <X size={18} /> : <Menu size={18} />}
@@ -237,7 +237,7 @@ export default function NavbarClient({ categoryTree }) {
             overflow-y-auto
             bg-background/60
             shadow-2xl
-            transition-all duration-300 ease-in-out
+            transition-all duration-300 ease-in-out text-white dark:text-white/70
             ${
               isMenuOpen
                 ? "visible translate-y-0 opacity-100"
@@ -248,11 +248,7 @@ export default function NavbarClient({ categoryTree }) {
           <Container>
             <ul className="flex flex-col py-4">
               {navs.map((nav) => (
-                <NavbarItem
-                  key={nav.id}
-                  item={nav}
-                  isActive={isActive}
-                />
+                <NavbarItem key={nav.id} item={nav} isActive={isActive} />
               ))}
             </ul>
           </Container>

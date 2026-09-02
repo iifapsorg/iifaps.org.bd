@@ -21,7 +21,7 @@ export default function ThemeToggle() {
       onClick={() =>
         setTheme(theme === "dark" ? "light" : "dark")
       }
-      className="flex h-10 w-10 items-center justify-center rounded-md border cursor-pointer hover:bg-gray-800 hover:text-white transition"
+      className="flex h-10 w-10 items-center justify-center rounded-md border cursor-pointer hover:bg-gray-800 hover:text-white transition text-white dark:text-white/70"
     >
       {theme === "dark" ? (
         <Sun size={18} />
