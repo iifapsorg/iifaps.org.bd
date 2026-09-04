@@ -19,7 +19,8 @@ export default function BlogCard({
     slug,
     title,
     thumbnail,
-    summary = "",
+    summary,
+    content,
     createdAt,
     category,
     author,
@@ -31,7 +32,7 @@ export default function BlogCard({
     typeof category === "string" ? category : category?.name || "Uncategorized";
 
   const authorName = author?.name || "IIFAPS Institute";
-  const readTime = readingTime(summary);
+  const readTime = readingTime(content);
 
   return (
     <article className="group overflow-hidden rounded-2xl border border-border bg-background shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">

@@ -29,7 +29,11 @@ export default function NavbarClient({ categoryTree }) {
   const [activeParent, setActiveParent] = useState(null);
   // const [isScrolled, setIsScrolled] = useState(false);
 
-  const isHome = pathname === "/";
+  const isHome = pathname === "/" || pathname === "";
+  console.log("pathname:", pathname);
+  console.log("isHome:", isHome);
+  console.log("menu:", isMenuOpen);
+  console.log("category:", isCategoryOpen);
 
   /* =========================
      Navbar Scroll
@@ -185,7 +189,7 @@ export default function NavbarClient({ categoryTree }) {
                 className={`
                   flex h-10 items-center rounded-md border border-border px-4
                   transition
-                  hover:bg-gray-800 hover:text-white ${isHome && 'text-white'}
+                  hover:bg-gray-800 hover:text-white ${isHome && "text-white"}
                 `}
               >
                 Categories
@@ -203,7 +207,7 @@ export default function NavbarClient({ categoryTree }) {
                   flex h-10 w-10 items-center justify-center rounded-md border
                   transition
                   hover:bg-gray-800 hover:text-white
-                   ${isHome && 'text-white'}
+                   ${isHome && "text-white"}
                 `}
               >
                 <Search size={18} />
@@ -219,7 +223,7 @@ export default function NavbarClient({ categoryTree }) {
                 className={`
                   flex h-10 w-10 items-center justify-center rounded-md border
                   transition
-                  hover:bg-gray-800 hover:text-white ${isHome && 'text-white'}
+                  hover:bg-gray-800 hover:text-white ${isHome && "text-white"}
                 `}
               >
                 {isMenuOpen ? <X size={18} /> : <Menu size={18} />}

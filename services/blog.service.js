@@ -17,7 +17,7 @@ export async function getBlogs({
   featured,
   sortBy = "createdAt",
   order = -1,
-  select = "thumbnail title category summary slug views status createdAt category author",
+  select = "thumbnail title category summary content slug views status createdAt author",
   populate = true,
 } = {}) {
   await connectDB();
