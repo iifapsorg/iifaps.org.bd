@@ -6,7 +6,6 @@ import { authOptions } from "@/lib/auth";
 import { getBlogBySlug, updateBlog, deleteBlog } from "@/services/blog.service";
 import { revalidatePath } from "next/cache";
 
-
 /* ---------------------------
    GET SINGLE BLOG
 ----------------------------*/
@@ -36,18 +35,27 @@ export async function PUT(request, { params }) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
     const body = await request.json();
-    const { id } = await params;
-    const blog = await updateBlog(id, body);
-    if (!blog)
+    const { slug } = await params;
+    if (!slug)
+      return NextResponse.json(
+        { error: "Blog slug is reqiured." },
+        { status: 400 },
+      );
+
+    const blog = await getBlogBySlug(slug);
+    if (!blog) {
       return NextResponse.json({ error: "Blog not found" }, { status: 404 });
+    }
+    const blogId = blog._id.toString();
+    const updatedBlog = await updateBlog(blogId, body);
 
     // Admin pages
     revalidatePath("/admin/blogs");
 
     // Public blog pages
-    revalidatePath("/blog");
+    revalidatePath("/blogs");
 
-    return NextResponse.json({ blog });
+    return NextResponse.json({ updatedBlog });
   } catch (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }

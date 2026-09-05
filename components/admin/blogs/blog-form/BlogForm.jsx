@@ -152,7 +152,7 @@ export default function BlogForm({ initialData = null }) {
       };
 
       const url = isEdit
-        ? `/api/blogs/${initialData._id}`
+        ? `/api/blogs/${initialData.slug}`
         : "/api/blogs";
 
       const res = await fetch(url, {

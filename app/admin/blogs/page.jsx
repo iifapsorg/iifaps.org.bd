@@ -188,7 +188,7 @@ export default async function AdminBlogsPage() {
                     <td className="px-5 py-4">
                       <div className="flex items-center justify-end gap-2">
                         <Link
-                          href={`/admin/blogs/edit/${blog._id}`}
+                          href={`/admin/blogs/edit/${blog.slug}`}
                           className="inline-flex items-center gap-1.5 rounded-md px-3 py-2 text-xs font-medium text-blue-600 transition-colors hover:bg-blue-50 hover:text-blue-700"
                         >
                           <Pencil className="h-3.5 w-3.5" />
