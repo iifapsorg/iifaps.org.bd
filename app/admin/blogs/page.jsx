@@ -8,6 +8,7 @@ import { formatShortDate } from "@/utils/formatDate";
 import Text from "@/components/shared/Text";
 import { cn } from "@/utils/cn";
 import Button from "@/components/shared/Button";
+import DeleteBlogButton from "@/components/admin/blogs/blog-action/DeleteBlogButton";
 
 export const dynamic = "force-dynamic";
 
@@ -188,22 +189,28 @@ export default async function AdminBlogsPage() {
                     <td className="px-5 py-4">
                       <div className="flex items-center justify-end gap-2">
                         <Link
-                          href={`/admin/blogs/edit/${blog.slug}`}
-                          className="inline-flex items-center gap-1.5 rounded-md px-3 py-2 text-xs font-medium text-blue-600 transition-colors hover:bg-blue-50 hover:text-blue-700"
-                        >
-                          <Pencil className="h-3.5 w-3.5" />
-                          Edit
-                        </Link>
-
-                        <Link
                           href={`/admin/blogs/${blog.slug}`}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="inline-flex items-center gap-1.5 rounded-md px-3 py-2 text-xs font-medium text-foreground/50 transition-colors hover:bg-muted hover:text-foreground"
+                          className="inline-flex items-center gap-1.5 rounded-md outline outline-border px-3 py-1.5 text-xs font-medium text-foreground/50 transition-colors hover:bg-muted hover:text-foreground"
                         >
                           <ExternalLink className="h-3.5 w-3.5" />
                           View
                         </Link>
+
+                        <Link
+                          href={`/admin/blogs/edit/${blog.slug}`}
+                          className="flex items-center justify-center gap-2 px-3 py-1.5 rounded-md outline outline-border hover:bg-green-900 hover:text-white hover:outline-transparent transition-colors duration-200"
+                        >
+                          <Pencil className="h-3.5 w-3.5" />
+
+                          <span className="hidden lg:block text-xs">Edit</span>
+                        </Link>
+
+                        <DeleteBlogButton
+                          blogSlug={blog.slug}
+                          blogTitle={blog.title}
+                        />
                       </div>
                     </td>
                   </tr>

@@ -69,14 +69,27 @@ export async function DELETE(request, { params }) {
     const session = await getServerSession(authOptions);
     if (!session)
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    const { id } = await params;
+    const { slug } = await params;
 
-    await deleteBlog(id);
+    if (!slug)
+      return NextResponse.json(
+        { error: "Blog slug is reqiured." },
+        { status: 400 },
+      );
+
+    const blog = await getBlogBySlug(slug);
+    if (!blog) {
+      return NextResponse.json({ error: "Blog not found" }, { status: 404 });
+    }
+    const blogId = blog._id.toString();
+
+
+    await deleteBlog(blogId);
     // Admin pages
     revalidatePath("/admin/blogs");
 
     // Public blog pages
-    revalidatePath("/blog");
+    revalidatePath("/blogs");
     return NextResponse.json({ message: "Blog deleted successfully" });
   } catch (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });
