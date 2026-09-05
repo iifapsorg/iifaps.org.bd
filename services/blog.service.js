@@ -226,3 +226,28 @@ export async function getRelatedBlogs(blogId, categoryId, limit = 4) {
     .limit(limit)
     .lean();
 }
+
+/* ---------------------------
+  INCREMENT VIEWS
+----------------------------*/
+export async function incrementBlogViews(id) {
+  await connectDB();
+
+  return Blog.findOneAndUpdate(
+    {
+      _id: id,
+      status: "published",
+      isDeleted: false,
+    },
+    {
+      $inc: {
+        views: 1,
+      },
+    },
+    {
+      new: true,
+    },
+  )
+    .select("_id views")
+    .lean();
+}

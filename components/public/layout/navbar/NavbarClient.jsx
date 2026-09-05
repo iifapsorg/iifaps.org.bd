@@ -30,10 +30,6 @@ export default function NavbarClient({ categoryTree }) {
   // const [isScrolled, setIsScrolled] = useState(false);
 
   const isHome = pathname === "/" || pathname === "";
-  console.log("pathname:", pathname);
-  console.log("isHome:", isHome);
-  console.log("menu:", isMenuOpen);
-  console.log("category:", isCategoryOpen);
 
   /* =========================
      Navbar Scroll
