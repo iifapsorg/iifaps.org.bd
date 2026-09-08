@@ -1,7 +1,8 @@
-//admin/blogs/page
+// /admin/blogs/page.jsx
 
 import Link from "next/link";
 import { Plus, ExternalLink, Pencil, FileText } from "lucide-react";
+import { Suspense } from "react";
 
 import { getBlogs } from "@/services/blog.service";
 import { formatShortDate } from "@/utils/formatDate";
@@ -10,46 +11,15 @@ import { cn } from "@/utils/cn";
 import Button from "@/components/shared/Button";
 import DeleteBlogButton from "@/components/admin/blogs/blog-action/DeleteBlogButton";
 
-
 const statusStyles = {
   published: "bg-green-50 text-green-700 border-green-200",
   draft: "bg-yellow-50 text-yellow-700 border-yellow-200",
 };
 
-export default async function AdminBlogsPage() {
-  const [publishedRes, draftRes] = await Promise.all([
-    getBlogs({ limit: 15, status: "published" }),
-    getBlogs({ limit: 15, status: "draft" }),
-  ]);
-
-  const published = publishedRes.blogs;
-  const drafts = draftRes.blogs;
-
-  const allBlogs = [...published, ...drafts].sort(
-    (a, b) => new Date(b.createdAt) - new Date(a.createdAt),
-  );
-
-  const stats = [
-    {
-      label: "Total Blogs",
-      value: allBlogs?.length,
-      valueClass: "text-foreground",
-    },
-    {
-      label: "Published",
-      value: published?.length,
-      valueClass: "text-green-600",
-    },
-    {
-      label: "Drafts",
-      value: drafts?.length,
-      valueClass: "text-yellow-600",
-    },
-  ];
-
+export default function AdminBlogsPage() {
   return (
     <div className="space-y-6">
-      {/* Header */}
+      {/* Header static component */}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <Text variant="sectionHeading" className="mt-0 text-2xl md:text-3xl">
@@ -66,13 +36,50 @@ export default async function AdminBlogsPage() {
         </Link>
       </div>
 
+      {/* Dynamic Data Content Async Component */}
+      <Suspense fallback={<BlogsSkeleton />}>
+        <BlogsContent />
+      </Suspense>
+    </div>
+  );
+}
+
+// Data Fetching Component
+async function BlogsContent() {
+  const blogsRes = await getBlogs({ limit: 30 });
+  const allBlogs = blogsRes.blogs || [];
+
+  // JS Array filtering
+  const published = allBlogs.filter((blog) => blog.status === "published");
+  const drafts = allBlogs.filter((blog) => blog.status === "draft");
+
+  const stats = [
+    {
+      label: "Total Blogs",
+      value: allBlogs.length,
+      valueClass: "text-foreground",
+    },
+    {
+      label: "Published",
+      value: published.length,
+      valueClass: "text-green-600",
+    },
+    {
+      label: "Drafts",
+      value: drafts.length,
+      valueClass: "text-yellow-600",
+    },
+  ];
+
+  return (
+    <>
       {/* Stats */}
       <div className="mx-auto flex items-center justify-center">
-        <div className="grid grid-cols-2 gap-4 lg:grid-cols-3 justify-center">
+        <div className="grid grid-cols-2 justify-center gap-4 lg:grid-cols-3">
           {stats.map((stat) => (
             <div
               key={stat.label}
-              className="rounded-md flex flex-col justify-center items-center border border-border bg-background p-5 shadow-sm"
+              className="flex flex-col items-center justify-center rounded-md border border-border bg-background p-5 shadow-sm"
             >
               <Text variant="normalText" className="text-center">
                 {stat.label}
@@ -88,7 +95,6 @@ export default async function AdminBlogsPage() {
 
       {/* Blog Table */}
       <div className="overflow-hidden rounded-xl border border-border bg-background shadow-sm">
-        {/* Table Header */}
         <div className="flex items-center gap-3 border-b border-border px-5 py-4">
           <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-muted">
             <FileText className="h-4 w-4 text-foreground/70" />
@@ -109,19 +115,15 @@ export default async function AdminBlogsPage() {
                   <th className="px-5 py-3 text-left text-xs font-semibold uppercase tracking-wider text-foreground/60">
                     Title
                   </th>
-
                   <th className="px-5 py-3 text-left text-xs font-semibold uppercase tracking-wider text-foreground/60">
                     Category
                   </th>
-
                   <th className="px-5 py-3 text-left text-xs font-semibold uppercase tracking-wider text-foreground/60">
                     Status
                   </th>
-
                   <th className="px-5 py-3 text-left text-xs font-semibold uppercase tracking-wider text-foreground/60">
                     Date
                   </th>
-
                   <th className="px-5 py-3 text-right text-xs font-semibold uppercase tracking-wider text-foreground/60">
                     Actions
                   </th>
@@ -134,7 +136,6 @@ export default async function AdminBlogsPage() {
                     key={blog._id}
                     className="group transition-colors hover:bg-muted/30"
                   >
-                    {/* Title */}
                     <td className="max-w-sm px-5 py-4">
                       <div className="flex items-center gap-3">
                         <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-muted">
@@ -149,21 +150,19 @@ export default async function AdminBlogsPage() {
                       </div>
                     </td>
 
-                    {/* Category */}
                     <td className="px-5 py-4">
                       <span className="text-sm text-foreground/60">
                         {blog.category?.name || "Uncategorized"}
                       </span>
                     </td>
 
-                    {/* Status */}
                     <td className="px-5 py-4">
                       <span
                         className={cn(
                           "inline-flex items-center rounded-full border px-2.5 py-1",
                           "text-xs font-medium capitalize",
                           statusStyles[blog.status] ||
-                            "border-border bg-muted text-foreground/60",
+                            "border-border bg-muted text-foreground/60"
                         )}
                       >
                         <span
@@ -171,20 +170,17 @@ export default async function AdminBlogsPage() {
                             "mr-1.5 h-1.5 w-1.5 rounded-full",
                             blog.status === "published"
                               ? "bg-green-500"
-                              : "bg-yellow-500",
+                              : "bg-yellow-500"
                           )}
                         />
-
                         {blog.status}
                       </span>
                     </td>
 
-                    {/* Date */}
                     <td className="px-5 py-4 text-sm text-foreground/50">
                       {formatShortDate(blog.createdAt)}
                     </td>
 
-                    {/* Actions */}
                     <td className="px-5 py-4">
                       <div className="flex items-center justify-end gap-2">
                         <Link
@@ -199,11 +195,10 @@ export default async function AdminBlogsPage() {
 
                         <Link
                           href={`/admin/blogs/edit/${blog.slug}`}
-                          className="flex items-center justify-center gap-2 px-3 py-1.5 rounded-md outline outline-border hover:bg-green-900 hover:text-white hover:outline-transparent transition-colors duration-200"
+                          className="flex items-center justify-center gap-2 rounded-md px-3 py-1.5 outline outline-border transition-colors duration-200 hover:bg-green-900 hover:text-white hover:outline-transparent"
                         >
                           <Pencil className="h-3.5 w-3.5" />
-
-                          <span className="hidden lg:block text-xs">Edit</span>
+                          <span className="hidden text-xs lg:block">Edit</span>
                         </Link>
 
                         <DeleteBlogButton
@@ -218,7 +213,6 @@ export default async function AdminBlogsPage() {
             </table>
           </div>
         ) : (
-          /* Empty State */
           <div className="flex flex-col items-center justify-center px-6 py-16 text-center">
             <div className="flex h-14 w-14 items-center justify-center rounded-xl border border-border bg-muted shadow-sm">
               <FileText className="h-6 w-6 text-foreground/40" />
@@ -245,6 +239,20 @@ export default async function AdminBlogsPage() {
           </div>
         )}
       </div>
+    </>
+  );
+}
+
+// Skeleton Component
+function BlogsSkeleton() {
+  return (
+    <div className="space-y-6 animate-pulse">
+      <div className="grid grid-cols-2 gap-4 lg:grid-cols-3">
+        {[...Array(3)].map((_, i) => (
+          <div key={i} className="h-24 rounded-md border bg-muted/40" />
+        ))}
+      </div>
+      <div className="h-96 rounded-xl border bg-muted/20" />
     </div>
   );
 }

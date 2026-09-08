@@ -1,28 +1,49 @@
-// admin/categories/page
+// admin/categories/page.jsx
+
 import Link from "next/link";
+import { Suspense } from "react";
 import { FolderTree } from "lucide-react";
+
 import { getCategoryTree } from "@/services/category.service";
 import Text from "@/components/shared/Text";
 import Button from "@/components/shared/Button";
 import AdminCategoryItem from "@/components/admin/categories/AdminCategoryItem";
 
+export default function AdminCategoriesPage() {
+  return (
+    <div className="space-y-6">
+      {/* Page Header (Rendered instantly) */}
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <Text variant="sectionHeading" className="mt-0 text-2xl md:text-3xl">
+            Categories
+          </Text>
 
-export default async function AdminCategoriesPage() {
-  const categoryTree = await getCategoryTree();
+          <Text variant="mediumText" className="mt-2">
+            Organize your blog content with categories and subcategories.
+          </Text>
+        </div>
 
-  const categories = categoryTree?.map((category) => category);
+        <Link href="/admin/categories/create">
+          <Button>Add New Category</Button>
+        </Link>
+      </div>
 
+      {/* Dynamic Data wrapped in Suspense for non-blocking UI */}
+      <Suspense fallback={<CategoriesSkeleton />}>
+        <CategoriesContent />
+      </Suspense>
+    </div>
+  );
+}
 
-  const parentMap = {};
+// Separate Data-Fetching Component
+async function CategoriesContent() {
+  // Fetch category tree directly without unnecessary array mapping
+  const categories = (await getCategoryTree()) || [];
 
-  categories.forEach((category) => {
-    parentMap[category._id?.toString()] = category.name;
-  });
-
-  const activeCategories = categories.filter(
-    (category) => category.isActive,
-  ).length;
-
+  // Compute active & inactive counts
+  const activeCategories = categories.filter((cat) => cat.isActive).length;
   const inactiveCategories = categories.length - activeCategories;
 
   const stats = [
@@ -44,30 +65,13 @@ export default async function AdminCategoriesPage() {
   ];
 
   return (
-    <div className="space-y-6">
-      {/* Header */}
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <div>
-          <Text variant="sectionHeading" className="mt-0 text-2xl md:text-3xl">
-            Categories
-          </Text>
-
-          <Text variant="mediumText" className="mt-2">
-            Organize your blog content with categories and subcategories.
-          </Text>
-        </div>
-
-        <Link href="/admin/categories/create">
-          <Button>Add New Category</Button>
-        </Link>
-      </div>
-
-      {/* Stats */}
+    <>
+      {/* Stats Section */}
       <div className="grid grid-cols-2 gap-4 md:grid-cols-3">
-        {stats?.map((stat) => (
+        {stats.map((stat) => (
           <div
             key={stat.label}
-            className="rounded-md flex flex-col items-center justify-center border border-border bg-background p-5 shadow-sm"
+            className="flex flex-col items-center justify-center rounded-md border border-border bg-background p-5 shadow-sm"
           >
             <Text variant="normalText" className="text-center">
               {stat.label}
@@ -80,9 +84,8 @@ export default async function AdminCategoriesPage() {
         ))}
       </div>
 
-      {/* Categories part */}
+      {/* Categories List Container */}
       <div className="overflow-hidden rounded-xl border border-border bg-background shadow-sm">
-        {/* Category Header */}
         <div className="flex items-center gap-3 border-b border-border px-5 py-4">
           <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-muted">
             <FolderTree className="h-4 w-4 text-foreground/70" />
@@ -99,9 +102,23 @@ export default async function AdminCategoriesPage() {
           </div>
         </div>
 
-        {/* ====== category item ===== */}
+        {/* Category Tree Item */}
         <AdminCategoryItem categories={categories} />
       </div>
+    </>
+  );
+}
+
+// Fallback Skeleton Component for Loading State
+function CategoriesSkeleton() {
+  return (
+    <div className="space-y-6 animate-pulse">
+      <div className="grid grid-cols-2 gap-4 md:grid-cols-3">
+        {[...Array(3)].map((_, i) => (
+          <div key={i} className="h-24 rounded-md border bg-muted/40" />
+        ))}
+      </div>
+      <div className="h-80 rounded-xl border bg-muted/20" />
     </div>
   );
 }
