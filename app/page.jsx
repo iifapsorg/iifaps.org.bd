@@ -1,63 +1,45 @@
-import HeroSection from "@/components/public/home/HeroSection";
+// app/page.jsx
+
+import { Suspense } from "react";
+
+// Components
+import HeroSectionWrapper from "@/components/public/home/HeroSectionWrapper";
+import LatestArticlesSection from "@/components/public/home/LatestArticlesSection";
+import MostReadSection from "@/components/public/home/MostReadSection";
+import FeaturedSection from "@/components/public/home/FeaturedSection";
 import Subscribe from "@/components/public/home/Subscribe";
-import BlogCommonLayout from "@/components/public/blog/BlogCommonLayout";
-import { getBlogs } from "@/services/blog.service";
 
-const Home = async () => {
-  const [
-    { blogs: latestArticles },
-    { blogs: mostReadArticles },
-    { blogs: featuredArticles },
-  ] = await Promise.all([
-    getBlogs({ limit: 3 }),
-    getBlogs({
-      limit: 6,
-      sortBy: "views",
-    }),
-    getBlogs({
-      limit: 3,
-      featured: true,
-    }),
-  ]);
+// Skeletons
+import {
+  BlogGridSkeleton,
+  HeroSkeleton,
+} from "@/components/skeleton/HomeSkeletons";
 
+export default function HomePage() {
   return (
     <>
-      {/* === hero section === */}
-      <HeroSection latestArticles={latestArticles} />
+      {/* 1. Hero Section (Immediate render or wrapped with its own skeleton) */}
+      <Suspense fallback={<HeroSkeleton />}>
+        <HeroSectionWrapper />
+      </Suspense>
 
-      {/* Latest Articles */}
-      <BlogCommonLayout
-        blogs={latestArticles}
-        sectionHeading="Latest Articles"
-        currentType="latest"
-        cardProps={{
-          showsummary: false,
-          showReadMore: true,
-        }}
-      />
+      {/* 2. Latest Articles Section */}
+      <Suspense fallback={<BlogGridSkeleton />}>
+        <LatestArticlesSection />
+      </Suspense>
 
-      {/* Most Read Articles */}
-      <BlogCommonLayout
-        blogs={mostReadArticles}
-        sectionHeading="Most Read Articles"
-        currentType="most-read"
-      />
+      {/* 3. Most Read Articles Section */}
+      <Suspense fallback={<BlogGridSkeleton />}>
+        <MostReadSection />
+      </Suspense>
 
-      {/* Featured Articles */}
-      <BlogCommonLayout
-        blogs={featuredArticles}
-        sectionHeading="Featured Articles"
-        currentType="featured"
-        cardProps={{
-          showsummary: true,
-          showReadMore: true,
-        }}
-      />
+      {/* 4. Featured Articles Section */}
+      <Suspense fallback={<BlogGridSkeleton />}>
+        <FeaturedSection />
+      </Suspense>
 
-      {/*  === subscribe === */}
+      {/* 5. Newsletter Subscribe Section */}
       <Subscribe />
     </>
   );
-};
-
-export default Home;
+}
