@@ -10,23 +10,32 @@ import SearchBlog from "@/components/public/blog/SearchBlog";
 
 import { navs } from "./Navbar.config";
 
-export default function NavbarClient({ categoryTree, pathname }) {
+export default function NavbarClient({ categoryTree, pathname: propPathname }) {
+  const routerPathname = usePathname();
   const menuRef = useRef(null);
 
+  const [mounted, setMounted] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isCategoryOpen, setIsCategoryOpen] = useState(false);
   const [activeParent, setActiveParent] = useState(null);
 
-  // 🔍 DEBUG: ব্রাউজার কনসোলে পাথ এবং টাইপ প্রিন্ট করা
-  console.log("👉 CURRENT PATHNAME:", JSON.stringify(pathname), "TYPE:", typeof pathname);
-
+  // ১. ক্লায়েন্ট মাউন্ট ট্র্যাকিং
   useEffect(() => {
-    console.log("⚡ MOUNTED PATHNAME:", pathname);
-  }, [pathname]);
+    setMounted(true);
+  }, []);
 
+  // ২. পাথনেম নির্বাচন (Router/Prop/Window Fallback)
+  const currentPath = routerPathname || propPathname;
+  
+  const activePath = mounted
+    ? currentPath
+    : typeof window !== "undefined"
+      ? window.location.pathname
+      : currentPath;
 
-  const isHome = pathname === "/";
+  // ৩. ফিক্সড isHome চেক
+  const isHome = activePath === "/";
   const isOverlayOpen = isMenuOpen || isCategoryOpen;
 
   const closeMenus = () => {
@@ -35,12 +44,12 @@ export default function NavbarClient({ categoryTree, pathname }) {
     setActiveParent(null);
   };
 
-  // 1. Automatically close open menus whenever the route changes
+  // ৪. রাউট চেঞ্জ হলে মেনু বন্ধ করা
   useEffect(() => {
     closeMenus();
-  }, [pathname]);
+  }, [activePath]);
 
-  // 2. Handle clicks outside the navbar container to dismiss open menus
+  // ৫. বাইরে ক্লিক করলে মেনু বন্ধ করা
   useEffect(() => {
     if (!isOverlayOpen) return;
 
@@ -58,9 +67,9 @@ export default function NavbarClient({ categoryTree, pathname }) {
 
   const isActive = (path) => {
     if (path === "/") {
-      return pathname === "/";
+      return activePath === "/";
     }
-    return pathname === path || pathname.startsWith(`${path}/`);
+    return activePath === path || activePath?.startsWith(`${path}/`);
   };
 
   const toggleMenu = () => {
@@ -83,11 +92,6 @@ export default function NavbarClient({ categoryTree, pathname }) {
       <nav
         ref={menuRef}
         aria-label="Main Navigation"
-        /* 
-          Corrected Class Logic:
-          - Always applies top-0 left-0 z-50 w-full
-          - Correctly sets absolute positioning for Home and sticky for other pages
-        */
         className={`top-0 left-0 z-50 w-full transition-all duration-200 ease-in ${
           isHome
             ? `absolute ${isOverlayOpen ? "bg-black/40 shadow-lg" : "bg-transparent"}`
@@ -114,7 +118,7 @@ export default function NavbarClient({ categoryTree, pathname }) {
           categoryTree={categoryTree}
           activeParent={activeParent}
           onParentClick={handleParentClick}
-          pathname={pathname}
+          pathname={activePath}
         />
       </nav>
 
