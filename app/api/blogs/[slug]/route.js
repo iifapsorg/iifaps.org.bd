@@ -95,7 +95,7 @@ export async function DELETE(request, { params }) {
     revalidatePath("/admin/blogs");
 
     // Public blog pages
-    revalidatePath("/blogs");
+    // revalidatePath("/blogs");
 
     return NextResponse.json({ message: "Blog deleted successfully" });
   } catch (error) {
