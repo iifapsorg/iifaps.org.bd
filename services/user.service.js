@@ -2,11 +2,16 @@
 
 import connectDB from "@/lib/connectDB";
 import User from "@/models/User";
+import { cacheTag } from "next/cache";
 
 /* ---------------------------
    GET USERS
 ----------------------------*/
 export async function getAllUsers() {
+  "use cache";
+
+  cacheTag("users");
+
   await connectDB();
   return User.find().select("-password").sort({ createdAt: -1 }).lean();
 }
@@ -15,6 +20,9 @@ export async function getAllUsers() {
     GET USERS BY ID
 ----------------------------*/
 export async function getUserById(id) {
+  "use cache";
+  cacheTag(`user-${id}`, "users");
+
   await connectDB();
   return User.findById(id).select("-password").lean();
 }
@@ -45,7 +53,10 @@ export async function updateUser(id, data) {
   // Don't allow role escalation without explicit permission
   const update = { ...data };
   delete update.password; // Password update handled separately
-  return User.findByIdAndUpdate(id, update, { new: true, runValidators: true }).select("-password");
+  return User.findByIdAndUpdate(id, update, {
+    new: true,
+    runValidators: true,
+  }).select("-password");
 }
 
 /* ---------------------------
