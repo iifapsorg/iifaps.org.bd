@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import { usePathname } from "next/navigation";
 
 import NavbarHeader from "./NavbarHeader";
@@ -10,46 +10,43 @@ import SearchBlog from "@/components/public/blog/SearchBlog";
 
 import { navs } from "./Navbar.config";
 
-export default function NavbarClient({ categoryTree, pathname: propPathname }) {
-  const routerPathname = usePathname();
+export default function NavbarClient({ categoryTree }) {
+  const pathname = usePathname();
   const menuRef = useRef(null);
 
-  const [mounted, setMounted] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isCategoryOpen, setIsCategoryOpen] = useState(false);
   const [activeParent, setActiveParent] = useState(null);
 
-  // ১. ক্লায়েন্ট মাউন্ট ট্র্যাকিং
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  // ২. পাথনেম নির্বাচন (Router/Prop/Window Fallback)
-  const currentPath = routerPathname || propPathname;
-  
-  const activePath = mounted
-    ? currentPath
-    : typeof window !== "undefined"
-      ? window.location.pathname
-      : currentPath;
-
-  // ৩. ফিক্সড isHome চেক
-  const isHome = activePath === "/";
+  // ১. নিরাপদ isHome চেক (SSR/Null Safety সহ)
+  const isHome = pathname ? pathname === "/" : true;
   const isOverlayOpen = isMenuOpen || isCategoryOpen;
 
-  const closeMenus = () => {
+  const closeMenus = useCallback(() => {
     setIsMenuOpen(false);
     setIsCategoryOpen(false);
     setActiveParent(null);
-  };
+  }, []);
 
-  // ৪. রাউট চেঞ্জ হলে মেনু বন্ধ করা
+  // ২. রাউট চেঞ্জ হলে মেনু বন্ধ
   useEffect(() => {
     closeMenus();
-  }, [activePath]);
+  }, [pathname, closeMenus]);
 
-  // ৫. বাইরে ক্লিক করলে মেনু বন্ধ করা
+  // ৩. মেনু খোলা থাকলে ব্যাকগ্রাউন্ড স্ক্রোল লক করা
+  useEffect(() => {
+    if (isOverlayOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, [isOverlayOpen]);
+
+  // ৪. বাইরে ক্লিক করলে মেনু বন্ধ
   useEffect(() => {
     if (!isOverlayOpen) return;
 
@@ -63,13 +60,14 @@ export default function NavbarClient({ categoryTree, pathname: propPathname }) {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [isOverlayOpen]);
+  }, [isOverlayOpen, closeMenus]);
 
   const isActive = (path) => {
+    if (!pathname) return false;
     if (path === "/") {
-      return activePath === "/";
+      return pathname === "/";
     }
-    return activePath === path || activePath?.startsWith(`${path}/`);
+    return pathname === path || pathname.startsWith(`${path}/`);
   };
 
   const toggleMenu = () => {
@@ -87,17 +85,16 @@ export default function NavbarClient({ categoryTree, pathname: propPathname }) {
     setActiveParent((prev) => (prev === parentId ? null : parentId));
   };
 
+  // ৫. স্টাইল ক্লাসগুলোকে সম্পূর্ণ পৃথক করে দেওয়া
+  const navClasses = isHome
+    ? `absolute top-0 left-0 z-50 w-full transition-all duration-300 ${
+        isOverlayOpen ? "bg-black/80 shadow-lg text-white" : "bg-transparent text-white"
+      }`
+    : `sticky top-0 left-0 z-50 w-full transition-all duration-300 bg-background text-foreground shadow-md`;
+
   return (
     <>
-      <nav
-        ref={menuRef}
-        aria-label="Main Navigation"
-        className={`top-0 left-0 z-50 w-full transition-all duration-200 ease-in ${
-          isHome
-            ? `absolute ${isOverlayOpen ? "bg-black/40 shadow-lg" : "bg-transparent"}`
-            : "sticky bg-background text-foreground/70 shadow-md"
-        }`}
-      >
+      <nav ref={menuRef} aria-label="Main Navigation" className={navClasses}>
         <NavbarHeader
           isHome={isHome}
           isMenuOpen={isMenuOpen}
@@ -118,7 +115,7 @@ export default function NavbarClient({ categoryTree, pathname: propPathname }) {
           categoryTree={categoryTree}
           activeParent={activeParent}
           onParentClick={handleParentClick}
-          pathname={activePath}
+          pathname={pathname || "/"}
         />
       </nav>
 
