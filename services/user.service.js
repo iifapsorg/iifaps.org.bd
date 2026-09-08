@@ -9,20 +9,21 @@ import { cacheTag } from "next/cache";
 ----------------------------*/
 export async function getAllUsers() {
   "use cache";
-
   cacheTag("users");
 
   await connectDB();
-  return User.find().select("-password").sort({ createdAt: -1 }).lean();
-}
 
+  const users = await User.find()
+    .select("-password")
+    .sort({ createdAt: -1 })
+    .lean();
+
+  return JSON.parse(JSON.stringify(users));
+}
 /* ---------------------------
     GET USERS BY ID
 ----------------------------*/
 export async function getUserById(id) {
-  // "use cache";
-  // cacheTag(`user-${id}`, "users");
-
   await connectDB();
   return User.findById(id).select("-password").lean();
 }
