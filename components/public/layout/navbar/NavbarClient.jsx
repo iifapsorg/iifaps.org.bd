@@ -18,6 +18,14 @@ export default function NavbarClient({ categoryTree, pathname }) {
   const [isCategoryOpen, setIsCategoryOpen] = useState(false);
   const [activeParent, setActiveParent] = useState(null);
 
+  // 🔍 DEBUG: ব্রাউজার কনসোলে পাথ এবং টাইপ প্রিন্ট করা
+  console.log("👉 CURRENT PATHNAME:", JSON.stringify(pathname), "TYPE:", typeof pathname);
+
+  useEffect(() => {
+    console.log("⚡ MOUNTED PATHNAME:", pathname);
+  }, [pathname]);
+
+
   const isHome = pathname === "/";
   const isOverlayOpen = isMenuOpen || isCategoryOpen;
 
