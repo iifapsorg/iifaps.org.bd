@@ -53,10 +53,10 @@ export async function PUT(request, { params }) {
     revalidateTag("blogs", "max");
 
     // Admin pages
-    revalidatePath("/admin/blogs");
+    // revalidatePath("/admin/blogs");
 
     // Public blog pages
-    revalidatePath("/blogs");
+    // revalidatePath("/blogs");
 
     return NextResponse.json({ updatedBlog });
   } catch (error) {
