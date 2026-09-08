@@ -20,8 +20,8 @@ export async function getAllUsers() {
     GET USERS BY ID
 ----------------------------*/
 export async function getUserById(id) {
-  "use cache";
-  cacheTag(`user-${id}`, "users");
+  // "use cache";
+  // cacheTag(`user-${id}`, "users");
 
   await connectDB();
   return User.findById(id).select("-password").lean();
