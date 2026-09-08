@@ -10,8 +10,7 @@ import SearchBlog from "@/components/public/blog/SearchBlog";
 
 import { navs } from "./Navbar.config";
 
-export default function NavbarClient({ categoryTree }) {
-  const pathname = usePathname();
+export default function NavbarClient({ categoryTree, pathname }) {
   const menuRef = useRef(null);
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -74,7 +73,6 @@ export default function NavbarClient({ categoryTree }) {
   return (
     <>
       <nav
-        key={pathname}
         ref={menuRef}
         aria-label="Main Navigation"
         /* 
