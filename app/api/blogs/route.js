@@ -69,10 +69,11 @@ export async function POST(request) {
     revalidateTag("blogs", "max");
 
     // Admin pages
-    // revalidatePath("/admin/blogs");
+    revalidatePath("/admin/blogs");
 
     // Public blog pages
-    // revalidatePath("/blogs");
+    revalidatePath("/");
+    revalidatePath("/blogs");
 
     return NextResponse.json({ blog }, { status: 201 });
   } catch (error) {
