@@ -1,7 +1,7 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import NavbarClient from "./public/layout/navbar/NavbarClient";
+import NavbarClient from "@/components/public/layout/navbar/NavbarClient";
 
 export default function NavbarWrapper({ categoryTree }) {
   const pathname = usePathname();
