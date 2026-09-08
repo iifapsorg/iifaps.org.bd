@@ -10,8 +10,6 @@ import { cn } from "@/utils/cn";
 import Button from "@/components/shared/Button";
 import DeleteBlogButton from "@/components/admin/blogs/blog-action/DeleteBlogButton";
 
-// export const dynamic = "force-dynamic";
-export const revalidate = 300;
 
 const statusStyles = {
   published: "bg-green-50 text-green-700 border-green-200",

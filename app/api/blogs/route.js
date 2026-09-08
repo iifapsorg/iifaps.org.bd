@@ -65,6 +65,9 @@ export async function POST(request) {
       author: session?.user?.role === "author" ? session.user.id : null,
     });
 
+    // Update blog tag
+    revalidateTag("blogs", "max");
+
     // Admin pages
     revalidatePath("/admin/blogs");
 

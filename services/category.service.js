@@ -2,7 +2,7 @@
 
 import connectDB from "@/lib/connectDB";
 import Category from "@/models/Category";
-import { unstable_cache } from "next/cache";
+import { cacheLife, cacheTag} from "next/cache";
 import { slugify, uniqueSlug } from "@/lib/slugify";
 
 /* ---------------------------
@@ -96,14 +96,14 @@ async function getCategoryTreeFromDB() {
 /* ---------------------------
    CATEGORY TREE - CACHE
 ----------------------------*/
-export const getCategoryTree = unstable_cache(
-  getCategoryTreeFromDB,
-  ["category-tree"],
-  {
-    revalidate: 3600,
-    tags: ["categories"],
-  },
-);
+export async function getCategoryTree() {
+  "use cache";
+
+  cacheLife("days");
+  cacheTag("categories");
+
+  return getCategoryTreeFromDB();
+}
 
 /* ---------------------------
    GET CATEGORY BY SLUG

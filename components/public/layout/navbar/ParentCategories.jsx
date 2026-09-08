@@ -52,7 +52,7 @@ export default function ParentCategories({
             {/* Child Categories */}
             {isOpen && (
               <ChildCategories
-                children={parent.children || []}
+                subCategories={parent.children || []}
               />
             )}
           </li>

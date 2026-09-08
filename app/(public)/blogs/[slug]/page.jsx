@@ -19,7 +19,7 @@ export async function generateMetadata({ params }) {
   return generateBlogMetaData(blog);
 }
 
-export const revalidate = 300;
+
 
 export default async function BlogDetailPage({ params }) {
   const { slug } = await params;

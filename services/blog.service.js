@@ -4,6 +4,7 @@ import connectDB from "@/lib/connectDB";
 import Blog from "@/models/Blog";
 import Category from "@/models/Category";
 import { slugify, uniqueSlug } from "@/lib/slugify";
+import { cacheTag } from "next/cache";
 
 /* ---------------------------
    GET BLOGS
@@ -20,6 +21,10 @@ export async function getBlogs({
   select = "thumbnail title category summary content slug views status createdAt author",
   populate = true,
 } = {}) {
+  "use cache";
+
+  cacheTag("blogs");
+
   await connectDB();
 
   const query = {

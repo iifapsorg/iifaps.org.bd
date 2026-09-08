@@ -1,51 +1,45 @@
-import { NextResponse } from "next/server";
 import { searchBlogs } from "@/services/blog.service";
 
 export async function GET(request) {
   try {
+    // Standard URL searchParams access
     const { searchParams } = new URL(request.url);
 
     const q = searchParams.get("q")?.trim() || "";
     const page = Number(searchParams.get("page")) || 1;
     const limit = Number(searchParams.get("limit")) || 10;
 
-    // Validation
     if (!q) {
-      return NextResponse.json(
-        {
-          success: false,
-          message: "Search query is required",
-          blogs: [],
-        },
-        { status: 400 }
-      );
+      return Response.json({
+        blogs: [],
+        total: 0,
+        pages: 0,
+        page,
+      });
     }
 
-    // Prevent abuse
-    const safeLimit = Math.min(limit, 20);
-
-    const result = await searchBlogs(q, {
+    const result = await searchBlogs({
+      query: q,
       page,
-      limit: safeLimit,
+      limit,
     });
 
-    return NextResponse.json(
-      {
-        success: true,
-        message: "Search completed successfully",
-        ...result,
-      },
-      { status: 200 }
-    );
+    return Response.json(result);
   } catch (error) {
+    if (
+      error?.digest === "NEXT_PRERENDER_INTERRUPTED" ||
+      error?.message?.includes("bail out of prerendering")
+    ) {
+      throw error;
+    }
+
     console.error("Search API Error:", error);
 
-    return NextResponse.json(
+    return Response.json(
       {
-        success: false,
         message: "Failed to search blogs",
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

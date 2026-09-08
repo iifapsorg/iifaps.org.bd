@@ -6,7 +6,6 @@ import Text from "@/components/shared/Text";
 import Button from "@/components/shared/Button";
 import AdminCategoryItem from "@/components/admin/categories/AdminCategoryItem";
 
-export const dynamic = "force-dynamic";
 
 export default async function AdminCategoriesPage() {
   const categoryTree = await getCategoryTree();

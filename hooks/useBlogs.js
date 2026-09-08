@@ -1,6 +1,7 @@
-// hooks/useBlog
+// hooks/useBlogs.js
 
 "use client";
+
 import { useState, useEffect, useCallback } from "react";
 
 export function useBlogs({ page = 1, limit = 10, category } = {}) {
@@ -14,24 +15,88 @@ export function useBlogs({ page = 1, limit = 10, category } = {}) {
     try {
       setLoading(true);
       setError(null);
-      const params = new URLSearchParams({ page, limit });
-      if (category) params.set("category", category);
-      const res = await fetch(`/api/blogs?${params}`);
-      if (!res.ok) throw new Error("Failed to fetch blogs");
+
+      const params = new URLSearchParams({
+        page: String(page),
+        limit: String(limit),
+      });
+
+      if (category) {
+        params.set("category", category);
+      }
+
+      const res = await fetch(`/api/blogs?${params.toString()}`);
+
+      if (!res.ok) {
+        throw new Error("Failed to fetch blogs");
+      }
+
       const data = await res.json();
+
       setBlogs(data.blogs);
       setTotal(data.total);
       setPages(data.pages);
     } catch (err) {
-      setError(err.message);
+      setError(err instanceof Error ? err.message : "Something went wrong");
     } finally {
       setLoading(false);
     }
   }, [page, limit, category]);
 
   useEffect(() => {
-    fetchBlogs();
-  }, [fetchBlogs]);
+    let cancelled = false;
 
-  return { blogs, total, pages, loading, error, refetch: fetchBlogs };
+    const loadBlogs = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+
+        const params = new URLSearchParams({
+          page: String(page),
+          limit: String(limit),
+        });
+
+        if (category) {
+          params.set("category", category);
+        }
+
+        const res = await fetch(`/api/blogs?${params.toString()}`);
+
+        if (!res.ok) {
+          throw new Error("Failed to fetch blogs");
+        }
+
+        const data = await res.json();
+
+        if (cancelled) return;
+
+        setBlogs(data.blogs);
+        setTotal(data.total);
+        setPages(data.pages);
+      } catch (err) {
+        if (cancelled) return;
+
+        setError(err instanceof Error ? err.message : "Something went wrong");
+      } finally {
+        if (!cancelled) {
+          setLoading(false);
+        }
+      }
+    };
+
+    loadBlogs();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [page, limit, category]);
+
+  return {
+    blogs,
+    total,
+    pages,
+    loading,
+    error,
+    refetch: fetchBlogs,
+  };
 }

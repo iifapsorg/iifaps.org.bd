@@ -8,9 +8,6 @@ import { authOptions } from "@/lib/auth";
 import { getBlogBySlug } from "@/services/blog.service";
 import { formatDate } from "@/utils/formatDate";
 
-// export const dynamic = "force-dynamic";
-export const revalidate = 300;
-
 export default async function AdminBlogPreviewPage({ params }) {
   const session = await getServerSession(authOptions);
 

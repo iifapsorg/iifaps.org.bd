@@ -10,7 +10,6 @@ export const metadata = generateMetaData({
   title: "Blog",
   description: "All blog posts",
 });
-export const revalidate = 300;
 
 export default async function BlogPage({ searchParams }) {
   const { type, page } = await searchParams;

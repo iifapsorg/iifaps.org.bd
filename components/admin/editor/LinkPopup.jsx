@@ -1,20 +1,28 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
-const LinkPopup = ({ open, onClose, onSubmit, initialValue = "" }) => {
-  const [url, setUrl] = useState("");
-
-  useEffect(() => {
-    setUrl(initialValue);
-  }, [initialValue]);
+const LinkPopup = ({
+  open,
+  onClose,
+  onSubmit,
+  initialValue = "",
+}) => {
+  const [url, setUrl] = useState(initialValue);
 
   if (!open) return null;
+
+  const handleApply = () => {
+    onSubmit(url);
+    onClose();
+  };
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
       <div className="w-full max-w-md rounded-xl bg-white p-6 shadow-xl">
-        <h2 className="mb-4 text-lg font-semibold">Insert Link</h2>
+        <h2 className="mb-4 text-lg font-semibold">
+          Insert Link
+        </h2>
 
         <input
           autoFocus
@@ -27,6 +35,7 @@ const LinkPopup = ({ open, onClose, onSubmit, initialValue = "" }) => {
 
         <div className="mt-5 flex justify-end gap-3">
           <button
+            type="button"
             onClick={onClose}
             className="rounded-lg border px-4 py-2"
           >
@@ -34,10 +43,8 @@ const LinkPopup = ({ open, onClose, onSubmit, initialValue = "" }) => {
           </button>
 
           <button
-            onClick={() => {
-              onSubmit(url);
-              onClose();
-            }}
+            type="button"
+            onClick={handleApply}
             className="rounded-lg bg-blue-600 px-4 py-2 text-white"
           >
             Apply

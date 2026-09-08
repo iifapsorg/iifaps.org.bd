@@ -1,7 +1,7 @@
 // /admin/users/page
 
 import { Users, UserRound, ShieldCheck, UserCheck } from "lucide-react";
-
+import { connection } from "next/server"; 
 import { getAllUsers } from "@/services/user.service";
 import { formatShortDate } from "@/utils/formatDate";
 import Text from "@/components/shared/Text";
@@ -18,6 +18,7 @@ const roleStyles = {
 };
 
 export default async function AdminUsersPage() {
+  await connection();
   const users = await getAllUsers();
 
   const activeUsers = users.filter((user) => user.isActive).length;

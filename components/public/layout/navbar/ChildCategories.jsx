@@ -1,8 +1,8 @@
 import Link from "next/link";
 import { ChevronRight } from "lucide-react";
 
-export default function ChildCategories({ children = [] }) {
-  if (!children.length) {
+export default function ChildCategories({ subCategories = [] }) {
+  if (!subCategories.length) {
     return (
       <div className="px-8 py-3 text-sm text-muted-foreground">
         No subcategories found.
@@ -12,7 +12,7 @@ export default function ChildCategories({ children = [] }) {
 
   return (
     <ul className="border-t border-border bg-muted/20">
-      {children.map((child) => (
+      {subCategories.map((child) => (
         <li key={child._id.toString()}>
           <Link
             href={`/categories/${child.slug}`}

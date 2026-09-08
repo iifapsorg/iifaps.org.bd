@@ -4,7 +4,7 @@ import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { getBlogBySlug, updateBlog, deleteBlog } from "@/services/blog.service";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 
 /* ---------------------------
    GET SINGLE BLOG
@@ -49,6 +49,9 @@ export async function PUT(request, { params }) {
     const blogId = blog._id.toString();
     const updatedBlog = await updateBlog(blogId, body);
 
+    // Update blog tag
+    revalidateTag("blogs", "max");
+
     // Admin pages
     revalidatePath("/admin/blogs");
 
@@ -85,13 +88,17 @@ export async function DELETE(request, { params }) {
     const blogId = blog._id.toString();
 
     await deleteBlog(blogId);
+    
+    // Update blog tag
+    revalidateTag("blogs", "max");
+
     // Admin pages
     revalidatePath("/admin/blogs");
 
     // Public blog pages
     revalidatePath("/");
     revalidatePath("/blogs");
-    
+
     return NextResponse.json({ message: "Blog deleted successfully" });
   } catch (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });

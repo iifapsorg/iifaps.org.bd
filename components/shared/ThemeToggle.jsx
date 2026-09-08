@@ -3,28 +3,41 @@
 "use client";
 
 import { Moon, Sun } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useSyncExternalStore } from "react";
 import { useTheme } from "next-themes";
-// import { usePathname } from "next/navigation";
-import { useNavigation } from "@/components/providers/NavigationProvider";
+import { usePathname } from "next/navigation";
+
+const emptySubscribe = () => () => {};
 
 export default function ThemeToggle() {
   const { theme, setTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
-  const { isHome } = useNavigation();
+  const pathname = usePathname();
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  const mounted = useSyncExternalStore(
+    emptySubscribe,
+    () => true,
+    () => false,
+  );
 
-  if (!mounted) return null;
+  const isHome = pathname === "/";
+
+  if (!mounted) {
+    return null;
+  }
+
+  const isDark = theme === "dark";
 
   return (
     <button
-      onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-      className={`flex h-10 w-10 items-center justify-center rounded-md border cursor-pointer hover:bg-gray-800 hover:text-white transition ${isHome && "text-white"}`}
+      type="button"
+      onClick={() => setTheme(isDark ? "light" : "dark")}
+      aria-label="Toggle theme"
+      className={`flex h-10 w-10 items-center justify-center rounded-md border transition
+        hover:bg-gray-800 hover:text-white
+        ${isHome ? "text-white" : ""}
+      `}
     >
-      {theme === "dark" ? <Sun size={18} /> : <Moon size={18} />}
+      {isDark ? <Sun size={18} /> : <Moon size={18} />}
     </button>
   );
 }
