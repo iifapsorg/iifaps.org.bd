@@ -74,12 +74,13 @@ export default function NavbarClient({ categoryTree }) {
   return (
     <>
       <nav
+        key={pathname}
         ref={menuRef}
         aria-label="Main Navigation"
         /* 
-          Apply conditional layout styles based on current route:
-          - Homepage ('/'): Uses absolute positioning with transparent background.
-          - Other pages: Uses sticky positioning with a solid background and shadow.
+          Corrected Class Logic:
+          - Always applies top-0 left-0 z-50 w-full
+          - Correctly sets absolute positioning for Home and sticky for other pages
         */
         className={`top-0 left-0 z-50 w-full transition-all duration-200 ease-in ${
           isHome
