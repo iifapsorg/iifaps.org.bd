@@ -1,5 +1,3 @@
-// components/layout/NavbarClient.jsx
-
 "use client";
 
 import { useEffect, useRef, useState } from "react";
@@ -22,6 +20,7 @@ export default function NavbarClient({ categoryTree }) {
   const [activeParent, setActiveParent] = useState(null);
 
   const isHome = pathname === "/";
+  const isOverlayOpen = isMenuOpen || isCategoryOpen;
 
   const closeMenus = () => {
     setIsMenuOpen(false);
@@ -29,18 +28,12 @@ export default function NavbarClient({ categoryTree }) {
     setActiveParent(null);
   };
 
-  /*
-   * Route-aware overlay state.
-   *
-   * If navigation happens while a menu is open,
-   * the old state remains internally, but it won't be
-   * displayed on the new pathname.
-   */
-  const [menuPathname, setMenuPathname] = useState(pathname);
+  // 1. Automatically close open menus whenever the route changes
+  useEffect(() => {
+    closeMenus();
+  }, [pathname]);
 
-  const isOverlayOpen =
-    menuPathname === pathname && (isMenuOpen || isCategoryOpen);
-
+  // 2. Handle clicks outside the navbar container to dismiss open menus
   useEffect(() => {
     if (!isOverlayOpen) return;
 
@@ -51,7 +44,6 @@ export default function NavbarClient({ categoryTree }) {
     };
 
     document.addEventListener("mousedown", handleClickOutside);
-
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
@@ -61,27 +53,22 @@ export default function NavbarClient({ categoryTree }) {
     if (path === "/") {
       return pathname === "/";
     }
-
     return pathname === path || pathname.startsWith(`${path}/`);
   };
 
   const toggleMenu = () => {
-    setMenuPathname(pathname);
     setIsCategoryOpen(false);
     setActiveParent(null);
     setIsMenuOpen((prev) => !prev);
   };
 
   const toggleCategories = () => {
-    setMenuPathname(pathname);
     setIsMenuOpen(false);
     setIsCategoryOpen((prev) => !prev);
   };
 
   const handleParentClick = (parentId) => {
-    setActiveParent((prev) =>
-      prev === parentId ? null : parentId
-    );
+    setActiveParent((prev) => (prev === parentId ? null : parentId));
   };
 
   return (
@@ -89,15 +76,16 @@ export default function NavbarClient({ categoryTree }) {
       <nav
         ref={menuRef}
         aria-label="Main Navigation"
-        className={`absolute top-0 left-0 z-50 w-full transition-all duration-200 ease-in
-          ${
-            isHome
-              ? isOverlayOpen
-                ? "bg-black/40 shadow-lg"
-                : "bg-transparent"
-              : "bg-transparent shadow-lg"
-          }
-        `}
+        /* 
+          Apply conditional layout styles based on current route:
+          - Homepage ('/'): Uses absolute positioning with transparent background.
+          - Other pages: Uses sticky positioning with a solid background and shadow.
+        */
+        className={`top-0 left-0 z-50 w-full transition-all duration-200 ease-in ${
+          isHome
+            ? `absolute ${isOverlayOpen ? "bg-black/40 shadow-lg" : "bg-transparent"}`
+            : "sticky bg-background text-foreground/70 shadow-md"
+        }`}
       >
         <NavbarHeader
           isHome={isHome}
@@ -125,7 +113,7 @@ export default function NavbarClient({ categoryTree }) {
 
       {isOverlayOpen && (
         <div
-          className="fixed inset-0 z-40 bg-transparent/60 backdrop-blur-sm"
+          className="fixed inset-0 z-40 bg-black/50 backdrop-blur-sm"
           onClick={closeMenus}
         />
       )}
