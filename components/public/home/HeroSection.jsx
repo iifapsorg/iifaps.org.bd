@@ -117,7 +117,7 @@ const HeroSection = ({ latestArticles = [] }) => {
   };
 
   return (
-    <section className="hero-slider relative w-full overflow-hidden bg-black">
+    <section className="hero-slider relative h-[calc(100vh-50px)] md:h-[calc(100vh-55px)] lg:h-[calc(100vh-65px)] w-full overflow-hidden bg-black">
       <Slider {...settings}>
         {articles.map((article) => {
           const category =
@@ -174,7 +174,7 @@ const HeroSection = ({ latestArticles = [] }) => {
                     text-white
                   "
                 >
-                  <div className="max-w-4xl">
+                  <div className="max-w-4xl pb-8 md:pb-10 lg:pb-15">
                     {/* Category */}
                     <Link
                       href={`/categories/${article.category?.slug || ""}`}

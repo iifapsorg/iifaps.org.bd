@@ -86,11 +86,7 @@ export default function NavbarClient({ categoryTree }) {
   };
 
   // ৫. স্টাইল ক্লাসগুলোকে সম্পূর্ণ পৃথক করে দেওয়া
-  const navClasses = isHome
-    ? `absolute top-0 left-0 z-50 w-full transition-all duration-300 ${
-        isOverlayOpen ? "bg-black/80 shadow-lg text-white" : "bg-transparent text-white"
-      }`
-    : `sticky top-0 left-0 z-50 w-full transition-all duration-300 bg-background text-foreground shadow-md`;
+  const navClasses =`relative top-0 left-0 z-50 w-full transition-all duration-300 bg-background text-muted-foreground}`;
 
   return (
     <>
