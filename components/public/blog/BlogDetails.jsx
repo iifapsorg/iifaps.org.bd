@@ -1,40 +1,54 @@
 // components/blog/blogdetails
-
 import Image from "next/image";
 import Link from "next/link";
+
 import Text from "@/components/shared/Text";
 import { formatDate } from "@/utils/formatDate";
 import { readingTime } from "@/utils/readingTime";
+import DownloadPdfButton from "@/components/public/blog/DownloadPdfButton";
 
 export default function BlogDetails({ blog }) {
   const { text: readTime } = readingTime(blog?.content);
 
   return (
-    <article className="max-w-3xl mx-auto">
+    <article id="blog-pdf-content" className="pdf-content max-w-3xl mx-auto">
       {/* Meta */}
       <div className="mb-6">
-        {blog?.category && (
-          <Link
-            href={`/category/${blog.category?.slug}`}
-            className="text-sm font-semibold text-blue-600 uppercase tracking-wide hover:text-blue-800"
-          >
-            {blog.category?.name}
-          </Link>
-        )}
-        {/* ====== title / blog heading ===== */}
+        {/* Category + Download PDF */}
+        <div className="flex justify-between items-center">
+          <div>
+            {blog?.category && (
+              <Link
+                href={`/category/${blog.category?.slug}`}
+                className="text-sm font-semibold text-blue-600 uppercase tracking-wide hover:text-blue-800"
+              >
+                {blog.category?.name}
+              </Link>
+            )}
+          </div>
+
+          <div>
+            <DownloadPdfButton slug={blog.slug} />
+          </div>
+        </div>
+
+        {/* Title */}
         <Text variant="title" className="font-extrabold">
           {blog.title}
         </Text>
 
-        {/* ===== author, date, time, views ======== */}
+        {/* Author, date, time, views */}
         <div className="mt-4 flex items-center gap-4 text-sm text-muted-foreground">
           {blog?.author && (
             <span className="font-bold">
               {blog.author.name || "IIFAPS Institute"}
             </span>
           )}
+
           <span>{formatDate(blog?.createdAt)}</span>
+
           <span>{readTime}</span>
+
           <span>{blog?.views} views</span>
         </div>
       </div>
@@ -43,7 +57,7 @@ export default function BlogDetails({ blog }) {
       {blog?.thumbnail && (
         <div className="relative w-full h-80 mb-8 rounded-xl overflow-hidden">
           <Image
-            src={blog?.thumbnail}
+            src={blog.thumbnail}
             alt={blog.title}
             fill
             className="object-cover"
@@ -51,16 +65,18 @@ export default function BlogDetails({ blog }) {
         </div>
       )}
 
-      {/* Content */}
+      {/* Blog Content */}
       <div
         className="prose prose-lg max-w-none text-foreground/80 text-xl text-justify"
-        dangerouslySetInnerHTML={{ __html: blog?.content }}
+        dangerouslySetInnerHTML={{
+          __html: blog?.content,
+        }}
       />
 
       {/* Tags */}
       {blog?.tags?.length > 0 && (
         <div className="mt-8 flex flex-wrap gap-2">
-          {blog?.tags?.map((tag) => (
+          {blog.tags.map((tag) => (
             <span
               key={tag}
               className="px-3 py-1 bg-gray-100 text-gray-600 rounded-full text-sm"

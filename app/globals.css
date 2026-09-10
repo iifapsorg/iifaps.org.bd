@@ -1,5 +1,5 @@
 /* Google Fonts */
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Lora:wght@400..700&family=Croissant+One&display=swap"); 
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Lora:wght@400..700&family=Croissant+One&display=swap");
 
 /* ===== tailwind css ==== */
 @import "tailwindcss";
@@ -164,4 +164,36 @@
 
 .os-scrollbar-horizontal {
   height: 8px !important;
+}
+
+/* ========== PDF export styles ====== */
+.pdf-content.pdf-export {
+  background-color: #ffffff !important;
+  color: #111827 !important;
+}
+
+.pdf-content.pdf-export h1,
+.pdf-content.pdf-export h2,
+.pdf-content.pdf-export h3,
+.pdf-content.pdf-export h4,
+.pdf-content.pdf-export h5,
+.pdf-content.pdf-export h6,
+.pdf-content.pdf-export p,
+.pdf-content.pdf-export li,
+.pdf-content.pdf-export blockquote,
+.pdf-content.pdf-export strong,
+.pdf-content.pdf-export em {
+  color: #111827 !important;
+}
+
+.pdf-content.pdf-export a {
+  color: #2563eb !important;
+}
+
+.pdf-content.pdf-export span {
+  color: #111827;
+}
+
+.pdf-content.pdf-export img {
+  background-color: #ffffff;
 }

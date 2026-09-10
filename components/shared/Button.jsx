@@ -111,6 +111,7 @@ export default function Button({
   children = "Click!",
   variant = "primary",
   className,
+  id,
   disabled = false,
   onClick,
   type = "button",
@@ -119,12 +120,12 @@ export default function Button({
 
   return (
     <button
+      id={id}
       type={type}
       onClick={onClick}
       disabled={disabled}
       className={cn(
         baseStyle,
-
         isAnimated && beforeEffect,
 
         variants[variant] ?? variants.primary,
