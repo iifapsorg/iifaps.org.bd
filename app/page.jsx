@@ -13,7 +13,7 @@ import Subscribe from "@/components/public/home/Subscribe";
 import {
   BlogGridSkeleton,
   HeroSkeleton,
-} from "@/components/skeleton/HomeSkeletons";
+} from "@/components/skeleton/public/HomeSkeletons";
 
 export default function HomePage() {
   return (

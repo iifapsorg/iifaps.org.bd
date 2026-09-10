@@ -10,6 +10,7 @@ import Text from "@/components/shared/Text";
 import { cn } from "@/utils/cn";
 import Button from "@/components/shared/Button";
 import DeleteBlogButton from "@/components/admin/blogs/blog-action/DeleteBlogButton";
+import Loading from "@/app/admin/blogs/loading";
 
 const statusStyles = {
   published: "bg-green-50 text-green-700 border-green-200",
@@ -37,7 +38,7 @@ export default function AdminBlogsPage() {
       </div>
 
       {/* Dynamic Data Content Async Component */}
-      <Suspense fallback={<BlogsSkeleton />}>
+      <Suspense fallback={<Loading />}>
         <BlogsContent />
       </Suspense>
     </div>
@@ -162,7 +163,7 @@ async function BlogsContent() {
                           "inline-flex items-center rounded-full border px-2.5 py-1",
                           "text-xs font-medium capitalize",
                           statusStyles[blog.status] ||
-                            "border-border bg-muted text-foreground/60"
+                            "border-border bg-muted text-foreground/60",
                         )}
                       >
                         <span
@@ -170,7 +171,7 @@ async function BlogsContent() {
                             "mr-1.5 h-1.5 w-1.5 rounded-full",
                             blog.status === "published"
                               ? "bg-green-500"
-                              : "bg-yellow-500"
+                              : "bg-yellow-500",
                           )}
                         />
                         {blog.status}
@@ -240,19 +241,5 @@ async function BlogsContent() {
         )}
       </div>
     </>
-  );
-}
-
-// Skeleton Component
-function BlogsSkeleton() {
-  return (
-    <div className="space-y-6 animate-pulse">
-      <div className="grid grid-cols-2 gap-4 lg:grid-cols-3">
-        {[...Array(3)].map((_, i) => (
-          <div key={i} className="h-24 rounded-md border bg-muted/40" />
-        ))}
-      </div>
-      <div className="h-96 rounded-xl border bg-muted/20" />
-    </div>
   );
 }

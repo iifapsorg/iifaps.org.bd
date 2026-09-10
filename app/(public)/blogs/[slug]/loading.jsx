@@ -1,5 +1,5 @@
 import React from 'react'
-import BlogDetailsSkeleton from "@/components/skeleton/BlogDetailsSkeleton"
+import BlogDetailsSkeleton from "@/components/skeleton/public/BlogDetailsSkeleton"
 import Container from '@/components/shared/Container'
 
 const loading = () => {

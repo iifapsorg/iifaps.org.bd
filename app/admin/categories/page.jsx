@@ -8,6 +8,8 @@ import { getCategoryTree } from "@/services/category.service";
 import Text from "@/components/shared/Text";
 import Button from "@/components/shared/Button";
 import AdminCategoryItem from "@/components/admin/categories/AdminCategoryItem";
+import Loading from "@/app/admin/categories/loading";
+
 
 export default function AdminCategoriesPage() {
   return (
@@ -30,7 +32,7 @@ export default function AdminCategoriesPage() {
       </div>
 
       {/* Dynamic Data wrapped in Suspense for non-blocking UI */}
-      <Suspense fallback={<CategoriesSkeleton />}>
+      <Suspense fallback={<Loading />}>
         <CategoriesContent />
       </Suspense>
     </div>
@@ -106,19 +108,5 @@ async function CategoriesContent() {
         <AdminCategoryItem categories={categories} />
       </div>
     </>
-  );
-}
-
-// Fallback Skeleton Component for Loading State
-function CategoriesSkeleton() {
-  return (
-    <div className="space-y-6 animate-pulse">
-      <div className="grid grid-cols-2 gap-4 md:grid-cols-3">
-        {[...Array(3)].map((_, i) => (
-          <div key={i} className="h-24 rounded-md border bg-muted/40" />
-        ))}
-      </div>
-      <div className="h-80 rounded-xl border bg-muted/20" />
-    </div>
   );
 }

@@ -1,5 +1,5 @@
 import Container from "@/components/shared/Container";
-import BlogCardSkeleton from "@/components/skeleton/BlogCardSkeleton";
+import BlogCardSkeleton from "@/components/skeleton/public/BlogCardSkeleton";
 
 const Loading = () => {
   return (
