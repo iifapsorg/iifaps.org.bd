@@ -117,7 +117,7 @@ const HeroSection = ({ latestArticles = [] }) => {
   };
 
   return (
-    <section className="hero-slider relative h-[calc(100vh-50px)] md:h-[calc(100vh-55px)] lg:h-[calc(100vh-65px)] w-full overflow-hidden bg-black">
+    <section className="hero-slider relative h-[calc(100vh-50px)] md:h-[calc(100vh-55px)] lg:h-[calc(100vh-60px)] w-full overflow-hidden bg-black">
       <Slider {...settings}>
         {articles.map((article) => {
           const category =
