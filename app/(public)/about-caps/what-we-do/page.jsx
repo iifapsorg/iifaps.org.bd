@@ -7,7 +7,7 @@ import {
   coreFocusAreas,
   ourApproach,
   ourActivities,
-} from "@/config/about-iifaps.config";
+} from "@/config/about-caps.config";
 
 const page = () => {
   return (
@@ -20,7 +20,7 @@ const page = () => {
           </Text>
 
           <Text className="mt-10 text-center">
-            IIFAPS is committed to advancing research, dialogue, and academic
+            CAPS is committed to advancing research, dialogue, and academic
             engagement in Islamic and civilizational studies. Our core
             activities include:
           </Text>

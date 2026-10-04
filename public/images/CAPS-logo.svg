@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title">
+  <title id="title">Center for Advanced Political Studies</title>
+  <defs>
+    <path id="top-arc" d="M 54 256 A 202 202 0 0 1 458 256" />
+    <path id="bottom-arc" d="M 57 256 A 199 199 0 0 0 455 256" />
+  </defs>
+  <circle cx="256" cy="256" r="244" fill="#08203e" />
+  <circle cx="256" cy="256" r="237" fill="none" stroke="#c49a3a" stroke-width="3" />
+  <circle cx="256" cy="256" r="174" fill="#fff" stroke="#c49a3a" stroke-width="3" />
+  <text fill="#fff" font-family="Georgia, serif" font-size="15" font-weight="bold" letter-spacing="2.6" text-anchor="middle">
+    <textPath href="#top-arc" startOffset="50%">CENTER FOR</textPath>
+  </text>
+  <text fill="#fff" font-family="Georgia, serif" font-size="14" font-weight="bold" letter-spacing="1.9" text-anchor="middle">
+    <textPath href="#bottom-arc" startOffset="50%">ADVANCED POLITICAL STUDIES</textPath>
+  </text>
+  <circle cx="67" cy="256" r="5" fill="#c49a3a" />
+  <circle cx="445" cy="256" r="5" fill="#c49a3a" />
+  <path d="M256 111c-20 28-22 44 0 59 22-15 20-31 0-59Z" fill="#c49a3a" />
+  <path d="M256 166v63m-22-43h44m-38 15h32" fill="none" stroke="#08203e" stroke-linecap="round" stroke-width="8" />
+  <path d="M173 266c26-20 55-20 83 1 28-21 57-21 83-1v51c-26-19-55-19-83 2-28-21-57-21-83-2v-51Z" fill="#fff" stroke="#08203e" stroke-linejoin="round" stroke-width="8" />
+  <path d="M256 267v52" fill="none" stroke="#c49a3a" stroke-width="5" />
+  <path d="M201 346h110l-12 14h-86z" fill="#08203e" />
+  <text x="256" y="341" fill="#08203e" font-family="Georgia, serif" font-size="21" font-weight="bold" letter-spacing="4" text-anchor="middle">CAPS</text>
+</svg>

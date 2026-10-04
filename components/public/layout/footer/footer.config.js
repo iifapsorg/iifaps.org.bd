@@ -43,21 +43,21 @@ export const socialLinks = [
 
 {/* ================= about ================= */}
 export const about = [
-  { name: "IIFAPS Defined", href: "/about-iifaps/iifaps-defined" },
-  { name: "Mission & Vision", href: "/about-iifaps/mission-vision" },
-  { name: "What We Do", href: "/about-iifaps/what-we-do" },
+  { name: "CAPS Defined", href: "/about-caps/caps-defined" },
+  { name: "Mission & Vision", href: "/about-caps/mission-vision" },
+  { name: "What We Do", href: "/about-caps/what-we-do" },
 ];
 
 {/* ================= our_team ================= */}
 export const our_team = [
-  { name: "advisory board", href: "/about-iifaps/team/advisory-board" },
+  { name: "advisory board", href: "/about-caps/team/advisory-board" },
   {
     name: "distinguished fellows",
-    href: "/about-iifaps/team/distinguished-fellows",
+    href: "/about-caps/team/distinguished-fellows",
   },
-  { name: "executive director", href: "/about-iifaps/team/executive-director" },
-  { name: "executive members", href: "/about-iifaps/team/executive-members" },
-  { name: "trustee board", href: "/about-iifaps/team/trustee-board" },
+  { name: "executive director", href: "/about-caps/team/executive-director" },
+  { name: "executive members", href: "/about-caps/team/executive-members" },
+  { name: "trustee board", href: "/about-caps/team/trustee-board" },
 ];
 
 {/* ================= contact info ================= */}

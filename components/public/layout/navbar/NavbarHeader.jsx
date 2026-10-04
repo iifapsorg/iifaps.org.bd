@@ -26,7 +26,7 @@ export default function NavbarHeader({
                 md:text-sm lg:text-base
               `}
             >
-              INTERNATIONAL INSTITUTE FOR ADVANCED POLITICAL STUDIES
+              CENTER FOR ADVANCED POLITICAL STUDIES
             </Text>
           </div>
         </div>

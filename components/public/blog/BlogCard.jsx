@@ -31,7 +31,7 @@ export default function BlogCard({
   const categoryName =
     typeof category === "string" ? category : category?.name || "Uncategorized";
 
-  const authorName = author?.name || "IIFAPS Institute";
+  const authorName = author?.name || "CAPS Institute";
   const readTime = readingTime(content);
 
   return (

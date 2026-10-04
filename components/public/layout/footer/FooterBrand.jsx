@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import logo from "@/public/images/IIFAPS-logo.webp";
+import logo from "@/public/images/CAPS-logo.svg";
 import { footerBrand, socialLinks } from "@/components/public/layout/footer/footer.config";
 
 export default function FooterBrand() {
@@ -20,7 +20,7 @@ export default function FooterBrand() {
       >
         <Image
           src={logo}
-          alt="IIFAPS Logo"
+          alt="CAPS Logo"
           width={70}
           height={70}
           priority

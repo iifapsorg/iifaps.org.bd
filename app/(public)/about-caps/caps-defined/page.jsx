@@ -8,14 +8,13 @@ const page = () => {
       <Container>
         <div>
           <Text variant="sectionHeading" className="mx-auto text-center">
-            IIFAPS Defined
+            CAPS Defined
           </Text>
 
           <Text className="mt-10 text-justify">
-            The Institute for Islamic Philosophy, Politics and Civilizational
-            Studies (IIFAPS) is an interdisciplinary academic and research
-            institute dedicated to the systematic exploration of Islamic
-            intellectual traditions.
+            The Center for Advanced Political Studies (CAPS) is an
+            interdisciplinary academic and research institute dedicated to
+            the systematic exploration of Islamic intellectual traditions.
           </Text>
 
           <Text className="mt-5 text-justify">

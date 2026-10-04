@@ -12,7 +12,7 @@ export default async function FooterBottom() {
   return (
     <div className="mt-16 flex flex-col items-center justify-between gap-4 border-t border-border pt-8 text-sm text-muted-foreground md:flex-row">
       <p>
-        © {year} <Link href="/">IIFAPS</Link>. All rights reserved.
+        © {year} <Link href="/">CAPS</Link>. All rights reserved.
       </p>
 
       <div className="flex gap-6">

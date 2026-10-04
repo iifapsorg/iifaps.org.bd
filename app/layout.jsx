@@ -20,15 +20,15 @@ export const metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL),
 
   title: {
-    default: "IIFAPS",
-    template: "%s | IIFAPS",
+    default: "CAPS",
+    template: "%s | CAPS",
   },
 
   description:
-    "IIFAPS is an interdisciplinary academic and research institute dedicated to the systematic exploration of Islamic intellectual traditions.",
+    "CAPS is an interdisciplinary academic and research institute dedicated to the systematic exploration of Islamic intellectual traditions.",
 
   keywords: [
-    "IIFAPS",
+    "CAPS",
     "Islamic studies",
     "Islamic research",
     "Islamic scholarship",
@@ -37,29 +37,29 @@ export const metadata = {
 
   authors: [
     {
-      name: "IIFAPS",
+      name: "CAPS",
     },
   ],
 
-  creator: "IIFAPS",
-  publisher: "IIFAPS",
+  creator: "CAPS",
+  publisher: "CAPS",
 
   icons: {
-    icon: "/images/IIFAPS-logo.webp",
+    icon: "/images/CAPS-logo.svg",
   },
 
   openGraph: {
-    title: "IIFAPS",
+    title: "CAPS",
     description:
       "An interdisciplinary academic and research institute dedicated to the systematic exploration of Islamic intellectual traditions.",
-    siteName: "IIFAPS",
+    siteName: "CAPS",
     type: "website",
     images: [
       {
-        url: "/images/IIFAPS-og-image.jpg",
+        url: "/images/CAPS-og-image.jpg",
         width: 1200,
         height: 630,
-        alt: "IIFAPS",
+        alt: "CAPS",
       },
     ],
   },

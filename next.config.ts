@@ -4,6 +4,20 @@ import { withSentryConfig } from "@sentry/nextjs";
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  async redirects() {
+    return [
+      {
+        source: "/about-caps/caps-defined",
+        destination: "/about-caps/caps-defined",
+        permanent: true,
+      },
+      {
+        source: "/about-caps/:path*",
+        destination: "/about-caps/:path*",
+        permanent: true,
+      },
+    ];
+  },
   images: {
     remotePatterns: [
       {
@@ -19,7 +33,7 @@ export default withSentryConfig(nextConfig, {
   // For all available options, see:
   // https://www.npmjs.com/package/@sentry/webpack-plugin#options
 
-  org: "ismail-v3",
+  org: "caps",
 
   project: "javascript-nextjs",
 

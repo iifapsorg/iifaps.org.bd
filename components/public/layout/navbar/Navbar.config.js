@@ -7,51 +7,51 @@ export const navs = [
   },
   {
     id: 2,
-    name: "About IIFAPS",
+    name: "About CAPS",
     children: [
       {
         id: 21,
-        name: "IIFAPS Defined",
-        path: "/about-iifaps/iifaps-defined",
+        name: "CAPS Defined",
+        path: "/about-caps/caps-defined",
       },
       {
         id: 22,
         name: "What We Do",
-        path: "/about-iifaps/what-we-do",
+        path: "/about-caps/what-we-do",
       },
       {
         id: 23,
         name: "Mission & Vision",
-        path: "/about-iifaps/mission-vision",
+        path: "/about-caps/mission-vision",
       },
       {
         id: 24,
-        name: "IIFAPS Team",
+        name: "CAPS Team",
         children: [
           {
             id: 241,
             name: "Executive Director",
-            path: "/about-iifaps/team/executive-director",
+            path: "/about-caps/team/executive-director",
           },
           {
             id: 242,
             name: "Trustee Board",
-            path: "/about-iifaps/team/trustee-board",
+            path: "/about-caps/team/trustee-board",
           },
           {
             id: 243,
             name: "Advisory Board",
-            path: "/about-iifaps/team/advisory-board",
+            path: "/about-caps/team/advisory-board",
           },
           {
             id: 244,
             name: "Distinguished Fellows",
-            path: "/about-iifaps/team/distinguished-fellows",
+            path: "/about-caps/team/distinguished-fellows",
           },
           {
             id: 245,
             name: "Executive Members",
-            path: "/about-iifaps/team/executive-members",
+            path: "/about-caps/team/executive-members",
           },
         ],
       },
