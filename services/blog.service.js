@@ -184,26 +184,72 @@ export async function deleteBlog(id) {
 /* ---------------------------
    SEARCH BLOG
 ----------------------------*/
+// export async function searchBlogs(q, { page = 1, limit = 10 } = {}) {
+//   await connectDB();
+
+//   const regex = new RegExp(q, "i");
+
+//   const query = {
+//     status: "published",
+//     $or: [{ title: regex }, { summary: regex }, { tags: regex }],
+//   };
+
+//   const skip = (page - 1) * limit;
+
+//   const selectFields = "title slug summary createdAt category author";
+
+//   const [blogs, total] = await Promise.all([
+//     Blog.find(query)
+//       .select(selectFields)
+//       .populate("author", "name")
+//       .populate("category", "name slug")
+//       .sort({ createdAt: -1 })
+//       .skip(skip)
+//       .limit(limit)
+//       .lean(),
+
+//     Blog.countDocuments(query),
+//   ]);
+
+//   return { blogs, total, pages: Math.ceil(total / limit), page };
+// }
 export async function searchBlogs(q, { page = 1, limit = 10 } = {}) {
   await connectDB();
 
-  const regex = new RegExp(q, "i");
+  const search = q?.trim();
+  const skip = (page - 1) * limit;
+  const selectFields = "title slug summary createdAt category author";
+
+  // No search term: return latest published blogs
+  if (!search) {
+    const query = { status: "published" };
+
+    const [blogs, total] = await Promise.all([
+      Blog.find(query)
+        .select(selectFields)
+        .populate("author", "name")
+        .populate("category", "name slug")
+        .sort({ createdAt: -1 })
+        .skip(skip)
+        .limit(limit)
+        .lean(),
+      Blog.countDocuments(query),
+    ]);
+
+    return { blogs, total, pages: Math.ceil(total / limit), page };
+  }
 
   const query = {
     status: "published",
-    $or: [{ title: regex }, { summary: regex }, { tags: regex }],
+    $text: { $search: search },
   };
 
-  const skip = (page - 1) * limit;
-
-  const selectFields = "title slug summary createdAt category author";
-
   const [blogs, total] = await Promise.all([
-    Blog.find(query)
+    Blog.find(query, { score: { $meta: "textScore" } })
       .select(selectFields)
       .populate("author", "name")
       .populate("category", "name slug")
-      .sort({ createdAt: -1 })
+      .sort({ score: { $meta: "textScore" }, createdAt: -1 })
       .skip(skip)
       .limit(limit)
       .lean(),

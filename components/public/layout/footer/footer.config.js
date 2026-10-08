@@ -62,9 +62,8 @@ export const our_team = [
 
 {/* ================= contact info ================= */}
 export const contactInfo = [
-  "iifaps@gmail.com",
+  "caps.org.bd@gmail.com",
   "Dhaka, Bangladesh",
-  "Available Worldwide",
 ];
 
 {/* ================= bottomLinks ================= */}

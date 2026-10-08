@@ -85,6 +85,10 @@ const blogSchema = new mongoose.Schema(
 blogSchema.index({ status: 1, createdAt: -1 });
 blogSchema.index({ category: 1, status: 1 });
 blogSchema.index({ featured: 1, status: 1, createdAt: -1 });
+blogSchema.index(
+  { title: "text", summary: "text", tags: "text" },
+  { weights: { title: 10, tags: 5, summary: 1 } },
+);
 
 const Blog = mongoose.models.Blog || mongoose.model("Blog", blogSchema);
 

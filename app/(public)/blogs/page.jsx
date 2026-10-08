@@ -44,7 +44,7 @@ export default async function BlogPage({ searchParams }) {
 
   return (
     <main>
-      <Container className="py-12">
+      <Container className="pb-12">
         {/* ====== blog ui ==== */}
         <BlogCommonLayout
           blogs={allArticles}

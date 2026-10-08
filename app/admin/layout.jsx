@@ -12,7 +12,7 @@ export default async function AdminLayout({ children }) {
   if (!session) redirect("/signin");
 
   return (
-    <div className="pt-16.25 w-full h-[calc(100vh-65px)] grid grid-cols-1 lg:grid-cols-4 gap-4 lg:gap-8">
+    <div className="w-full h-[calc(100vh-65px)] grid grid-cols-1 lg:grid-cols-4 gap-4 lg:gap-8">
       <aside className="lg:col-span-1">
         <Sidebar />
       </aside>
