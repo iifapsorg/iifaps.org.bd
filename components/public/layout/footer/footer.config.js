@@ -62,7 +62,7 @@ export const our_team = [
 
 {/* ================= contact info ================= */}
 export const contactInfo = [
-  "caps.org.bd@gmail.com",
+  "info@bdcaps.org",
   "Dhaka, Bangladesh",
 ];
 
