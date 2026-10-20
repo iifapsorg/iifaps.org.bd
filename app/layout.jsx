@@ -1,23 +1,13 @@
-import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-// import "overlayscrollbars/overlayscrollbars.css";
 
 import { Providers } from "@/components/providers/Providers";
 import Navbar from "@/components/public/layout/navbar/Navbar";
 import Footer from "@/components/public/layout/footer/Footer";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
 export const metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL),
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_SITE_URL || "https://example.com",
+  ),
 
   title: {
     default: "CAPS",
@@ -26,6 +16,7 @@ export const metadata = {
 
   description:
     "To advance Islamic intellectual inquiry and empower Muslims to critically engage with Islam and modernity, intellectual history, political thought, and methodological question.",
+
   keywords: [
     "CAPS",
     "Islamic studies",
@@ -34,12 +25,7 @@ export const metadata = {
     "Islamic intellectual traditions",
   ],
 
-  authors: [
-    {
-      name: "CAPS",
-    },
-  ],
-
+  authors: [{ name: "CAPS" }],
   creator: "CAPS",
   publisher: "CAPS",
 
@@ -71,12 +57,8 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html
-      lang="en"
-      suppressHydrationWarning
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
-    >
-      <body className="min-h-full flex flex-col">
+    <html lang="en" suppressHydrationWarning className={`h-full antialiased`}>
+      <body className="flex min-h-full flex-col">
         <Providers>
           <Navbar />
           <main className="flex-1">{children}</main>
