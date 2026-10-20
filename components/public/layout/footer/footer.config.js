@@ -1,3 +1,4 @@
+
 import {
   FaFacebookF,
   FaLinkedinIn,
@@ -6,49 +7,44 @@ import {
   FaInstagram,
 } from "react-icons/fa6";
 
-{/* ================= Brand name and info ================= */}
+// Brand name and info
 export const footerBrand = {
   description:
-    "Delivering insightful articles on geopolitics, international relations, diplomacy, economics, and world affairs.",
+    "To advance Islamic intellectual inquiry and empower Muslims to critically engage with Islam and modernity, intellectual history, political thought, and methodological question.",
 };
 
-{/* ================= social media ================= */}
+// Social media
 export const socialLinks = [
   {
     icon: FaXTwitter,
-    href: "#",
+    href: "https://x.com/capsbd_org",
     label: "X",
   },
   {
     icon: FaFacebookF,
-    href: "#",
+    href: "https://m.facebook.com/profile.php?id=61595453851319",
     label: "Facebook",
   },
   {
     icon: FaInstagram,
-    href: "#",
+    href: "https://www.instagram.com/capsbd_org/",
     label: "Instagram",
   },
   {
-    icon: FaLinkedinIn,
-    href: "#",
-    label: "LinkedIn",
-  },
-  {
     icon: FaYoutube,
-    href: "#",
+    href: "https://www.youtube.com/@CAPS_BD",
     label: "Youtube",
   },
 ];
 
-{/* ================= about ================= */}
+// About
 export const about = [
   { name: "CAPS Defined", href: "/about-caps/caps-defined" },
   { name: "Mission & Vision", href: "/about-caps/mission-vision" },
   { name: "What We Do", href: "/about-caps/what-we-do" },
 ];
 
-{/* ================= our_team ================= */}
+// Our team
 export const our_team = [
   { name: "advisory board", href: "/about-caps/team/advisory-board" },
   {
@@ -60,13 +56,13 @@ export const our_team = [
   { name: "trustee board", href: "/about-caps/team/trustee-board" },
 ];
 
-{/* ================= contact info ================= */}
+// Contact info
 export const contactInfo = [
   "info@bdcaps.org",
   "Dhaka, Bangladesh",
 ];
 
-{/* ================= bottomLinks ================= */}
+// Bottom links
 export const bottomLinks = [
   {
     name: "Privacy Policy",

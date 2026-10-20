@@ -1,5 +1,5 @@
 import Image from "next/image";
-import logo from "@/public/images/CAPS-logo.svg";
+import logo from "@/public/images/CAPS-logo.png";
 
 const LogoLoading = () => {
   return (

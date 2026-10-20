@@ -25,8 +25,7 @@ export const metadata = {
   },
 
   description:
-    "CAPS is an interdisciplinary academic and research institute dedicated to the systematic exploration of Islamic intellectual traditions.",
-
+    "To advance Islamic intellectual inquiry and empower Muslims to critically engage with Islam and modernity, intellectual history, political thought, and methodological question.",
   keywords: [
     "CAPS",
     "Islamic studies",
@@ -45,13 +44,13 @@ export const metadata = {
   publisher: "CAPS",
 
   icons: {
-    icon: "/images/CAPS-logo.svg",
+    icon: "/images/CAPS-logo.png",
   },
 
   openGraph: {
     title: "CAPS",
     description:
-      "An interdisciplinary academic and research institute dedicated to the systematic exploration of Islamic intellectual traditions.",
+      "To advance Islamic intellectual inquiry and empower Muslims to critically engage with Islam and modernity, intellectual history, political thought, and methodological question.",
     siteName: "CAPS",
     type: "website",
     images: [

@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import logo from "@/public/images/CAPS-logo.svg";
+import logo from "@/public/images/CAPS-logo.png";
 import { footerBrand, socialLinks } from "@/components/public/layout/footer/footer.config";
 
 export default function FooterBrand() {
@@ -19,6 +19,7 @@ export default function FooterBrand() {
         }
       >
         <Image
+        className="rounded-md"
           src={logo}
           alt="CAPS Logo"
           width={70}
@@ -36,7 +37,8 @@ export default function FooterBrand() {
           const Icon = item.icon;
 
           return (
-            <Link
+            <Link 
+            target="_blank"
               key={item.label}
               href={item.href}
               aria-label={item.label}
