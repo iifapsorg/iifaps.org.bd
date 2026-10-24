@@ -9,6 +9,7 @@ import { cacheTag } from "next/cache";
 ----------------------------*/
 export async function getAllUsers() {
   "use cache";
+
   cacheTag("users");
 
   await connectDB();
@@ -18,64 +19,94 @@ export async function getAllUsers() {
     .sort({ createdAt: -1 })
     .lean();
 
-  return JSON.parse(JSON.stringify(users));
+  return users.length ? JSON.parse(JSON.stringify(users)) : [];
 }
+
 /* ---------------------------
-    GET USERS BY ID
+   GET USERS BY ID
 ----------------------------*/
 export async function getUserById(id) {
   await connectDB();
-  return User.findById(id).select("-password").lean();
+
+  const user = await User.findById(id).select("-password").lean();
+
+  return user ? JSON.parse(JSON.stringify(user)) : null;
 }
 
 /* ---------------------------
-    GET USERS BY EMAIL
+   GET USERS BY EMAIL
 ----------------------------*/
 export async function getUserByEmail(email) {
   await connectDB();
-  return User.findOne({ email }).select("-password").lean();
+
+  const user = await User.findOne({ email }).select("-password").lean();
+
+  return user ? JSON.parse(JSON.stringify(user)) : null;
 }
 
 /* ---------------------------
-    CREATE USER
+   CREATE USER
 ----------------------------*/
 export async function createUser(data) {
   await connectDB();
+
   const existing = await User.findOne({ email: data.email });
-  if (existing) throw new Error("User with this email already exists");
-  return User.create(data);
+
+  if (existing) {
+    throw new Error("User with this email already exists");
+  }
+
+  const user = await User.create(data);
+
+  const serializedUser = user.toObject();
+  delete serializedUser.password;
+
+  return JSON.parse(JSON.stringify(serializedUser));
 }
 
 /* ---------------------------
-    UPDATE USER
+   UPDATE USER
 ----------------------------*/
 export async function updateUser(id, data) {
   await connectDB();
-  // Don't allow role escalation without explicit permission
+
+  // Don't allow password updates through this function
   const update = { ...data };
-  delete update.password; // Password update handled separately
-  return User.findByIdAndUpdate(id, update, {
+  delete update.password;
+
+  const user = await User.findByIdAndUpdate(id, update, {
     new: true,
     runValidators: true,
   }).select("-password");
+
+  return user ? JSON.parse(JSON.stringify(user)) : null;
 }
 
 /* ---------------------------
-    DELETE USER
+   DELETE USER
 ----------------------------*/
 export async function deleteUser(id) {
   await connectDB();
-  return User.findByIdAndDelete(id);
+
+  const user = await User.findByIdAndDelete(id).select("-password");
+
+  return user ? JSON.parse(JSON.stringify(user)) : null;
 }
 
 /* ---------------------------
-    UPDATE USER'S PASSWORD
+   UPDATE USER'S PASSWORD
 ----------------------------*/
 export async function updatePassword(id, newPassword) {
   await connectDB();
+
   const user = await User.findById(id);
-  if (!user) throw new Error("User not found");
+
+  if (!user) {
+    throw new Error("User not found");
+  }
+
   user.password = newPassword;
   await user.save();
+
   return { success: true };
 }

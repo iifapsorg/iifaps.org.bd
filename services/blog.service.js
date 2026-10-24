@@ -82,7 +82,7 @@ export async function getBlogs({
   ]);
 
   return {
-    blogs,
+    blogs: blogs.length ? JSON.parse(JSON.stringify(blogs)) : [],
     total,
     pages: Math.ceil(total / limit),
     page,
@@ -100,36 +100,41 @@ export async function getBlogBySlug(slug, { admin = false } = {}) {
     isDeleted: false,
   };
 
-  // only admin can see draft blog
+  // Only admin can see draft blogs
   if (!admin) {
     query.status = "published";
   }
 
-  return Blog.findOne(query)
+  const blog = await Blog.findOne(query)
     .select(
       "title slug content summary thumbnail createdAt category author views tags status",
     )
     .populate("category")
     .populate("author")
     .lean();
+
+  return blog ? JSON.parse(JSON.stringify(blog)) : null;
 }
 
 /* ---------------------------
-   GET  BLOG BY ID
-----------------------------*/ export async function getBlogById(id) {
+   GET BLOG BY ID
+----------------------------*/
+export async function getBlogById(id) {
   await connectDB();
 
-  return Blog.findById(id)
+  const blog = await Blog.findById(id)
     .select(
       "title slug content summary thumbnail status createdAt category author tags",
     )
     .populate("author", "name")
     .populate("category", "name slug")
     .lean();
+
+  return blog ? JSON.parse(JSON.stringify(blog)) : null;
 }
 
 /* ---------------------------
-  CREATE BLOG
+   CREATE BLOG
 ----------------------------*/
 export async function createBlog(data) {
   await connectDB();
@@ -139,11 +144,12 @@ export async function createBlog(data) {
   const slug = existing ? uniqueSlug(data.title) : baseSlug;
 
   const blog = await Blog.create({ ...data, slug });
-  return blog;
+
+  return JSON.parse(JSON.stringify(blog));
 }
 
 /* ---------------------------
-  UPDATE BLOG
+   UPDATE BLOG
 ----------------------------*/
 export async function updateBlog(id, data) {
   await connectDB();
@@ -158,19 +164,13 @@ export async function updateBlog(id, data) {
     data.slug = existing ? uniqueSlug(data.title) : baseSlug;
   }
 
-  return Blog.findByIdAndUpdate(id, data, {
+  const blog = await Blog.findByIdAndUpdate(id, data, {
     new: true,
     runValidators: true,
   });
-}
 
-/* ---------------------------
-  DELETE BLOG (HARD)
-----------------------------*/
-// export async function deleteBlog(id) {
-//   await connectDB();
-//   return Blog.findByIdAndDelete(id);
-// }
+  return blog ? JSON.parse(JSON.stringify(blog)) : null;
+}
 
 /* ---------------------------
    DELETE BLOG (SOFT)
@@ -178,41 +178,18 @@ export async function updateBlog(id, data) {
 export async function deleteBlog(id) {
   await connectDB();
 
-  return Blog.findByIdAndUpdate(id, { isDeleted: true }, { new: true });
+  const blog = await Blog.findByIdAndUpdate(
+    id,
+    { isDeleted: true },
+    { new: true },
+  );
+
+  return blog ? JSON.parse(JSON.stringify(blog)) : null;
 }
 
 /* ---------------------------
    SEARCH BLOG
 ----------------------------*/
-// export async function searchBlogs(q, { page = 1, limit = 10 } = {}) {
-//   await connectDB();
-
-//   const regex = new RegExp(q, "i");
-
-//   const query = {
-//     status: "published",
-//     $or: [{ title: regex }, { summary: regex }, { tags: regex }],
-//   };
-
-//   const skip = (page - 1) * limit;
-
-//   const selectFields = "title slug summary createdAt category author";
-
-//   const [blogs, total] = await Promise.all([
-//     Blog.find(query)
-//       .select(selectFields)
-//       .populate("author", "name")
-//       .populate("category", "name slug")
-//       .sort({ createdAt: -1 })
-//       .skip(skip)
-//       .limit(limit)
-//       .lean(),
-
-//     Blog.countDocuments(query),
-//   ]);
-
-//   return { blogs, total, pages: Math.ceil(total / limit), page };
-// }
 export async function searchBlogs(q, { page = 1, limit = 10 } = {}) {
   await connectDB();
 
@@ -222,7 +199,10 @@ export async function searchBlogs(q, { page = 1, limit = 10 } = {}) {
 
   // No search term: return latest published blogs
   if (!search) {
-    const query = { status: "published" };
+    const query = {
+      status: "published",
+      isDeleted: false,
+    };
 
     const [blogs, total] = await Promise.all([
       Blog.find(query)
@@ -233,14 +213,21 @@ export async function searchBlogs(q, { page = 1, limit = 10 } = {}) {
         .skip(skip)
         .limit(limit)
         .lean(),
+
       Blog.countDocuments(query),
     ]);
 
-    return { blogs, total, pages: Math.ceil(total / limit), page };
+    return {
+      blogs: blogs.length ? JSON.parse(JSON.stringify(blogs)) : [],
+      total,
+      pages: Math.ceil(total / limit),
+      page,
+    };
   }
 
   const query = {
     status: "published",
+    isDeleted: false,
     $text: { $search: search },
   };
 
@@ -257,7 +244,12 @@ export async function searchBlogs(q, { page = 1, limit = 10 } = {}) {
     Blog.countDocuments(query),
   ]);
 
-  return { blogs, total, pages: Math.ceil(total / limit), page };
+  return {
+    blogs: blogs.length ? JSON.parse(JSON.stringify(blogs)) : [],
+    total,
+    pages: Math.ceil(total / limit),
+    page,
+  };
 }
 
 /* ---------------------------
@@ -266,9 +258,10 @@ export async function searchBlogs(q, { page = 1, limit = 10 } = {}) {
 export async function getRelatedBlogs(blogId, categoryId, limit = 4) {
   await connectDB();
 
-  return Blog.find({
+  const blogs = await Blog.find({
     category: categoryId,
     status: "published",
+    isDeleted: false,
     _id: { $ne: blogId },
   })
     .select("title slug thumbnail createdAt category author")
@@ -276,15 +269,17 @@ export async function getRelatedBlogs(blogId, categoryId, limit = 4) {
     .populate("category", "name slug")
     .limit(limit)
     .lean();
+
+  return blogs.length ? JSON.parse(JSON.stringify(blogs)) : [];
 }
 
 /* ---------------------------
-  INCREMENT VIEWS
+   INCREMENT VIEWS
 ----------------------------*/
 export async function incrementBlogViews(id) {
   await connectDB();
 
-  return Blog.findOneAndUpdate(
+  const blog = await Blog.findOneAndUpdate(
     {
       _id: id,
       status: "published",
@@ -301,4 +296,6 @@ export async function incrementBlogViews(id) {
   )
     .select("_id views")
     .lean();
+
+  return blog ? JSON.parse(JSON.stringify(blog)) : null;
 }

@@ -2,7 +2,7 @@
 
 import connectDB from "@/lib/connectDB";
 import Category from "@/models/Category";
-import { cacheLife, cacheTag} from "next/cache";
+import { cacheLife, cacheTag } from "next/cache";
 import { slugify, uniqueSlug } from "@/lib/slugify";
 
 /* ---------------------------
@@ -34,12 +34,14 @@ async function detectCycle(parentId, childId) {
 export async function getAllCategories() {
   await connectDB();
 
-  return Category.find({
+  const categories = await Category.find({
     isActive: true,
     isDeleted: false,
   })
     .sort({ name: 1 })
     .lean();
+
+  return categories.length ? JSON.parse(JSON.stringify(categories)) : [];
 }
 
 /* ---------------------------
@@ -48,10 +50,10 @@ export async function getAllCategories() {
 async function getCategoryTreeFromDB() {
   await connectDB();
 
-  return Category.aggregate([
+  const categories = await Category.aggregate([
     {
       $match: {
-        isActive: true,
+        // isActive: true,
         isDeleted: false,
         parent: null,
       },
@@ -64,9 +66,8 @@ async function getCategoryTreeFromDB() {
         connectFromField: "_id",
         connectToField: "parent",
         as: "children",
-
         restrictSearchWithMatch: {
-          isActive: true,
+          // isActive: true,
           isDeleted: false,
         },
       },
@@ -91,6 +92,8 @@ async function getCategoryTreeFromDB() {
       },
     },
   ]);
+
+  return categories.length ? JSON.parse(JSON.stringify(categories)) : [];
 }
 
 /* ---------------------------
@@ -111,11 +114,13 @@ export async function getCategoryTree() {
 export async function getCategoryBySlug(slug) {
   await connectDB();
 
-  return Category.findOne({
+  const category = await Category.findOne({
     slug,
     isActive: true,
     isDeleted: false,
   }).lean();
+
+  return category ? JSON.parse(JSON.stringify(category)) : null;
 }
 
 /* ---------------------------
@@ -124,10 +129,29 @@ export async function getCategoryBySlug(slug) {
 export async function getCategoryById(id) {
   await connectDB();
 
-  return Category.findOne({
+  const category = await Category.findOne({
     _id: id,
     isDeleted: false,
   }).lean();
+
+  return category ? JSON.parse(JSON.stringify(category)) : null;
+}
+
+/* ---------------------------
+   GET SUBCATEGORIES
+----------------------------*/
+export async function getSubcategories(parentId) {
+  await connectDB();
+
+  const categories = await Category.find({
+    parent: parentId,
+    isActive: true,
+    isDeleted: false,
+  })
+    .sort({ name: 1 })
+    .lean();
+
+  return categories.length ? JSON.parse(JSON.stringify(categories)) : [];
 }
 
 /* ---------------------------
@@ -220,19 +244,4 @@ export async function deleteCategory(id, user) {
       new: true,
     },
   );
-}
-
-/* ---------------------------
-   GET SUBCATEGORIES
-----------------------------*/
-export async function getSubcategories(parentId) {
-  await connectDB();
-
-  return Category.find({
-    parent: parentId,
-    isActive: true,
-    isDeleted: false,
-  })
-    .sort({ name: 1 })
-    .lean();
 }

@@ -16,11 +16,12 @@ export async function createSubscriber(email) {
       isVerified: false,
     });
 
-    return subscriber;
+    return JSON.parse(JSON.stringify(subscriber));
   } catch (err) {
     if (err.code === 11000) {
       throw new Error("Email already subscribed");
     }
+
     throw err;
   }
 }
@@ -29,32 +30,42 @@ export async function createSubscriber(email) {
    VERIFY EMAIL
 ----------------------------*/
 export async function verifySubscriber(token) {
-  const user = await Subscriber.findOne({ verifyToken: token });
+  const subscriber = await Subscriber.findOne({
+    verifyToken: token,
+  });
 
-  if (!user) {
+  if (!subscriber) {
     throw new Error("Invalid or expired token");
   }
 
-  user.isVerified = true;
-  user.verifyToken = null;
+  subscriber.isVerified = true;
+  subscriber.verifyToken = null;
 
-  await user.save();
+  await subscriber.save();
 
-  return user;
+  return JSON.parse(JSON.stringify(subscriber));
 }
 
 /* ---------------------------
    GET ONLY VERIFIED USERS
 ----------------------------*/
 export async function getSubscribers() {
-  return await Subscriber.find({ isVerified: true }).sort({
-    createdAt: -1,
-  });
+  const subscribers = await Subscriber.find({
+    isVerified: true,
+  })
+    .sort({ createdAt: -1 })
+    .lean();
+
+  return subscribers.length
+    ? JSON.parse(JSON.stringify(subscribers))
+    : [];
 }
 
 /* ---------------------------
    COUNT VERIFIED
 ----------------------------*/
 export async function getSubscriberCount() {
-  return await Subscriber.countDocuments({ isVerified: true });
+  return Subscriber.countDocuments({
+    isVerified: true,
+  });
 }
