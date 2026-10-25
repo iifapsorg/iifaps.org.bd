@@ -8,6 +8,7 @@ import LatestArticlesSection from "@/components/public/home/LatestArticlesSectio
 import MostReadSection from "@/components/public/home/MostReadSection";
 import FeaturedSection from "@/components/public/home/FeaturedSection";
 import Subscribe from "@/components/public/home/Subscribe";
+import ConferenceGallery from "@/components/public/home/conference-gallery/ConferenceGallery";
 
 // Skeletons
 import {
@@ -38,7 +39,10 @@ export default function HomePage() {
         <FeaturedSection />
       </Suspense>
 
-      {/* 5. Newsletter Subscribe Section */}
+      {/* 5. Webinar Section */}
+      <ConferenceGallery />
+
+      {/* 6. Newsletter Subscribe Section */}
       <Subscribe />
     </>
   );

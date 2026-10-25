@@ -18,7 +18,7 @@ export default function BlogCommonLayout({
   if (!blogs.length) return null;
 
   return (
-    <section className="my-20">
+    <section className="my-10 md:my-15 lg:20">
       <Container>
         {/* Section Heading */}
         <Text variant="sectionHeading" className="my-8 capitalize">
