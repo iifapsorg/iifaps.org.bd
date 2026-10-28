@@ -12,17 +12,17 @@ export const navs = [
       {
         id: 21,
         name: "CAPS Defined",
-        path: "/about-caps/caps-defined",
+        path: "/about/caps-defined",
       },
       {
         id: 22,
         name: "What We Do",
-        path: "/about-caps/what-we-do",
+        path: "/about/what-we-do",
       },
       {
         id: 23,
         name: "Mission & Vision",
-        path: "/about-caps/mission-vision",
+        path: "/about/mission-vision",
       },
       {
         id: 24,
@@ -31,27 +31,27 @@ export const navs = [
           {
             id: 241,
             name: "Executive Director",
-            path: "/about-caps/team/executive-director",
+            path: "/about/team/executive-director",
           },
           {
             id: 242,
             name: "Trustee Board",
-            path: "/about-caps/team/trustee-board",
+            path: "/about/team/trustee-board",
           },
           {
             id: 243,
             name: "Advisory Board",
-            path: "/about-caps/team/advisory-board",
+            path: "/about/team/advisory-board",
           },
           {
             id: 244,
             name: "Distinguished Fellows",
-            path: "/about-caps/team/distinguished-fellows",
+            path: "/about/team/distinguished-fellows",
           },
           {
             id: 245,
             name: "Executive Members",
-            path: "/about-caps/team/executive-members",
+            path: "/about/team/executive-members",
           },
         ],
       },

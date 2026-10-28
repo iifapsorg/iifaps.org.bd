@@ -144,25 +144,8 @@
 }
 
 /* Scrollbar */
-.os-scrollbar-track {
-  background: #f3f4f6;
-}
-
-.os-scrollbar-handle {
-  background: #9ca3af !important;
-  border-radius: 0 !important;
-}
-
-.os-scrollbar-handle:hover {
-  background: #6b7280 !important;
-}
-
-.os-scrollbar-vertical {
-  width: 12px !important;
-}
-
-.os-scrollbar-horizontal {
-  height: 8px !important;
+html {
+  scrollbar-width: thin;
 }
 
 /* PDF Export */

@@ -39,24 +39,24 @@ export const socialLinks = [
 
 // About
 export const about = [
-  { name: "CAPS Defined", href: "/about-caps/caps-defined" },
-  { name: "Mission & Vision", href: "/about-caps/mission-vision" },
-  { name: "What We Do", href: "/about-caps/what-we-do" },
+  { name: "CAPS Defined", href: "/about/caps-defined" },
+  { name: "Mission & Vision", href: "/about/mission-vision" },
+  { name: "What We Do", href: "/about/what-we-do" },
 ];
 
 // Our team
 export const our_team = [
-  { name: "advisory board", href: "/about-caps/team/advisory-board" },
+  { name: "advisory board", href: "/about/team/advisory-board" },
   {
     name: "distinguished fellows",
-    href: "/about-caps/team/distinguished-fellows",
+    href: "/about/team/distinguished-fellows",
   },
-  { name: "executive director", href: "/about-caps/team/executive-director" },
-  { name: "executive members", href: "/about-caps/team/executive-members" },
-  { name: "trustee board", href: "/about-caps/team/trustee-board" },
+  { name: "executive director", href: "/about/team/executive-director" },
+  { name: "executive members", href: "/about/team/executive-members" },
+  { name: "trustee board", href: "/about/team/trustee-board" },
 ];
 
-// Contact info
+// Contact
 export const contactInfo = [
   "info@bdcaps.org",
   "Dhaka, Bangladesh",

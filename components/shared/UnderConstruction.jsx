@@ -11,7 +11,7 @@ import Text from "@/components/shared/Text";
 
 export default function UnderConstruction() {
   return (
-    <section className="relative overflow-hidden pt-32 pb-16">
+    <section className="relative overflow-hidden py-12">
       <Container>
         <div className="flex min-h-[calc(100vh-12rem)] items-center justify-center">
           <div className="relative w-full max-w-xl rounded-3xl border border-border bg-background/80 p-8 text-center shadow-xl backdrop-blur md:p-10">
@@ -21,19 +21,18 @@ export default function UnderConstruction() {
             </div>
 
             {/* Heading */}
-            <Text variant="sectionHeading">
+            <Text variant="subHeading">
               Under Construction
             </Text>
 
             {/* Info */}
-            <div className="mt-8 flex items-start gap-4 rounded-2xl border border-border bg-muted/40 p-5 text-left">
+            <div className="mt-8 flex flex-col md:flex-row items-start  gap-4 md:gap-6 rounded-2xl border border-border bg-muted/40 p-5 text-left">
               <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
                 <Hammer className="h-5 w-5" />
               </div>
 
               <Text variant="normalText">
-                Our team is actively developing this page with new features and
-                improvements to ensure the best experience for you.
+                Our team is improving this page to give you the best experience.
               </Text>
             </div>
 
