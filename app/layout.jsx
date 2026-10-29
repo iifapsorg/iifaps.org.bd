@@ -10,7 +10,7 @@ export const metadata = {
   ),
 
   title: {
-    default: "CAPS",
+    default: "CAPS | Center for Advanced Political Studies",
     template: "%s | CAPS",
   },
 
@@ -34,17 +34,17 @@ export const metadata = {
   },
 
   openGraph: {
-    title: "CAPS",
+    title: "CAPS | Center for Advanced Political Studies",
     description:
       "To advance Islamic intellectual inquiry and empower Muslims to critically engage with Islam and modernity, intellectual history, political thought, and methodological question.",
     siteName: "CAPS",
     type: "website",
     images: [
       {
-        url: "/images/CAPS-og-image.jpg",
+        url: "/images/CAPS-logo.png",
         width: 1200,
         height: 630,
-        alt: "CAPS",
+        alt: "CAPS | Center for Advanced Political Studies",
       },
     ],
   },

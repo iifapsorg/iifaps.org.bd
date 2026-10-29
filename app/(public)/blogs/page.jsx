@@ -3,13 +3,7 @@
 import { getBlogs } from "@/services/blog.service";
 import BlogCommonLayout from "@/components/public/blog/BlogCommonLayout";
 import Container from "@/components/shared/Container";
-import { generateMetaData } from "@/utils/generateMetaData";
 import Pagination from "@/components/public/blog/Pagination";
-
-export const metadata = generateMetaData({
-  title: "Blog",
-  description: "All blog posts",
-});
 
 export default async function BlogPage({ searchParams }) {
   const { type, page } = await searchParams;

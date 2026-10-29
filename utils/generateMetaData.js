@@ -1,7 +1,7 @@
 // utils/generateMetadata
 
 const siteConfig = {
-  name: "My Blog",
+  name: "CAPS",
   url: process.env.NEXT_PUBLIC_SITE_URL || "",
   description: "A blog about everything",
   twitterHandle: "@myblog",
