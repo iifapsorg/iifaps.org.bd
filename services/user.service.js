@@ -7,7 +7,7 @@ import { cacheTag } from "next/cache";
 /* ---------------------------
    GET USERS
 ----------------------------*/
-export async function getAllUsers() {
+export async function getUsers() {
   "use cache";
 
   cacheTag("users");
