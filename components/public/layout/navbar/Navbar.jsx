@@ -4,5 +4,7 @@ import NavbarWrapper from "@/components/public/layout/navbar/NavbarWrapper";
 export default async function Navbar() {
   const categoryTree = await getCategoryTree();
 
-  return <NavbarWrapper categoryTree={categoryTree} />;
+  const activeCategories = categoryTree.filter((category) => category.isActive);
+
+  return <NavbarWrapper categoryTree={activeCategories} />;
 }
