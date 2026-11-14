@@ -1,4 +1,5 @@
 // components/home/HeroSection.jsx
+
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
@@ -14,12 +15,16 @@ const HeroSection = ({ latestArticles = [] }) => {
 
   const hasMultipleSlides = articles.length > 1;
 
-  const [activeSlide, setActiveSlide] = useState(hasMultipleSlides ? 1 : 0);
+  const [activeSlide, setActiveSlide] = useState(
+    hasMultipleSlides ? 1 : 0
+  );
 
   const [transitionEnabled, setTransitionEnabled] = useState(true);
   const [isPaused, setIsPaused] = useState(false);
+  const [isPageVisible, setIsPageVisible] = useState(true);
 
-  // Navigation
+  // ================= NAVIGATION =================
+
   const goNext = useCallback(() => {
     if (hasMultipleSlides) {
       setActiveSlide((current) => current + 1);
@@ -36,16 +41,42 @@ const HeroSection = ({ latestArticles = [] }) => {
     setActiveSlide(index + 1);
   }, []);
 
-  // Autoplay
+  // ================= PAGE VISIBILITY =================
+
   useEffect(() => {
-    if (!hasMultipleSlides || isPaused) return;
+    const handleVisibilityChange = () => {
+      setIsPageVisible(document.visibilityState === "visible");
+    };
+
+    handleVisibilityChange();
+
+    document.addEventListener(
+      "visibilitychange",
+      handleVisibilityChange
+    );
+
+    return () => {
+      document.removeEventListener(
+        "visibilitychange",
+        handleVisibilityChange
+      );
+    };
+  }, []);
+
+  // ================= AUTOPLAY =================
+
+  useEffect(() => {
+    if (!hasMultipleSlides || isPaused || !isPageVisible) {
+      return;
+    }
 
     const timer = setInterval(goNext, 5000);
 
     return () => clearInterval(timer);
-  }, [goNext, hasMultipleSlides, isPaused]);
+  }, [goNext, hasMultipleSlides, isPaused, isPageVisible]);
 
-  // Restore transition after infinite-loop reset
+  // ================= RESTORE TRANSITION =================
+
   useEffect(() => {
     if (transitionEnabled) return;
 
@@ -58,12 +89,14 @@ const HeroSection = ({ latestArticles = [] }) => {
 
   if (!articles.length) return null;
 
-  // Clone first and last slides for infinite loop
+  // ================= INFINITE SLIDES =================
+
   const slides = hasMultipleSlides
     ? [articles[articles.length - 1], ...articles, articles[0]]
     : articles;
 
-  // Handle infinite loop
+  // ================= HANDLE INFINITE LOOP =================
+
   const handleTransitionEnd = (event) => {
     if (
       event.target !== event.currentTarget ||
@@ -83,19 +116,31 @@ const HeroSection = ({ latestArticles = [] }) => {
     }
   };
 
-  // Current real article index
+  // ================= CURRENT SLIDE =================
+
   const currentIndex = hasMultipleSlides
     ? (activeSlide - 1 + articles.length) % articles.length
     : 0;
 
   const trackPosition = hasMultipleSlides ? activeSlide : 0;
 
+  // ================= RENDER =================
+
   return (
     <section
       role="region"
       aria-roledescription="carousel"
       aria-label="Featured articles"
-      className="hero-slider relative h-[80vh] min-h-112.5 w-full overflow-hidden bg-black md:h-[calc(100vh-55px)]"
+      className="
+        hero-slider
+        relative
+        h-[70vh]
+        min-h-112.5
+        w-full
+        overflow-hidden
+        bg-black
+        md:h-[calc(100vh-55px)]
+      "
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
       onFocusCapture={() => setIsPaused(true)}
@@ -122,13 +167,20 @@ const HeroSection = ({ latestArticles = [] }) => {
             ? index === 1
             : index === 0;
 
+          // Preload first image and eagerly load next image.
+          const shouldLoadEagerly =
+            isFirstRealSlide ||
+            (hasMultipleSlides && index === 2);
+
           const category =
             typeof article.category === "string"
               ? article.category
               : article.category?.name || "Uncategorized";
 
           const categorySlug =
-            typeof article.category === "object" ? article.category?.slug : "";
+            typeof article.category === "object"
+              ? article.category?.slug
+              : "";
 
           const author =
             typeof article.author === "string"
@@ -141,7 +193,8 @@ const HeroSection = ({ latestArticles = [] }) => {
             article.coverImage ||
             "/images/placeholder.webp";
 
-          const articleKey = article._id?.toString?.() || article.slug || index;
+          const articleKey =
+            article._id?.toString?.() || article.slug || index;
 
           return (
             <article
@@ -150,7 +203,14 @@ const HeroSection = ({ latestArticles = [] }) => {
               aria-roledescription="slide"
               aria-label={`${((index - (hasMultipleSlides ? 1 : 0) + articles.length) % articles.length) + 1} of ${articles.length}`}
               inert={index !== activeSlide}
-              className="relative h-full w-full shrink-0 overflow-hidden outline-none"
+              className="
+                relative
+                h-full
+                w-full
+                shrink-0
+                overflow-hidden
+                outline-none
+              "
             >
               {/* ================= IMAGE ================= */}
 
@@ -161,6 +221,9 @@ const HeroSection = ({ latestArticles = [] }) => {
                   fill
                   sizes="100vw"
                   preload={isFirstRealSlide}
+                  loading={
+                    shouldLoadEagerly ? undefined : "lazy"
+                  }
                   quality={75}
                   className="object-cover object-center"
                 />
@@ -171,7 +234,8 @@ const HeroSection = ({ latestArticles = [] }) => {
               <div
                 className="
                   pointer-events-none
-                  absolute inset-0
+                  absolute
+                  inset-0
                   bg-linear-to-t
                   from-black/70
                   via-black/25
@@ -182,8 +246,9 @@ const HeroSection = ({ latestArticles = [] }) => {
               {/* ================= ARTICLE INFO ================= */}
 
               <Container className="relative z-10 flex h-full items-end">
-                <div className="w-full pb-5 pl-10 md:pl-17 text-white">
+                <div className="w-full pb-5 pl-10 text-white md:pl-17">
                   <div className="max-w-4xl pb-8 md:pb-10 lg:pb-15">
+
                     {/* Category */}
 
                     <Link
@@ -315,7 +380,7 @@ const HeroSection = ({ latestArticles = [] }) => {
             <ChevronRight size={22} strokeWidth={1.8} />
           </button>
 
-          {/* ================= INDICATORS ================= */}
+          {/* Indicators */}
 
           <div
             className="
@@ -339,7 +404,9 @@ const HeroSection = ({ latestArticles = [] }) => {
                 key={article._id?.toString?.() || article.slug || index}
                 type="button"
                 aria-label={`Go to article ${index + 1}: ${article.title}`}
-                aria-current={currentIndex === index ? "true" : undefined}
+                aria-current={
+                  currentIndex === index ? "true" : undefined
+                }
                 onClick={() => goToSlide(index)}
                 className={`
                   h-2
