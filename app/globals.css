@@ -7,9 +7,6 @@
 @plugin "@tailwindcss/typography";
 @import "tw-animate-css";
 
-/* Slick Slider */
-@import "slick-carousel/slick/slick.css";
-@import "slick-carousel/slick/slick-theme.css";
 
 /* Dark Mode */
 @custom-variant dark (&:is(.dark *));
