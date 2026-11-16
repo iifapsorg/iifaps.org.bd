@@ -2,13 +2,14 @@
 
 import connectDB from "@/lib/connectDB";
 import User from "@/models/User";
-import { cacheTag } from "next/cache";
+import { cacheLife, cacheTag } from "next/cache";
 
 /* ---------------------------
    GET USERS
 ----------------------------*/
 export async function getUsers() {
   "use cache";
+  cacheLife("max");
 
   cacheTag("users");
 
@@ -75,7 +76,7 @@ export async function updateUser(id, data) {
   delete update.password;
 
   const user = await User.findByIdAndUpdate(id, update, {
-    new: true,
+    returnDocument: "after",
     runValidators: true,
   }).select("-password");
 

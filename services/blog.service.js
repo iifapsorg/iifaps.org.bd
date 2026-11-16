@@ -5,6 +5,7 @@ import Blog from "@/models/Blog";
 import Category from "@/models/Category";
 import { slugify, uniqueSlug } from "@/lib/slugify";
 import { cacheTag } from "next/cache";
+import { cacheLife } from "next/cache";
 
 /* ---------------------------
    GET BLOGS
@@ -22,6 +23,8 @@ export async function getBlogs({
   populate = true,
 } = {}) {
   "use cache";
+
+  cacheLife("max");
 
   cacheTag("blogs");
 
@@ -93,6 +96,11 @@ export async function getBlogs({
    GET BLOG BY SLUG
 ----------------------------*/
 export async function getBlogBySlug(slug, { admin = false } = {}) {
+  "use cache";
+
+  cacheLife("max");
+
+  cacheTag("blogs");
   await connectDB();
 
   const query = {
@@ -165,7 +173,7 @@ export async function updateBlog(id, data) {
   }
 
   const blog = await Blog.findByIdAndUpdate(id, data, {
-    new: true,
+    returnDocument: "after",
     runValidators: true,
   });
 
@@ -291,7 +299,7 @@ export async function incrementBlogViews(id) {
       },
     },
     {
-      new: true,
+      returnDocument: "after",
     },
   )
     .select("_id views")

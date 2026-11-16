@@ -4,6 +4,7 @@ import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 
 import { getBlogBySlug, incrementBlogViews } from "@/services/blog.service";
+import { revalidateTag } from "next/cache";
 
 // Prevent counting multiple views from the same browser within 24 hours.
 const VIEW_COOKIE_PREFIX = "blog_view_";
@@ -52,6 +53,9 @@ export async function POST(request, { params }) {
     // Increment the view only after confirming that no
     // recent view cookie exists for this blog.
     const updatedBlog = await incrementBlogViews(blogId);
+
+    // Update blog tag
+    revalidateTag("blogs");
 
     if (!updatedBlog) {
       return NextResponse.json(

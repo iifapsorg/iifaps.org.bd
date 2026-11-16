@@ -102,7 +102,7 @@ async function getCategoryTreeFromDB() {
 export async function getCategoryTree() {
   "use cache";
 
-  cacheLife("days");
+  cacheLife("max");
   cacheTag("categories");
 
   return getCategoryTreeFromDB();
@@ -112,6 +112,11 @@ export async function getCategoryTree() {
    GET CATEGORY BY SLUG
 ----------------------------*/
 export async function getCategoryBySlug(slug) {
+  "use cache";
+
+  cacheLife("max");
+
+  cacheTag("categories");
   await connectDB();
 
   const category = await Category.findOne({
@@ -215,7 +220,7 @@ export async function updateCategory(id, data, user) {
       },
     },
     {
-      new: true,
+      returnDocument: "after",
       runValidators: true,
     },
   );
@@ -241,7 +246,7 @@ export async function deleteCategory(id, user) {
       },
     },
     {
-      new: true,
+      returnDocument: "after",
     },
   );
 }

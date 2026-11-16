@@ -27,8 +27,13 @@ export default function BlogCommonLayout({
 
         {/* Blog Grid */}
         <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
-          {blogs.map((blog) => (
-            <BlogCard key={blog._id} blog={blog} {...cardProps} />
+          {blogs.map((blog, index) => (
+            <BlogCard
+              key={blog._id}
+              blog={blog}
+              priority={index === 0}
+              {...cardProps}
+            />
           ))}
         </div>
 

@@ -3,6 +3,7 @@ import Text from "@/components/shared/Text";
 
 import NavbarLogo from "./NavbarLogo";
 import NavbarActions from "./NavbarActions";
+import Link from "next/link";
 
 export default function NavbarHeader({
   isHome,
@@ -18,7 +19,7 @@ export default function NavbarHeader({
         <div className="flex min-w-0 flex-1 items-center gap-2 md:gap-3">
           <NavbarLogo />
 
-          <div className="min-w-0">
+          <Link href="/" className="min-w-0">
             <Text
               variant="normalText"
               className={`
@@ -28,7 +29,7 @@ export default function NavbarHeader({
             >
               CENTER FOR ADVANCED POLITICAL STUDIES
             </Text>
-          </div>
+          </Link>
         </div>
 
         <NavbarActions
